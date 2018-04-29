@@ -15,10 +15,12 @@ router.get('/reading', function(req, res) {
   var type = req.query.type; 
 
   var receivedtime = new Date();
-  receivedtime = receivedtime.getFullYear() + "-" + (receivedtime.getMonth()+1) + "-" + receivedtime.getDate() + " " + receivedtime.getHours() + ":" + receivedtime.getMinutes() + ":" + receivedtime.getSeconds();
-  
+
   // Aussie Time rearrange
   receivedtime.setHours(receivedtime.getHours() + 4);
+
+  receivedtime = receivedtime.getFullYear() + "-" + (receivedtime.getMonth()+1) + "-" + receivedtime.getDate() + " " + receivedtime.getHours() + ":" + receivedtime.getMinutes() + ":" + receivedtime.getSeconds();
+  
 
   // Insert into data table async
   var sql = "insert into data (devicemac, data, receivedtime) values ('"+mac+"', '"+data+"', '"+receivedtime+"');";
