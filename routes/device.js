@@ -198,11 +198,11 @@ function getDateRange(req, timescale) {
           }
         }
 
-        startDate.setMinutes(-1);
+        startDate.setMinutes(-5);
         startDate.setSeconds(0);
 
-        endDate.setMinutes(61);
-        endDate.setSeconds(59);
+        endDate.setMinutes(65);
+        endDate.setSeconds(0);
 
       } else if(timescale == 'week') {
 
