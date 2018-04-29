@@ -13,6 +13,7 @@ block scriptdata
     var readings =  [['Time', 'Voltage']];
     for(var i = 0; i < data.length; i++) {
       readings.push([new Date(data[i].receivedtime), Number(data[i].data)]);
+      console.log(new Date(data[i].receivedtime) + ", " + Number(data[i].data));
     }
 
     var options = {
