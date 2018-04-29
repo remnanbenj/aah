@@ -13,7 +13,7 @@ block scriptdata
     var readings =  [['Time', 'Voltage']];
     for(var i = 0; i < data.length; i++) {
       var date = new Date(data[i].receivedtime);
-      date.setHours(date.getHours() - 4);
+      //date.setHours(date.getHours() - 4);
       readings.push([date, Number(data[i].data)]);
       console.log(readings[readings.length - 1]);
     }
