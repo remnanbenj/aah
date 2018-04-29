@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  link(rel="stylesheet" href="/stylesheets/home.css")
+  
+  .container
+    each device, index in devices
+      .col-sm-6.col-lg-4(style="padding: 0px; margin: 0px; margin-bottom: 20px;")
+        .panel(onclick="window.location.assign('/device?id=#{device.id}');")
+          .panel-title #{device.name}
+          .panel-content

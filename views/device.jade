@@ -1,0 +1,276 @@
+extends layout
+
+block content
+  link(rel="stylesheet" href="/stylesheets/device.css")
+  
+  .container
+
+    .title-container
+      block devicetitle
+
+    .graph-button-holder
+  
+  .graph-holder
+    .graph-button-holder
+
+        if timescale == 'year'
+          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Year
+        else
+          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('year')") Year
+
+        if timescale == 'month'
+          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Month
+        else
+          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('month')") Month
+
+        if timescale == 'week'
+          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Week
+        else
+          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('week')") Week
+
+        if timescale == 'day'
+          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Day
+        else
+          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('day')") Day
+
+        if timescale == 'hour'
+          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Hour
+        else
+          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
+
+
+        .main-button(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveRight('#{timescale}')")
+          .glyphicon.glyphicon-triangle-right
+
+        if timescale == 'week' || timescale == 'day' || timescale == 'hour'
+          input.date-picker(type="text" id="datepicker" onchange="changeDate(this.value)" style="margin-right: 5px;")
+
+        if timescale == 'hour'
+          select.time-picker(type="text" id="ampmpicker" onchange="changeTime()")
+            option AM
+            option PM
+
+          select.time-picker(type="text" id="timepicker" onchange="changeTime()")
+            option 1
+            option 2
+            option 3
+            option 4
+            option 5
+            option 6
+            option 7
+            option 8
+            option 9
+            option 10
+            option 11
+            option 12
+
+        .main-button(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveLeft('#{timescale}')")
+          .glyphicon.glyphicon-triangle-left
+
+
+    .graph(id="chart")
+
+
+
+
+
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
+
+  script(type="text/javascript").
+
+      function moveLeft(timescale) {
+        var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
+        if(timescale == 'hour') {
+
+          if($('#timepicker').val() == 1) {
+            $('#timepicker').val(12);
+
+          } else if($('#timepicker').val() == 12) {
+            $('#timepicker').val(11);
+            if($('#ampmpicker').val() == "PM"){
+              $('#ampmpicker').val('AM');
+            } else {
+              date.setDate(date.getDate() - 1);
+              $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+              $('#ampmpicker').val('PM');
+            }
+
+          } else {
+            $('#timepicker').val(Number($('#timepicker').val()) - 1);
+          }
+
+          changeTime();
+
+        } else {
+          date.setDate(date.getDate() - 1);
+          changeDate(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+        }
+      }
+
+      function moveRight(timescale) {
+        var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
+        if(timescale == 'hour') {
+          $('#timepicker').val(Number($('#timepicker').val()) + 1);
+          changeTime();
+        } else {
+          date.setDate(date.getDate() + 1);
+          changeDate(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+        }
+      }
+
+      function changeTimeScale(timescale) {
+        var url = '/device?id=#{device.id}&timescale=' + timescale;
+        if(getParameterByName('startDate')) url += '&startDate=' + getParameterByName('startDate');
+        window.location.assign(url);
+      }
+
+      function changeTime(){
+        var url = '/device?id=' + getParameterByName('id');
+        if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
+        if(getParameterByName('startDate')) url += '&startDate=' + getParameterByName('startDate');
+        url += '&time=' + $('#timepicker').val();
+        url += '&ampm=' + $('#ampmpicker').val();
+        window.location.assign(url);
+      }
+
+      function changeDate(newDate) {
+        var url = '/device?id=' + getParameterByName('id');
+        if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
+        if(getParameterByName('time')) url += '&time=' + getParameterByName('time');
+        if(getParameterByName('ampm')) url += '&ampm=' + getParameterByName('ampm');
+        url += '&startDate=' + newDate.split('-')[2] + '-' + newDate.split('-')[1] + '-' + newDate.split('-')[0];
+        window.location.assign(url);
+      }
+
+      $("#datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+      if(getParameterByName('startDate'))
+        $( "#datepicker" ).val(getFormatedDate(new Date(getParameterByName('startDate'))));
+      else
+        $( "#datepicker" ).val(getFormatedDate(new Date()));
+
+      function setDay(date, dayOfWeek) {
+        date.setDate(date.getDate() - date.getDay() + dayOfWeek);
+      }
+
+      var timescale = '#{timescale}';
+      var hAxisCount = 6;
+      var format = '';
+      var dateNow = new Date();
+
+      if(timescale == 'hour') {
+        var hours = dateNow.getHours();
+        var hoursSuffix = "AM";
+        if(hours >= 12) { hours -= 12; hoursSuffix = "PM"; }
+        $("#timepicker").val(hours);
+        $("#ampmpicker").val(hoursSuffix);
+      }
+
+      if(getParameterByName('time')) {
+        $("#timepicker").val(getParameterByName('time'));
+        $("#ampmpicker").val(getParameterByName('ampm'));
+      }
+
+      var startDate = new Date();
+      if(getParameterByName('startDate')) startDate = new Date(getParameterByName('startDate'));
+      var endDate = new Date(startDate);
+
+      if(timescale == 'hour') {
+        if(getParameterByName('time')) {
+          var time = Number(getParameterByName('time'));
+          var ampm = getParameterByName('ampm');
+          if(time == 12) time = 0;
+          if(ampm == 'AM') {
+            startDate.setHours(time);
+            endDate.setHours(time);
+          } else {
+            startDate.setHours(time + 12);
+            endDate.setHours(time + 12);
+          }
+
+        } else { 
+          startDate.setHours(new Date().getHours()); 
+          endDate.setHours(new Date().getHours()); 
+        }
+
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        hAxisCount = 8;
+        format = 'h:mmaa';
+
+      } else if(timescale == 'week') {
+        setDay(startDate, 1);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        setDay(endDate, 7);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        format = 'E dd';
+
+      } else if(timescale == 'month') {
+        startDate.setDate(0);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        endDate.setMonth(endDate.getMonth() + 1);
+        endDate.setDate(1);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        hAxisCount = 10;
+        format = "dd/MM";
+
+      } else if(timescale == 'year') {
+        startDate.setMonth(0);
+        startDate.setDate(0);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        endDate.setMonth(12);
+        endDate.setDate(0);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        hAxisCount = 10;
+        format = "dd/MM";
+
+      } else {
+        startDate.setHours(0);
+        startDate.setMinutes(-1);
+        startDate.setSeconds(0);
+
+        endDate.setHours(23);
+        endDate.setMinutes(61);
+        endDate.setSeconds(0);
+      }
+
+  block scriptdata
+
+  script(type="text/javascript").
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(readings);
+        var chart = new google.visualization.LineChart(document.getElementById('chart'));
+        chart.draw(data, options);
+      }
+
+      function getReadableDate(date){
+        var dateString = "";
+        dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+        dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + " " : date.getMinutes();
+        return dateString;
+      }

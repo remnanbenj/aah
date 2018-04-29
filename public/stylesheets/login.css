@@ -1,0 +1,51 @@
+
+
+.login-holder {
+  width: 90%;
+  max-width: 360px;
+  height: 420px;
+  border-radius: 4px;
+  margin: 0 auto;
+  padding-top: 25px;
+  box-shadow: 2px 2px 3px #999;
+  margin-top: 5vh;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+.login-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #fff;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("/images/user.png");
+}
+
+.input-holder {
+  overflow: auto;
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 12px;
+}
+
+.login-label {
+  font-size: 0.8em;
+  margin-bottom: 4px;
+}
+
+.login-input {
+  height: 24px;
+  width: 220px;
+  outline: none;
+  border: none;
+  padding: 3px;
+  border: 1px solid #00aaff;
+  border-radius: 3px;
+  text-align:center;
+  font-size: 0.8em;
+}

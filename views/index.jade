@@ -1,0 +1,78 @@
+doctype html
+html
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title= title
+    link(rel='stylesheet', href='/stylesheets/all.css')
+    link(rel='stylesheet', href='/stylesheets/login.css')
+
+  body
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js").
+    .page
+      .container
+        .login-holder
+
+          .login-image
+
+          .input-holder
+            .login-label Email:
+            input.login-input(id="email" type="email")
+
+          .input-holder
+            .login-label Password:
+            input.login-input(id="password" type="password")
+
+          .main-button(style="margin-top: 12px;" onclick="login()") Login
+
+    .toast Test Toast
+
+    script.
+      // Toast setup
+      function toast(message, time, color) {
+        $(".toast").css('display', 'block');
+        $(".toast").css('background', '#00aaff');
+        if(color) $(".toast").css('background', color);
+        $(".toast").html(message);
+        $(".toast").animate({bottom: '60px'}, { duration: 300, queue: false });
+        setTimeout(function(){$(".toast").animate({bottom: '-40px'}, { duration: 300, queue: false });}, time);
+      }
+      //toast("Tester", 1600);
+
+    script.
+      $(".page").animate({top: '0vh'}, { duration: 300, queue: false });
+
+      function login(){
+        // Get entered values
+        var email = $('#email').val().trim();
+        var password = $('#password').val().trim();
+
+        // Check if they are empty
+        if(email == "") { toast('Please fill out an email', 2400); return; }
+        if(password == "") { toast('Please fill out a password', 2400); return; }
+
+        // Check if they are a correct username and password on the server and login if true
+        var url = "/checklogin?email=" + email + "&password=" + password;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Redirect to /home else log error
+            if(this.responseText == "Success") {
+              $(".page").animate({top: '100vh'}, { duration: 300, queue: false });
+              setTimeout(function(){window.location.assign('/home?login=true');}, 300);
+            } else {
+              console.log(this.responseText);
+              toast("Your email or password is incorrect", 2400);
+            }
+
+          }
+        };
+        xhttp.open("POST", url, true);
+        xhttp.send();
+      }
+
+
+
+
+
+    

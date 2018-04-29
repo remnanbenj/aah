@@ -1,0 +1,267 @@
+extends layout
+
+block content
+  link(rel="stylesheet" href="/stylesheets/settings.css")
+  
+  .container
+
+    .col-md-6(style="padding: 0px; margin: 0px;")
+      .left-column
+        .left-title Devices
+        .left-content
+
+          .device-holder
+            each device, index in devices
+              .device-holder-item(id="device#{device.id}")
+                .device-holder-item-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                .device-holder-item-name(id="deviceName#{device.id}" onclick="$('.page').animate({top: '100vh'}, { duration: 300, queue: false }); setTimeout(function(){window.location.assign('/device?id=#{device.id}');}, 300)") #{device.name}
+                .device-holder-item-mac #{device.mac}
+                .device-holder-item-buttons
+
+                  - var timeoutMinutes = 60;
+                  - var currentDate = new Date();
+                  - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
+                  if device.lastreading >= currentDate
+                    .device-holder-item-signal(style="background-image: url('/images/signal-green.png');")
+                  else
+                    .device-holder-item-signal
+
+                  .device-holder-item-settings(onclick="editDeviceDialog(#{device.id}, '#{device.mac}')")
+
+                  .device-holder-item-remove(onclick="removeDeviceDialog(#{device.id}, '#{device.mac}')")
+
+
+          .device-buttons
+            .main-button(style="float: right;" onclick="openAddDeviceDialog();") Add New Device
+
+    .col-md-6(style="padding: 0px; margin: 0px;")
+      .left-column
+        .right-title Settings
+        .right-content
+
+
+  script.
+
+    // DELETE DEVICE DATA
+
+    function checkDeleteDataDialog(mac){
+      $(".overlay-inner-title").html('Delete All Device Data');
+      var html = '';
+      html += '<span>Are you sure you want to delete all the data gathered by this device?</span>';
+      html += '<br>';
+      html += '<br>';
+      html += '<div class="main-button" style="margin-right: 10px;" onclick="deleteData(\''+mac+'\');">Delete Data</div>';
+      html += '<br>';
+      html += '';
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+      $(".overlay").fadeIn();
+    }
+
+    function deleteData(mac){
+
+      // Delete data on server
+      var url = "/devices/removedevicedata?mac=" + mac;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog
+            if(this.responseText == "Success") {
+              toast('Device data deleted', 2400);
+              $(".overlay").fadeOut();
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+
+    // ADD DEVICE
+
+    function openAddDeviceDialog(){
+      $(".overlay-inner-title").html('Add New Device');
+      var html = '';
+      html += '<span>Make sure you have the device powered and connected to the internet first.<br><a href="#" target="_blank">Click here</a> to learn more.</span>';
+      html += '<br>';
+      html += '<br>';
+      html += '<span>What you want to call the device:</span>';
+      html += '<br>';
+      html += '<input id="deviceName" placeholder="Outside Temperature Sensor" class="new-device-input" />';
+      html += '<br>';
+      html += '<span>MAC address of device:</span>';
+      html += '<br>';
+      html += '<input id="deviceMAC" placeholder="e5:a6:90:af:4b:cd" class="new-device-input" />';
+      html += '<br>';
+      html += '<div class="main-button" style="margin-right: 10px;" onclick="checkServerAdd()">Add Device</div>';
+      html += '<br>';
+      html += '';
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+      $(".overlay").fadeIn();
+      $("#deviceName").select();
+    }
+
+    function checkServerAdd(){
+      var deviceName = $("#deviceName").val();
+      var deviceMAC = $("#deviceMAC").val();
+      if(deviceName=="") { toast("Please enter a device name", 2400); return; }
+      if(deviceMAC=="") { toast("Please enter a device MAC address", 2400); return; }
+
+      var result = deviceMAC.match(/([0-9A-Fa-f]{1,2}[:-]){5}([0-9A-Fa-f]{1,2})/);
+      if(result && result.length > 0) {
+        console.log(result[0]);
+      } else {
+        toast('That is not a valid MAC address', 2400);
+        return;
+      }
+
+      // Check device on server and add it
+      var url = "/devices/adddevice?name=" + deviceName + "&mac=" + deviceMAC;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and add device
+            if(this.responseText.split(':')[0] == "Success") {
+              toast('Device added to your home system', 2400);
+              $(".overlay").fadeOut();
+              addDeviceToPage(this.responseText.split(':')[1], deviceName, deviceMAC, this.responseText.split(':')[2]);
+
+            } else {
+              toast(this.responseText, 2400);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function addDeviceToPage(id, deviceName, deviceMAC, isConnected){
+      var style = "";
+      if(isConnected == 'true')
+        style = "background-image: url('/images/signal-green.png');"
+
+      var html = '<div id="device'+ id +'" class="device-holder-item"><div class="device-holder-item-icon"></div><div class="device-holder-item-name" id="deviceName'+id+'" onclick="window.location.assign(\'/device?id='+id+'\')">'+deviceName+'</div><div class="device-holder-item-mac">'+deviceMAC+'</div><div class="device-holder-item-buttons"><div class="device-holder-item-signal" style="'+style+'"></div><div class="device-holder-item-settings" onclick="editDeviceDialog('+id+', \''+deviceMAC+'\')"></div><div class="device-holder-item-remove" onclick="removeDeviceDialog('+id+', \''+deviceMAC+'\')"></div></div></div>'
+      $('.device-holder').append(html);
+    }
+
+
+    // EDIT DEVICE
+
+    function editDeviceDialog(id, mac){
+      var deviceName = $("#deviceName" + id).html();
+
+      $(".overlay-inner-title").html('Edit Device');
+      $(".overlay-inner-subtitle").html('');
+      var html = "";
+      html += '<span style="font-weight: 600;">Rename Device</span>';
+      html += '<br>';
+      html += '<span>What you want to call this device:</span>';
+      html += '<br>';
+      html += '<input id="deviceName" value="'+deviceName+'" class="new-device-input" onClick="this.select();" />';
+      html += '<br>';
+      html += '<div class="main-button" style="margin-right: 10px;" onclick="checkServerEdit('+id+')">Rename</div>';
+      html += '<br>';
+      html += '<hr style="width: 80%;">';
+      html += '<span style="font-weight: 600;">Delete Device Data</span>';
+      html += '<br>';
+      html += '<span>Delete all data gathered by this device</span>';
+      html += '<br>';
+      html += '<br>';
+      html += '<div class="main-button" style="margin-right: 10px;" onclick="checkDeleteDataDialog(\''+mac+'\')">Delete</div>';
+      html += '<br>';
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+      $(".overlay").fadeIn();
+      //$("#deviceName").select();
+    }
+
+    function checkServerEdit(id){
+      var deviceName = $("#deviceName").val();
+      if(deviceName=="") { toast("Please enter a device name", 1200); return; }
+
+      // Check device info on server
+      console.log('TODO: Check device info on server');
+
+      // Edit on server
+      var url = "/devices/editdevice?id=" + id + "&name=" + deviceName;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Success") {
+              toast('Device name changed', 2400);
+              $(".overlay").fadeOut();
+              editDeviceOnPage(id, deviceName);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function editDeviceOnPage(id, deviceName) {
+      $('#deviceName'+ id).html(deviceName);
+    }
+
+
+    // REMOVE DEVICE
+
+    function removeDeviceDialog(id, mac){
+      $(".overlay-inner-title").html('Remove Device');
+      var html = "";
+      html += '<span>Are you sure you want to remove this device from your home system?</span>';
+      html += '<br>';
+      html += '<br>';
+      html += '<div class="main-button" style="margin-right: 10px;" onclick="removeDevice('+id+', \''+mac+'\')">Remove Device</div>';
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+      $(".overlay").fadeIn();
+    }
+
+    function removeDevice(id, mac){
+      $(".overlay").fadeOut();
+
+      // Remove from server
+      var url = "/devices/removedevice?id=" + id + "&mac=" + mac;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and remove device
+            if(this.responseText == "Success") {
+
+              // Remove from page
+              $('#device' + id).remove();
+              toast('Device removed from your home system', 2400);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function cancel(){
+      $(".overlay").fadeOut();
+    }
+
+
+
+
+

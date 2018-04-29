@@ -1,0 +1,148 @@
+.left-column, .right-column {
+  width: 96%;
+  margin: 0 auto;
+  overflow: auto;
+  margin-top: 10px;
+  min-height: 100px;
+}
+
+.left-title, .right-title {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+
+.device-holder {
+  width: 94%;
+  height: calc(100vh - 240px);
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.device-holder-item {
+  position: relative;
+  padding: 5px;
+  padding-left: 26px;
+  padding-right: 10px;
+  width: 98%;
+  border-bottom: 1px solid #ddd;
+  margin: 0 auto;
+  text-align: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.device-holder-item-icon {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  bottom: 5px;
+  width: 17px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.device-holder-item-name {
+  display: inline-block;
+  cursor: pointer;
+}
+.device-holder-item-name:hover {
+  color: #00aaff;
+}
+
+.device-holder-item-mac {
+  float: right;
+  display: inline-block;
+  padding-right: 83px;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+.device-holder-item-mac {
+  display: none;
+}
+
+}
+
+.device-holder-item-buttons {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 100px;
+  padding: 5px;
+  text-align: center;
+}
+
+.device-holder-item-signal {
+  position: absolute;
+  top: 1px;
+  right: 61px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  background-size: 75%;
+  background-position: center 58%;
+  background-repeat: no-repeat;
+  background-image: url('/images/signal-red.png');
+}
+
+.device-holder-item-settings {
+  position: absolute;
+  top: 1px;
+  right: 33px;
+  width: 24px;
+  height: 24px;
+  background: #00aaff;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  cursor: pointer;
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/settings-icon.png');
+}
+
+.device-holder-item-remove {
+  position: absolute;
+  top: 1px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  background: #00aaff;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  cursor: pointer;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/remove-icon.png');
+}
+
+.device-holder-item-settings:hover, .device-holder-item-remove:hover {
+  background-color: #0092DB;
+} 
+
+.device-buttons {
+  width: 90%;
+  margin: 0 auto;
+  background: white;
+}
+
+.new-device-input {
+  margin-top: 3px;
+  margin-bottom: 15px;
+  width: 220px;
+  height: 24px;
+  text-align: center;
+}
+
+

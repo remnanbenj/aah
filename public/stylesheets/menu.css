@@ -1,0 +1,55 @@
+.button-holder {
+  display: inline-block;
+  overflow: hidden;
+  margin: 0 auto;
+  padding-bottom: 2px;
+  height: 60vh;
+  margin-top: 15vh;
+}
+
+.button-1, .button-2, .button-3 {
+  width: 300px;
+  float: left;
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: 6px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.button-1 {
+  background-position: 30%;
+  background-image: url('/images/statistics.jpg');
+}
+
+.button-2 {
+  background-position: center;
+  background-image: url('/images/controls.jpg');
+}
+
+.button-3 {
+  background-position: 50%;
+  background-image: url('/images/settings.jpg');
+}
+
+.button-title-1, .button-title-2, .button-title-3 {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  font-size: 1.2em;
+  padding-top: 80px;
+  height: 40px;
+  background: linear-gradient(rgba(0,0,0,0) , #111 );
+}
+
+.button-subtitle-1, .button-subtitle-2, .button-subtitle-3 {
+  position: absolute;
+  bottom: -30px;
+  left: 0px;
+  width: 100%;
+  font-size: 0.9em;
+  height: 30px;
+} 

@@ -1,0 +1,200 @@
+
+/* =====MISC===== */
+
+body {
+  margin: 0px;
+  text-align: center;
+  background: #fff;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 1em;
+  color: white;
+  padding: 0px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+a {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+a:link  {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+a:visited  {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+a:active  {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0092DB;
+  text-decoration: none;
+}
+
+input:focus {
+  outline-color: #00aaff;
+}
+
+
+/* =====CONTAINERS===== */
+
+.page {
+  position: relative;
+  top: 0vh;
+  height: calc(100vh - 90px);
+  overflow: auto;
+}
+
+.container {
+  position: relative;
+  top: 0vh;
+  width: 96%;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: black;
+  font-size: 1.2em;
+  padding: 0px;
+  z-index: 1;
+  padding-top: 10px;
+  overflow: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+
+.container {
+  max-width: 1000px;
+}
+
+}
+
+
+/* =====BUTTON===== */
+
+.main-button {
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: inline-block;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  background: #00aaff;
+  font-size: 13px;
+}
+
+.main-button:hover {
+  background: #0092DB;
+}
+
+
+/* =====OVERLAY===== */
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 997;
+  display: none;
+}
+
+.overlay-inner {
+  z-index: 998;
+  max-width: 500px;
+  width: 96%;
+  background: #00aaff;
+  margin: 0 auto;
+  margin-top: 5vh;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+} 
+
+.overlay-inner-title {
+  font-size: 18px;
+} 
+
+.overlay-inner-subtitle {
+  color: black;
+  margin-top: 5px;
+} 
+
+.overlay-inner-container {
+  color: black;
+  background: #fff;
+  width: 96%;
+  margin: 0 auto;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+.overlay-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background: #aaa;
+  cursor: pointer;
+  color: white;
+}
+
+.overlay-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background: #0092DB;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  cursor: pointer;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/remove-icon.png');
+}
+
+.overlay-close:hover {
+  background-color: #00aaff;
+} 
+
+
+/* =====TOAST===== */
+
+.toast {
+  position: fixed;
+  bottom: -40px;
+  left: calc(50vw - 150px);
+  width: 300px;
+  padding: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  color: #000;
+  z-index: 999;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background: #00aaff;
+  display: none;
+}
+
+
+
+
+
+
+

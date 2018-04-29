@@ -1,0 +1,87 @@
+/* TITLE BAR */
+
+.title-container {
+  overflow: auto;
+  margin: 0 auto;
+  max-width: 800px;
+  margin-top: 10px;
+}
+
+.device-icon {
+  width: 40px;
+  height: 40px;
+  float: left;
+  background-size: auto 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.device-name {
+  float: left;
+  font-size: 20px;
+  margin-top: 6px;
+}
+
+.device-reading {
+  float: right;
+  font-size: 17px;
+  margin-top: 2px;
+}
+
+
+/* GRAPH */
+
+.graph-holder {
+  width: 100vw;
+  overflow: auto;
+  padding: 5px;
+  margin-top: 30px;
+}
+
+.graph-button-holder {
+  width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  padding-left: 50px;
+  padding-right: 30px;
+  margin-bottom: 4px;
+}
+
+.graph {
+  height: 400px;
+  width: 800px;
+  margin: 0 auto;
+} 
+
+.date-picker, .time-picker {
+  width: 100px;
+  height: 28px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+  background: #00aaff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  float: right;
+  text-align-last: center;
+  margin-left: 5px;
+}
+
+.time-picker {
+  width: 30px;
+}
+
+.date-picker:hover, .time-picker:hover {
+  background: #0092DB;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+
+

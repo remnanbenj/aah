@@ -1,0 +1,30 @@
+.panel {
+  width: 340px;
+  margin: 0 auto;
+  padding: 0px;
+  padding-top: 2px;
+  z-index: 1;
+  cursor: pointer;
+  color: #fff;
+  background: #00aaff;
+}
+
+.panel:hover {
+  background: #0092DB;
+}
+
+.panel-title {
+  text-align: left;
+  margin-bottom: 2px;
+  margin-left: 5px;
+}
+
+.panel-content {
+  border-radius: 4px;
+  width: 100%;
+  min-height: 200px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #ddd;
+  overflow: auto;
+}
