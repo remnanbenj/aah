@@ -167,7 +167,6 @@ function arrangeData(data, timescale, startDate, endDate) {
 function getDateRange(req, timescale) {
 
       var startDate = new Date();
-      startDate.setHours(startDate.getHours() + 4);
       if(req.query.startDate) startDate = new Date(req.query.startDate);
       var endDate = new Date(startDate);
 
@@ -188,6 +187,8 @@ function getDateRange(req, timescale) {
           startDate.setHours(new Date().getHours()); 
           endDate.setHours(new Date().getHours()); 
         }
+        startDate.setHours(startDate.getHours() + 4);
+        endDate.setHours(endDate.getHours() + 4);
 
         startDate.setMinutes(-1);
         startDate.setSeconds(0);
@@ -196,6 +197,9 @@ function getDateRange(req, timescale) {
         endDate.setSeconds(59);
 
       } else if(timescale == 'week') {
+        startDate.setHours(startDate.getHours() + 4);
+        endDate.setHours(endDate.getHours() + 4);
+
         setDay(startDate, 1);
         startDate.setHours(0);
         startDate.setMinutes(0);
@@ -207,6 +211,9 @@ function getDateRange(req, timescale) {
         endDate.setSeconds(59);
 
       } else if(timescale == 'month') {
+        startDate.setHours(startDate.getHours() + 4);
+        endDate.setHours(endDate.getHours() + 4);
+
         startDate.setDate(0);
         startDate.setHours(0);
         startDate.setMinutes(0);
@@ -218,6 +225,9 @@ function getDateRange(req, timescale) {
         endDate.setSeconds(59);
 
       } else if(timescale == 'year') {
+        startDate.setHours(startDate.getHours() + 4);
+        endDate.setHours(endDate.getHours() + 4);
+
         startDate.setMonth(0);
         startDate.setDate(0);
         startDate.setHours(0);
@@ -231,6 +241,9 @@ function getDateRange(req, timescale) {
         endDate.setSeconds(59);
 
       } else {
+        startDate.setHours(startDate.getHours() + 4);
+        endDate.setHours(endDate.getHours() + 4);
+
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
