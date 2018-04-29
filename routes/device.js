@@ -22,6 +22,8 @@ router.get('/', checkSignIn, function(req, res) {
       var startEndDate = getDateRange(req, timescale);
       var startDate = new Date(startEndDate[0]);
       var endDate = new Date(startEndDate[1]);
+      console.log(getFormatedDate(startDate));
+      console.log(getFormatedDate(endDate));
 
       var sql = "SELECT * FROM data where devicemac = '"+device[0].mac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
       con.query(sql, function (err, data) {
