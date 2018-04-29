@@ -12,8 +12,10 @@ block scriptdata
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
     var readings =  [['Time', 'Voltage']];
     for(var i = 0; i < data.length; i++) {
+      var date = new Date(data[i].receivedtime);
+      date.setHours(date.getHours() - 4);
       readings.push([new Date(data[i].receivedtime), Number(data[i].data)]);
-      console.log(new Date(data[i].receivedtime) + ", " + Number(data[i].data));
+      console.log(readings[readings.length - 1]);
     }
 
     var options = {
