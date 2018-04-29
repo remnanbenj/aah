@@ -14,7 +14,7 @@ block scriptdata
     for(var i = 0; i < data.length; i++) {
       var date = new Date(data[i].receivedtime);
       date.setHours(date.getHours() - 4);
-      readings.push([new Date(data[i].receivedtime), Number(data[i].data)]);
+      readings.push([date, Number(data[i].data)]);
       console.log(readings[readings.length - 1]);
     }
 
