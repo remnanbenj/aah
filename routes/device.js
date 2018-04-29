@@ -34,6 +34,12 @@ router.get('/', checkSignIn, function(req, res) {
         else
           var data = [{ data: 0, receivedtime: startDate }];
 
+        if(startDate.getTimezoneOffset() != -720) {
+          for(var i = 0; i < data.length; i++) {
+            data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
+          }
+        }
+
         device[0].lastreading = getReadableDate(device[0].lastreading);
         showDevice(req, res, device[0], data, timescale);
 
