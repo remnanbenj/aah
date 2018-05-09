@@ -7,7 +7,7 @@ block content
 
     .col-md-6(style="padding: 0px; margin: 0px;")
       .left-column
-        .left-title Devices
+        .left-title My Devices
         .left-content
 
           .device-holder
@@ -50,7 +50,7 @@ block content
       html += '<span>Are you sure you want to delete all the data gathered by this device?</span>';
       html += '<br>';
       html += '<br>';
-      html += '<div class="main-button" style="margin-right: 10px;" onclick="deleteData(\''+mac+'\');">Delete Data</div>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="deleteData(\''+mac+'\');">Delete Data</div>';
       html += '<br>';
       html += '';
       $('.overlay-inner-container').html('');
@@ -98,7 +98,7 @@ block content
       html += '<br>';
       html += '<input id="deviceMAC" placeholder="e5:a6:90:af:4b:cd" class="new-device-input" />';
       html += '<br>';
-      html += '<div class="main-button" style="margin-right: 10px;" onclick="checkServerAdd()">Add Device</div>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkServerAdd()">Add Device</div>';
       html += '<br>';
       html += '';
       $('.overlay-inner-container').html('');
@@ -167,7 +167,7 @@ block content
       html += '<br>';
       html += '<input id="deviceName" value="'+deviceName+'" class="new-device-input" onClick="this.select();" />';
       html += '<br>';
-      html += '<div class="main-button" style="margin-right: 10px;" onclick="checkServerEdit('+id+')">Rename</div>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkServerEdit('+id+')">Rename</div>';
       html += '<br>';
       html += '<hr style="width: 80%;">';
       html += '<span style="font-weight: 600;">Delete Device Data</span>';
@@ -175,7 +175,7 @@ block content
       html += '<span>Delete all data gathered by this device</span>';
       html += '<br>';
       html += '<br>';
-      html += '<div class="main-button" style="margin-right: 10px;" onclick="checkDeleteDataDialog(\''+mac+'\')">Delete</div>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkDeleteDataDialog(\''+mac+'\')">Delete</div>';
       html += '<br>';
       $('.overlay-inner-container').html('');
       $('.overlay-inner-container').append(html);
@@ -225,7 +225,7 @@ block content
       html += '<span>Are you sure you want to remove this device from your home system?</span>';
       html += '<br>';
       html += '<br>';
-      html += '<div class="main-button" style="margin-right: 10px;" onclick="removeDevice('+id+', \''+mac+'\')">Remove Device</div>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="removeDevice('+id+', \''+mac+'\')">Remove Device</div>';
       $('.overlay-inner-container').html('');
       $('.overlay-inner-container').append(html);
       $(".overlay").fadeIn();

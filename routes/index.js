@@ -14,6 +14,10 @@ router.get('/', function(req, res) {
   else res.render('index', { title: 'AAH - Login' });
 });
 
+router.get('/test', function(req, res) {
+  res.render('test', { title: 'AAH - Test' });
+});
+
 router.get('/home', checkSignIn, function(req, res) {
   var login = false;
   if(req.query.login) login = true;
@@ -24,10 +28,6 @@ router.get('/home', checkSignIn, function(req, res) {
     res.render('home', { title: 'AAH - Home', user: req.session.user, login: login, devices: result });
   });
 });
-
-
-// =====DATA=====
-
 
 
 // =====POSTS=====

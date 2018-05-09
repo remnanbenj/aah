@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  link(rel="stylesheet" href="/stylesheets/shop.css")
+  
+  .container(style="padding-bottom: 30px;")
+    .col-md-3(style="padding: 0px; margin: 0px; min-height: 200px;")
+      .shopmenu-items
+
+        .shopmenu-item-main(id="FeaturedBtn" onclick="window.location.assign('/shop');" style="margin-top: 0px;") Featured
+
+        .shopmenu-item-main(id="SensorsBtn" onclick="window.location.assign('/shop?catagory=Sensors');") Sensors
+        .shopmenu-item-sub(id="SensorsWeatherBtn" onclick="window.location.assign('/shop?catagory=SensorsWeather');") Weather
+        .shopmenu-item-sub(id="SensorsMotionBtn" onclick="window.location.assign('/shop?catagory=SensorsMotion');") Motion
+        .shopmenu-item-sub(id="SensorsElectricalBtn" onclick="window.location.assign('/shop?catagory=SensorsElectrical');") Electrical
+        .shopmenu-item-sub(id="SensorsOtherBtn" onclick="window.location.assign('/shop?catagory=SensorsOther');") Other
+
+        .shopmenu-item-main(id="ControlBtn" onclick="window.location.assign('/shop?catagory=Control');") Control
+        .shopmenu-item-sub(id="ControlLightBtn" onclick="window.location.assign('/shop?catagory=ControlLight');") Lights & Appliances
+        .shopmenu-item-sub(id="ControlDoorsBtn" onclick="window.location.assign('/shop?catagory=ControlDoors');") Doors & More
+        .shopmenu-item-sub(id="ControlTemperatureBtn" onclick="window.location.assign('/shop?catagory=ControlTemperature');") Temperature
+        .shopmenu-item-sub(id="ControlOtherBtn" onclick="window.location.assign('/shop?catagory=ControlOther');") Other
+
+        .shopmenu-item-main(id="HarvestBtn" onclick="window.location.assign('/shop?catagory=Harvest');") Harvest
+        .shopmenu-item-sub(id="HarvestSolarBtn" onclick="window.location.assign('/shop?catagory=HarvestSolar');") Solar Power
+        .shopmenu-item-sub(id="HarvestWindBtn" onclick="window.location.assign('/shop?catagory=HarvestWind');") Wind Power
+        .shopmenu-item-sub(id="HarvestHydroBtn" onclick="window.location.assign('/shop?catagory=HarvestHydro');") Hydro Power
+        .shopmenu-item-sub(id="HarvestFarmBtn" onclick="window.location.assign('/shop?catagory=HarvestFarm');") Auto Farm
+
+
+    .col-md-9(style="padding: 0px; margin: 0px;")
+      block shopcontent
+
+  script.
+
+      // Shop nav page setup
+      var catagory = getParameterByName('catagory');
+      if(catagory) {
+        $("#"+catagory+"Btn").css('background', '#0092DB');
+        $("#"+catagory+"Btn").css('color', '#fff');
+      } else {
+        $("#FeaturedBtn").css('background', '#0092DB');
+        $("#FeaturedBtn").css('color', '#fff');
+      }

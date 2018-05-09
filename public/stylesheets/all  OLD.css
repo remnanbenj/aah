@@ -4,12 +4,13 @@
 body {
   margin: 0px;
   text-align: center;
-  background: #00aaff;
+  background: #fff;
   font-family: Tahoma, Geneva, sans-serif;
   font-size: 1em;
   color: white;
   padding: 0px;
   height: 100vh;
+  overflow: hidden;
 }
 
 a {
@@ -47,7 +48,8 @@ input:focus {
 .page {
   position: relative;
   top: 0vh;
-  min-height: calc(100vh - 75px);
+  height: calc(100vh - 90px);
+  overflow: auto;
 }
 
 .container {
@@ -56,12 +58,12 @@ input:focus {
   width: 96%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  overflow: auto;
-
   color: black;
   font-size: 1.2em;
+  padding: 0px;
   z-index: 1;
+  padding-top: 10px;
+  overflow: auto;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -81,30 +83,13 @@ input:focus {
   padding-right: 15px;
   display: inline-block;
   border-radius: 3px;
-  color: #000;
-  cursor: pointer;
-  background: #fff;
-  font-size: 13px;
-}
-
-.main-button:hover {
-  color: #fff;
-  background: #0092DB;
-}
-
-.overlay-button {
-  padding: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
-  display: inline-block;
-  border-radius: 3px;
   color: white;
   cursor: pointer;
   background: #00aaff;
   font-size: 13px;
 }
 
-.overlay-button:hover {
+.main-button:hover {
   background: #0092DB;
 }
 

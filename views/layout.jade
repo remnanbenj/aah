@@ -5,15 +5,16 @@ html
     title= title
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     link(rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
-    link(rel='stylesheet', href='/stylesheets/all.css')
-    link(rel='stylesheet', href='/stylesheets/nav.css')
+
+    link(rel="stylesheet" href="/stylesheets/nav.css")
+    link(rel="stylesheet" href="/stylesheets/all.css")
 
   body
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js").
     script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js").
-    script(src="/javascripts/hover_click.js").
 
     script.
+      // ====HEADER SCRIPT====
 
       // Gets parameter from url
       function getParameterByName(name) {
@@ -26,6 +27,7 @@ html
         return decodeURIComponent(results[2].replace(/\+/g, " "));
       }
 
+      // HH:MM:SS dd:mm
       function getReadableDate(date){
         var dateString = "";
         var hours = date.getHours();
@@ -40,6 +42,25 @@ html
         return dateString;
       }
 
+      // dd:mm:yyyy
+      function getFormatedDate(date){
+        var dateString = "";
+        dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "-" : date.getDate() + "-";
+        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+        dateString += date.getFullYear();
+        return dateString;
+      }
+
+      // yyyy:mm:dd
+      function getFormatedDateR(date){
+        var dateString = "";
+        dateString += date.getFullYear() + "-";
+        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+        dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() : date.getDate();
+        return dateString;
+      }
+
+      // 24hr to 12hr conversion
       function getTwelveHourTime(time) {
         // Check correct time format and split into components
         time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
@@ -52,21 +73,7 @@ html
         return time.join (''); // return adjusted time or original string
       }
 
-      function getFormatedDate(date){
-        var dateString = "";
-        dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "-" : date.getDate() + "-";
-        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-        dateString += date.getFullYear();
-        return dateString;
-      }
 
-      function getFormatedDateR(date){
-        var dateString = "";
-        dateString += date.getFullYear() + "-";
-        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-        dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() : date.getDate();
-        return dateString;
-      }
 
     .overlay
       .overlay-inner
@@ -74,47 +81,27 @@ html
         .overlay-inner-title
         .overlay-inner-container
 
-    if login == true
-
-      .topnav(style="top: -50px;")
-        .topnav-inner
-          .topnav-logo AAH
-          .topnav-user(onclick="logout()")
-            .topnav-user-image
-            .topnav-user-name #{user.name}
-
-          .topnav-button-holder
-  
-            .topnav-button-1
-              .topnav-button-title-1 Home
-
-            .topnav-button-2
-              .topnav-button-title-2 Controls
-
-            .topnav-button-3
-              .topnav-button-title-3 Settings
-
-    else
-
-      .topnav
-        .topnav-inner
-          .topnav-logo AAH
-          .topnav-user(onclick="logout()")
-            .topnav-user-image
-            .topnav-user-name #{user.name}
-
-          .topnav-button-holder
-  
-            .topnav-button-1
-              .topnav-button-title-1 Home
-
-            .topnav-button-2
-              .topnav-button-title-2 Controls
-
-            .topnav-button-3
-              .topnav-button-title-3 Settings
 
     .toast Test Toast
+
+
+    .topnav
+      .topnav-logo
+      .topnav-button(id="home-button" onclick="window.location.assign('/home');") Home
+      .topnav-button(id="controls-button" style="color: #bbb;") Control
+      .topnav-button(id="settings-button" onclick="window.location.assign('/devices');") Settings
+      .topnav-seperator
+      .topnav-button(id="shop-button" onclick="window.location.assign('/shop');") Products
+      .topnav-button(id="guide-button" style="color: #bbb;") Guides
+      .topnav-button(id="help-button" style="color: #bbb;") Help
+      .topnav-button(id="logout-button" style="float: right; margin-right: 20px; margin-left: 0px;" onclick="logout()") Logout
+      .topnav-button(id="account-button" style="float: right; margin-right: 20px; margin-left: 0px; color: #bbb;")  My Account
+
+
+    .page
+      block content
+
+
 
     script.
       // Toast setup
@@ -126,81 +113,21 @@ html
         $(".toast").animate({bottom: '60px'}, { duration: 300, queue: false });
         setTimeout(function(){ $(".toast").animate({bottom: '-40px'}, { duration: 300, queue: false }); setTimeout(function(){ $(".toast").html(""); }, 300); }, time);
       }
-      //toast("Tester", 1600);
-
-    .page
-      block content
-
-    .botnav-popup
-
-      .botnav-popup-subtitle
-
-    if login == true
-
-      .botnav(style="bottom: -40px;")
-        .botnav-inner
-
-          .botnav-button-holder
-  
-            .botnav-button-1
-              .botnav-button-title-1 Home
-
-            .botnav-button-2
-              .botnav-button-title-2 Controls
-
-            .botnav-button-3
-              .botnav-button-title-3 Settings
-
-    else
-
-      .botnav
-        .botnav-inner
-
-          .botnav-button-holder
-  
-            .botnav-button-1
-              .botnav-button-title-1 Home
-
-            .botnav-button-2
-              .botnav-button-title-2 Controls
-
-            .botnav-button-3
-              .botnav-button-title-3 Settings
-
-    if login == true
-      script.
-        $(".topnav").animate({top: '0vh'}, { duration: 300, queue: false });
-        $(".botnav").animate({bottom: '0vh'}, { duration: 300, queue: false });
-
-    script.
 
       // Nav page setup
       var page = window.location.pathname.split('/')[1];
       if(page == 'home') {
-        $(".botnav-button-1").css('color', '#00aaff');
-        $(".botnav-button-1").css('border-bottom', '1px solid #00aaff');
-        $(".topnav-button-1").css('color', '#00aaff');
-        $(".topnav-button-1").css('border-bottom', '1px solid #00aaff');
+        $("#home-button").css('border-bottom', '1px solid #fff');
       } else if(page == 'controls') {
-        $(".botnav-button-2").css('color', '#00aaff');
-        $(".botnav-button-2").css('border-bottom', '1px solid #00aaff');
-        $(".topnav-button-2").css('color', '#00aaff');
-        $(".topnav-button-2").css('border-bottom', '1px solid #00aaff');
+        $("#controls-button").css('border-bottom', '1px solid #fff');
       } else if(page == 'devices') {
-        $(".botnav-button-3").css('color', '#00aaff');
-        $(".botnav-button-3").css('border-bottom', '1px solid #00aaff');
-        $(".topnav-button-3").css('color', '#00aaff');
-        $(".topnav-button-3").css('border-bottom', '1px solid #00aaff');
+        $("#settings-button").css('border-bottom', '1px solid #fff');
+      } else if(page == 'shop') {
+        $("#shop-button").css('border-bottom', '1px solid #fff');
       }
 
-    script.
-      //$(".page").animate({top: '0vh'}, { duration: 300, queue: false });
-
       function logout(){
-        $(".topnav").animate({top: '-50px'}, { duration: 200, queue: false });
-        $(".botnav").animate({bottom: '-40px'}, { duration: 200, queue: false });
-        $(".page").animate({top: '100vh'}, { duration: 300, queue: false });
-        setTimeout(function(){window.location.assign('/logout');}, 400);
+        window.location.assign('/logout');
       }
 
 

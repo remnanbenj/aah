@@ -1,0 +1,40 @@
+extends device
+
+block devicetitle
+  .device-icon(style="background-image: url('/images/VOLT-icon.png');")
+  .device-name(style="margin-left: 5px;") #{device.name}
+  .device-reading 
+    .div #{device.lastreadingdata.split(':')[0]} A
+    .div(style="font-size: 11px;") #{device.lastreading}
+
+block scriptdata
+  script(type="text/javascript").
+    var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
+    var readings =  [['Time', 'Amps']];
+    for(var i = 0; i < data.length; i++) {
+      var date = new Date(data[i].receivedtime);
+      //date.setHours(date.getHours() - 4);
+      readings.push([date, Number(data[i].data)]);
+    }
+
+    var options = {
+          legend: 'none',
+          colors: ['#00aaff'],
+          chartArea: {left: 50, top: 15, 'width': '90%', 'height': '80%'},
+          hAxis: { 
+            format: format,
+            gridlines: { count: hAxisCount, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 30
+            },
+            format: '# A' 
+          }
+    };

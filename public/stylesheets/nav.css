@@ -2,163 +2,50 @@
 
 .topnav {
   position: relative;
-}
-
-.topnav-inner {
-  height: 50px;
-  max-width: 1000px;
-  margin: 0 auto;
-  border-bottom: 1px solid #ddd;
+  height: 75px;
+  padding-top: 5px;
+  background: #00aaff;
 }
 
 .topnav-logo {
-  height: 40px;
-  display: inline-block;
-  color: #00aaff;
-  float: left;
-  font-size: 34px;
-  font-weight: 600;
-  margin-left: 4px;
-}
-
-.topnav-user {
-  margin-top: 5px;
-  cursor: pointer;
-  float: right;
-  display: inline-block;
-}
-
-.topnav-user:hover .topnav-user-name {
-  color: #00aaff;
-}
-
-.topnav-user-name {
-  float: right;
-  color: black;
-  margin-top: 10px;
-  margin-right: 2px;
-  font-size: 13px;
-}
-
-.topnav-user-image {
-  float: right;
+  height: 70px;
   width: 40px;
-  height: 40px;
+  float: left;
+  margin-left: 25px;
+  margin-right: 5px;
 
-  background-size: cover;
+  background-image: url('/images/logo-white.png');
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('/images/user.png');
 }
 
-.topnav-button-holder {
-  margin: 0 auto;
-  text-align: center;
-  oveflow: auto;
-  color: black;
-  padding-top: 16px;
-  max-width: 600px;
-}
-
-
-@media only screen and (max-width: 800px) {
-
-.topnav-button-holder {
-  display: none;
-}
-
-}
-
-.topnav-button-0, .topnav-button-1, .topnav-button-2, .topnav-button-3 {
-  width: 20vw;
-  max-width: 100px;
-  height: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-  cursor: pointer;
-  border-bottom: 1px solid #000;
-  font-size: 1.2em;
+.topnav-button {
+  padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 14px;
+  height: 30px;
   display: inline-block;
-}
-
-.topnav-button-0:hover, .topnav-button-1:hover, .topnav-button-2:hover, .topnav-button-3:hover {
-  color: #00aaff;
+  float: left;
+  margin-top: 17px;
+  margin-left: 20px;
+  color: #fff;
+  cursor: pointer;
   border-bottom: 1px solid #00aaff;
 }
 
-
-/* =====BOT-NAV===== */
-
-.botnav {
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  z-index: 10;
-  background: #fff;
+.topnav-button:hover {
+  border-bottom: 1px solid #fff;
 }
 
-
-@media only screen and (min-width: 800px) {
-
-.botnav {
-  display: none;
+.topnav-seperator {
+  height: 30px;
+  width: 1px;
+  background: white;
+  float: left;
+  margin-top: 18px;
+  margin-left: 40px;
+  margin-right: 20px;
 }
 
-}
-
-.botnav-inner {
-  border-top: 1px solid #ccc;
-  max-width: 1000px;
-  padding: 0px;
-  height: 40px;
-  margin: 0 auto;
-  color: black;
-  padding-top: 5px;
-}
-
-.botnav-popup {
-  z-index: 10;
-  position: fixed;
-  bottom: -240px;
-  width: 400px;
-  left: calc(50vw - 200px);
-  height: 140px;
-  background: #fff;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  box-shadow: 2px 2px 3px #999;
-  font-size: 1.4em;
-  border-radius: 6px 6px 0px 0px;
-}
-
-.botnav-popup-subtitle {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  width: 100%;
-  padding-top: 30px;
-  height: 60px;
-  background: linear-gradient(rgba(0,0,0,0) , #000 );
-}
-
-.botnav-button-holder {
-  width: 96%;
-  max-width: 1200px;
-  text-align: center;
-  oveflow: auto;
-  margin-top: 5px;
-}
-
-.botnav-button-0, .botnav-button-1, .botnav-button-2, .botnav-button-3 {
-  width: 20vw;
-  max-width: 100px;
-  height: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-  cursor: pointer;
-  border-bottom: 1px solid #000;
-  font-size: 1.2em;
-  display: inline-block;
-}

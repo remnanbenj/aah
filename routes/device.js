@@ -27,6 +27,12 @@ router.get('/', checkSignIn, function(req, res) {
       con.query(sql, function (err, data) {
         if (err) throw err;
 
+        if(device[0].type == 'AMP') {
+          for(var i = 0; i < data.length; i++) {
+            data[i].data = data[i].data.split(':')[0];
+          }
+        }
+
         if(data.length > 0)
           var data = arrangeData(data, timescale, startDate, endDate);
         else
@@ -265,6 +271,9 @@ function showDevice(req, res, device, data, timescale){
 
   else if(device.type == 'VOLT')
     res.render('devicevolt', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
+
+  else if(device.type == 'AMP')
+    res.render('deviceamp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 }
 
 

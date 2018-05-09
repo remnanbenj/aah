@@ -1,0 +1,126 @@
+.shopmenu-item-main {
+  height: 40px;
+  width: 90%;
+  background: #fff;
+  padding-top: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.shopmenu-item-sub {
+  height: 30px;
+  width: 80%;
+  background: #fff;
+  padding-top: 6px;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.shopmenu-item-main:hover, .shopmenu-item-sub:hover {
+  color: #fff;
+  background: #0092DB;
+}
+
+
+/* Featured */
+
+.shop-featured-main {
+  background: #fff;
+  border-radius: 6px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.shop-featured-main-image {
+  height: 380px;
+  background: #ddd;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px 6px 0px 0px;
+  -webkit-transition: background-size 0.4s;
+  transition: background-size 0.4s;
+}
+
+.shop-featured-main:hover {
+  color: #fff;
+  background: #0092DB;
+}
+.shop-featured-main:hover .shop-featured-main-image {
+  background-size: 110%;
+}
+
+.shop-featured-main-title-holder {
+  overflow: auto;
+}
+
+.shop-featured-main-title {
+  font-size: 18px;
+  margin-top: 8px;
+  margin-left: 25px;
+  float: left;
+}
+
+.shop-featured-main-price {
+  font-size: 18px;
+  margin-top: 8px;
+  float: right;
+  margin-right: 25px;
+}
+
+.shop-featured-main-price-symbol {
+  font-size: 22px;
+  margin-top: 4px;
+  float: right;
+}
+
+.shop-featured-main-desc {
+  font-size: 13px;
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: left;
+}
+
+
+.shop-featured {
+  background: #fff;
+  border-radius: 6px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  min-height: 280px;
+}
+
+.shop-featured-image {
+  height: 200px;
+  background: #ddd;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px 6px 0px 0px;
+  -webkit-transition: background-size 0.4s;
+  transition: background-size 0.4s;
+}
+
+.shop-featured:hover {
+  color: #fff;
+  background: #0092DB;
+}
+.shop-featured:hover .shop-featured-image {
+  background-size: 110%;
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+extends shop
+
+block shopcontent
+
+  each item, index in items
+
+    if index % 2 == 0
+      .row(style="padding: 0px; margin: 0px;")
+        .col-md-6(style="padding: 0px; margin: 0px;")
+          .shop-featured(style="margin-right: 10px;")
+            .shop-featured-image(style="background-image: url('/images/shop/#{item.image}');")
+
+            .shop-featured-main-title-holder
+
+              if item.price != 0
+                .shop-featured-main-price $#{item.price}
+
+              .shop-featured-main-title #{item.name}
+
+            .shop-featured-main-desc 
+              span !{item.description}
+
+        - var item = items[index+1]
+        if item
+          .col-md-6(style="padding: 0px; margin: 0px;")
+            .shop-featured(style="margin-left: 10px;")
+              .shop-featured-image(style="background-image: url('/images/shop/#{item.image}');")
+
+              .shop-featured-main-title-holder
+
+                if item.price != 0
+                  .shop-featured-main-price $#{item.price}
+
+                .shop-featured-main-title #{item.name}
+
+              .shop-featured-main-desc 
+                span !{item.description}
+    
+    
