@@ -13,14 +13,13 @@ block scriptdata
     var readings =  [['Time', 'Amps']];
     for(var i = 0; i < data.length; i++) {
       var date = new Date(data[i].receivedtime);
-      //date.setHours(date.getHours() - 4);
       readings.push([date, Number(data[i].data)]);
     }
 
     var options = {
           legend: 'none',
           colors: ['#00aaff'],
-          chartArea: {left: 50, top: 15, 'width': '90%', 'height': '80%'},
+          chartArea: {left: 50, top: 15, 'width': '90%', 'height': '88%'},
           hAxis: { 
             format: format,
             gridlines: { count: hAxisCount, color:"#ccc" },

@@ -3,72 +3,72 @@ extends layout
 block content
   link(rel="stylesheet" href="/stylesheets/device.css")
   
-  .container
+  .device-container
 
     .title-container
       block devicetitle
 
     .graph-button-holder
   
-  .graph-holder
-    .graph-button-holder
+    .graph-holder
+      .graph-button-holder
 
-        if timescale == 'year'
-          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Year
-        else
-          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('year')") Year
+          if timescale == 'year'
+            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Year
+          else
+            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('year')") Year
 
-        if timescale == 'month'
-          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Month
-        else
-          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('month')") Month
+          if timescale == 'month'
+            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Month
+          else
+            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('month')") Month
 
-        if timescale == 'week'
-          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Week
-        else
-          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('week')") Week
+          if timescale == 'week'
+            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Week
+          else
+            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('week')") Week
 
-        if timescale == 'day'
-          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Day
-        else
-          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('day')") Day
+          if timescale == 'day'
+            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Day
+          else
+            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('day')") Day
 
-        if timescale == 'hour'
-          .main-button(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Hour
-        else
-          .main-button(style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
-
-
-        .main-button(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveRight('#{timescale}')")
-          .glyphicon.glyphicon-triangle-right
-
-        if timescale == 'week' || timescale == 'day' || timescale == 'hour'
-          input.date-picker(type="text" id="datepicker" onchange="changeDate(this.value)" style="margin-right: 5px;")
-
-        if timescale == 'hour'
-          select.time-picker(type="text" id="ampmpicker" onchange="changeTime()")
-            option AM
-            option PM
-
-          select.time-picker(type="text" id="timepicker" onchange="changeTime()")
-            option 1
-            option 2
-            option 3
-            option 4
-            option 5
-            option 6
-            option 7
-            option 8
-            option 9
-            option 10
-            option 11
-            option 12
-
-        .main-button(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveLeft('#{timescale}')")
-          .glyphicon.glyphicon-triangle-left
+          if timescale == 'hour'
+            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Hour
+          else
+            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
 
-    .graph(id="chart")
+          .main-button-alt(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveRight('#{timescale}')")
+            .glyphicon.glyphicon-triangle-right
+
+          if timescale == 'week' || timescale == 'day' || timescale == 'hour'
+            input.date-picker(type="text" id="datepicker" onchange="changeDate(this.value)" style="margin-right: 5px;")
+
+          if timescale == 'hour'
+            select.time-picker(type="text" id="ampmpicker" onchange="changeTime()")
+              option AM
+              option PM
+
+            select.time-picker(type="text" id="timepicker" onchange="changeTime()")
+              option 1
+              option 2
+              option 3
+              option 4
+              option 5
+              option 6
+              option 7
+              option 8
+              option 9
+              option 10
+              option 11
+              option 12
+
+          .main-button-alt(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveLeft('#{timescale}')")
+            .glyphicon.glyphicon-triangle-left
+
+
+      .graph(id="chart")
 
 
 

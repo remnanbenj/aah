@@ -9,7 +9,6 @@ html
   body
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js").
     .page
-      .container
         .login-holder
 
           .login-image
@@ -22,7 +21,7 @@ html
             .login-label Password:
             input.login-input(id="password" type="password")
 
-          .main-button(style="margin-top: 12px;" onclick="login()") Login
+          .main-button-alt(style="margin-top: 12px;" onclick="login()") Login
 
     .toast Test Toast
 
@@ -30,13 +29,12 @@ html
       // Toast setup
       function toast(message, time, color) {
         $(".toast").css('display', 'block');
-        $(".toast").css('background', '#00aaff');
+        $(".toast").css('background', '#0092DB');
         if(color) $(".toast").css('background', color);
         $(".toast").html(message);
         $(".toast").animate({bottom: '60px'}, { duration: 300, queue: false });
         setTimeout(function(){$(".toast").animate({bottom: '-40px'}, { duration: 300, queue: false });}, time);
       }
-      //toast("Tester", 1600);
 
     script.
       $(".page").animate({top: '0vh'}, { duration: 300, queue: false });
@@ -58,8 +56,7 @@ html
 
             // Redirect to /home else log error
             if(this.responseText == "Success") {
-              $(".page").animate({top: '100vh'}, { duration: 300, queue: false });
-              setTimeout(function(){window.location.assign('/home?login=true');}, 300);
+              window.location.assign('/home?login=true');
             } else {
               console.log(this.responseText);
               toast("Your email or password is incorrect", 2400);

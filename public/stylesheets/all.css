@@ -92,6 +92,22 @@ input:focus {
   background: #0092DB;
 }
 
+.main-button-alt {
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: inline-block;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  background: #00aaff;
+  font-size: 13px;
+}
+
+.main-button-alt:hover {
+  background: #0092DB;
+}
+
 .overlay-button {
   padding: 5px;
   padding-left: 15px;
@@ -203,7 +219,6 @@ input:focus {
   font-size: 12px;
   font-weight: 600;
   color: white;
-  background: #00aaff;
   display: none;
 }
 

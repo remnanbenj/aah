@@ -11,6 +11,8 @@
   margin-top: 5vh;
   margin-bottom: 10px;
   border: 1px solid #ddd;
+  background: #fff;
+  color: black;
 }
 
 .login-image {
