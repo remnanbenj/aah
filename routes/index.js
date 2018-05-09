@@ -22,9 +22,14 @@ router.get('/home', checkSignIn, function(req, res) {
   var login = false;
   if(req.query.login) login = true;
 
-  var sql = "SELECT * FROM devices where userid = "+req.session.user.id+";";
+  var sql = "SELECT * FROM devices where userid = "+req.session.user.id+" order by lastreading desc;";
   con.query(sql, function (err, result) {
     if (err) throw err;
+
+    for(var i = 0; i < result.length; i++) {
+      result[i].lastreading = getReadableDate(result[i].lastreading);
+    }
+
     res.render('home', { title: 'AAH - Home', user: req.session.user, login: login, devices: result });
   });
 });
@@ -85,6 +90,20 @@ router.get('/logout', function(req, res) {
 
 
 /* =====FUCNTIONS===== */
+
+function getReadableDate(date){
+  var dateString = "";
+  var hours = date.getHours();
+  var hoursSuffix = "am";
+  if(hours >= 12) { hours -= 12; hoursSuffix = "pm"; }
+
+  dateString += String(hours).length == 1 ? "0" + hours + ":" : hours + ":";
+  dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+  dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() + hoursSuffix + " - " : date.getSeconds() + hoursSuffix + " - ";
+  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "/" : date.getDate() + "/";
+  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) : (date.getMonth()+1);
+  return dateString;
+}
 
 /* Checks to see if person has signed in */
 function checkSignIn(req, res, next){

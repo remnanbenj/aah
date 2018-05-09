@@ -3,9 +3,18 @@ extends layout
 block content
   link(rel="stylesheet" href="/stylesheets/home.css")
   
-  .container
+  .container(style="max-width: 400px;")
     each device, index in devices
-      .col-sm-6.col-lg-4(style="padding: 0px; margin: 0px; margin-bottom: 20px;")
+      .col-sm-12.col-lg-12(style="padding: 0px; margin: 0px; margin-bottom: 20px;")
         .panel(onclick="window.location.assign('/device?id=#{device.id}');")
-          .panel-title #{device.name}
-          .panel-content
+          .panel-inner(style="overflow: auto;")
+            .panel-title #{device.name}
+            if device.type == 'VOLT'
+              .panel-lastreadingdatasymbol V
+            else if device.type == 'AMP'
+              .panel-lastreadingdatasymbol A
+            else if device.type == 'TEMP'
+              .panel-lastreadingdatasymbol °C
+            .panel-lastreadingdata #{device.lastreadingdata.split(':')[0]}
+          .panel-inner(style="overflow: auto;")
+            .panel-lastreading #{device.lastreading}

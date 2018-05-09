@@ -1,12 +1,14 @@
 .panel {
   width: 340px;
   margin: 0 auto;
-  padding: 0px;
-  padding-top: 2px;
+  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   z-index: 1;
   cursor: pointer;
-  color: #fff;
-  background: #00aaff;
+  color: #000;
+  overflow: auto;
+  background: #fff;
 }
 
 .panel:hover {
@@ -14,17 +16,22 @@
 }
 
 .panel-title {
+  float: left;
   text-align: left;
-  margin-bottom: 2px;
-  margin-left: 5px;
+  font-size: 16px;
 }
 
-.panel-content {
-  border-radius: 4px;
-  width: 100%;
-  min-height: 200px;
-  margin: 0 auto;
-  background: white;
-  border: 1px solid #ddd;
-  overflow: auto;
+.panel-lastreadingdata {
+  float: right;
+  font-size: 14px;
+}
+
+.panel-lastreadingdatasymbol {
+  float: right;
+  font-size: 14px;
+}
+
+.panel-lastreading {
+  float: right;
+  font-size: 14px;
 }
