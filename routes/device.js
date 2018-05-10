@@ -30,11 +30,12 @@ router.get('/', checkSignIn, function(req, res) {
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
             var dataTemp = Number(data[i].data.split(':')[0]) * 230 / 1000;
-            if(timescale = 'day'){ dataTemp = dataTemp / 2; }
+            console.log(dataTemp);
+            /*if(timescale = 'day'){ dataTemp = dataTemp / 2; }
             else if(timescale = 'hour'){ dataTemp = dataTemp; }
             else if(timescale = 'week'){ dataTemp = dataTemp; }
             else if(timescale = 'month'){ dataTemp = dataTemp * 2; }
-            else if(timescale = 'year'){ dataTemp = dataTemp * 24; }
+            else if(timescale = 'year'){ dataTemp = dataTemp * 24; }*/
             data[i].data = dataTemp;
           }
         }
