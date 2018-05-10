@@ -58,6 +58,8 @@ block scriptdata
           var selectedItem = chart.getSelection()[0];
           if (selectedItem) {
             var value = data.getValue(selectedItem.row, 0);
+            value = value.getHours();
+            if(value > 12) value = value - 12;
             console.log(value);
           }
         }
