@@ -13,6 +13,7 @@ router.get('/', checkSignIn, function(req, res) {
   var id = req.query.id;
   var timescale = 'day';
   if(req.query.timescale) timescale = req.query.timescale;
+  console.log(timescale);
 
   var sql = "SELECT * FROM devices where id = "+id+" and userid = "+req.session.user.id+";";
   con.query(sql, function (err, device) {
@@ -278,7 +279,6 @@ function setDay(date, dayOfWeek) {
 }
 
 function showDevice(req, res, device, data, timescale){
-  console.log(timescale);
   if(device.type == 'TEMP')
     res.render('devicetemp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
