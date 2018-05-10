@@ -278,6 +278,7 @@ function setDay(date, dayOfWeek) {
 }
 
 function showDevice(req, res, device, data, timescale){
+  console.log(timescale);
   if(device.type == 'TEMP')
     res.render('devicetemp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
