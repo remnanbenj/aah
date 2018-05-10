@@ -53,6 +53,16 @@ block scriptdata
       function drawChart() {
         var data = google.visualization.arrayToDataTable(readings);
         var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+
+        function selectHandler() {
+          var selectedItem = chart.getSelection()[0];
+          if (selectedItem) {
+            var value = data.getValue(selectedItem.row, selectedItem.column);
+            alert('The user selected ' + value);
+          }
+        }
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
         chart.draw(data, options);
       }
 
