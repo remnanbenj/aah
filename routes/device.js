@@ -34,7 +34,7 @@ router.get('/', checkSignIn, function(req, res) {
             else if(timescale = 'week'){ dataTemp = dataTemp; }
             else if(timescale = 'month'){ dataTemp = dataTemp * 2; }
             else if(timescale = 'year'){ dataTemp = dataTemp * 24; }
-            data[i].data = dataTemp;
+            data[i].data = data[i].data.split(':')[0];
           }
         }
 
