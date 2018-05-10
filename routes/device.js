@@ -54,11 +54,15 @@ router.get('/', checkSignIn, function(req, res) {
           }
         }
 
+        console.log('4' + timescale);
+
         if(startDate.getTimezoneOffset() != -720) {
           for(var i = 0; i < data.length; i++) {
             data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
           }
         }
+
+        console.log('5' + timescale);
 
         device[0].lastreading = getReadableDate(device[0].lastreading);
         showDevice(req, res, device[0], data, timescale);
@@ -282,7 +286,7 @@ function setDay(date, dayOfWeek) {
 }
 
 function showDevice(req, res, device, data, timescale){
-  console.log('4' + timescale);
+  console.log('6' + timescale);
   if(device.type == 'TEMP')
     res.render('devicetemp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
