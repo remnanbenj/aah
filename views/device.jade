@@ -279,15 +279,6 @@ block content
 
   script(type="text/javascript").
 
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(readings);
-        var chart = new google.visualization.LineChart(document.getElementById('chart'));
-        chart.draw(data, options);
-      }
-
       function getReadableDate(date){
         var dateString = "";
         dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";

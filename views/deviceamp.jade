@@ -10,11 +10,10 @@ block devicetitle
 block scriptdata
   script(type="text/javascript").
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
-    var readings =  [['Time', 'KiloWatts']];
+    var readings =  [['Time', 'KiloWatts Hours']];
     for(var i = 0; i < data.length; i++) {
-      var kW = Number(data[i].data) * 230 / 1000;
       var date = new Date(data[i].receivedtime);
-      readings.push([date, kW]);
+      readings.push([date, Number(data[i].data)]);
     }
 
     var options = {
@@ -35,6 +34,15 @@ block scriptdata
                     min: 0,
                     max: 20
             },
-            format: '# kW' 
+            format: '# kWh' 
           }
     };
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(readings);
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+        chart.draw(data, options);
+    }
