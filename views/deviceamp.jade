@@ -4,7 +4,7 @@ block devicetitle
   .device-icon(style="background-image: url('/images/AMP-icon.png');")
   .device-name(style="margin-left: 5px;") #{device.name}
   .device-reading 
-    .div #{device.lastreadingdata.split(':')[0]} A
+    .div #{Number(device.lastreadingdata.split(':')[0]) * 230} W
     .div(style="font-size: 11px;") #{device.lastreading}
 
 block scriptdata
@@ -12,8 +12,9 @@ block scriptdata
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
     var readings =  [['Time', 'Amps']];
     for(var i = 0; i < data.length; i++) {
+      var kW = Number(data[i].data) * 230 / 1000;
       var date = new Date(data[i].receivedtime);
-      readings.push([date, Number(data[i].data)]);
+      readings.push([date, kW]);
     }
 
     var options = {
@@ -29,11 +30,11 @@ block scriptdata
             }
           },
           vAxis: { 
-            gridlines: { count: 4, color:"#ccc" },
+            gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 30
+                    max: 20
             },
-            format: '# A' 
+            format: '# kW' 
           }
     };
