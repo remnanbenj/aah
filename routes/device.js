@@ -199,7 +199,7 @@ function getDateRange(req, timescale) {
         if(req.query.time) {
           var time = Number(req.query.time);
           var ampm = req.query.ampm;
-          if(time == 12) time = 0;
+          if(time == 12 && ampm == 'AM') time = 0;
           if(ampm == 'AM') {
             startDate.setHours(time);
             endDate.setHours(time);
@@ -217,10 +217,10 @@ function getDateRange(req, timescale) {
           }
         }
 
-        startDate.setMinutes(-5);
+        startDate.setMinutes(0);
         startDate.setSeconds(0);
 
-        endDate.setMinutes(65);
+        endDate.setMinutes(60);
         endDate.setSeconds(0);
 
       } else if(timescale == 'week') {
@@ -255,8 +255,9 @@ function getDateRange(req, timescale) {
         startDate.setMinutes(0);
         startDate.setSeconds(0);
 
-        endDate.setMonth(12);
-        endDate.setDate(0);
+        endDate.setYear(endDate.getYear() + 1);
+        endDate.setMonth(0);
+        endDate.setDate(-1);
         endDate.setHours(23);
         endDate.setMinutes(59);
         endDate.setSeconds(59);
