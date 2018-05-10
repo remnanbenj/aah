@@ -13,7 +13,50 @@ block scriptdata
   script(type="text/javascript").
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
 
-    if(getParameterByName('timescale') == 'hour' || getParameterByName('timescale') == 'day') {
+    if(getParameterByName('timescale') == 'day') {
+      var readings =  [['Time', 'KiloWatt Hours']];
+      var kWh = 0;
+
+      for(var i = 0; i < data.length; i++) {
+        var date = new Date(data[i].receivedtime);
+        readings.push([date, Number(data[i].data)]);
+        kWh += Number(data[i].data);
+      }
+
+      $('.kWh').html(kWh.toFixed(2) + " kWh");
+
+      var options = {
+          legend: 'none',
+          colors: ['#00aaff'],
+          chartArea: {left: 50, top: 15, 'width': '90%', 'height': '88%'},
+          hAxis: { 
+            format: format,
+            gridlines: { count: hAxisCount, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 3, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '# kW' 
+          }
+      };
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(readings);
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+        chart.draw(data, options);
+      }
+
+    } else if(getParameterByName('timescale') == 'hour') {
       var readings =  [['Time', 'KiloWatts']];
       var kWh = 0;
 
