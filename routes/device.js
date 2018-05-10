@@ -44,8 +44,8 @@ router.get('/', checkSignIn, function(req, res) {
             var dataTemp = Number(data[i].data) * 230 / 1000;
             if(timescale == 'day'){ dataTemp = dataTemp / 2; }
             else if(timescale == 'hour'){ dataTemp = dataTemp; }
-            else if(timescale == 'week'){ dataTemp = dataTemp; }
-            else if(timescale == 'month'){ dataTemp = dataTemp * 2; }
+            else if(timescale == 'week'){ dataTemp = dataTemp * 24; }
+            else if(timescale == 'month'){ dataTemp = dataTemp * 24; }
             else if(timescale == 'year'){ dataTemp = dataTemp * 24; }
             data[i].data = dataTemp;
           }
@@ -83,7 +83,7 @@ function arrangeData(data, timescale, startDate, endDate) {
     
   } else if(timescale == 'week') {
 
-    var minutes = 60;
+    var minutes = 60 * 24;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
 
     for(var i = 0; i < diffMins / minutes; i++){
