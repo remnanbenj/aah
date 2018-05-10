@@ -14,14 +14,13 @@ block scriptdata
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
 
     if('#{timescale}' == 'day') {
-      var readings =  [['Time', 'Watt Hours']];
+      var readings =  [['Time', 'Watts Hours']];
       var kWh = 0;
-      var startdate = new Date(data[i].receivedtime);
 
       for(var i = 0; i < data.length; i++) {
         var date = new Date(data[i].receivedtime);
         readings.push([date, Number(data[i].data)]);
-        kWh = kWh + Number(data[i].data);
+        kWh += Number(data[i].data);
       }
 
       $('.kWh').html((kWh/1000).toFixed(2) + " kWh");
@@ -29,7 +28,7 @@ block scriptdata
       var options = {
           legend: 'none',
           colors: ['#00aaff'],
-          chartArea: {left: 70, top: 15, 'width': '90%', 'height': '88%'},
+          chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
             gridlines: { count: hAxisCount, color:"#ccc" },
@@ -44,7 +43,7 @@ block scriptdata
                     min: 0,
                     max: 5000
             },
-            format: '# kW' 
+            format: '# Wh' 
           }
       };
 
@@ -74,7 +73,7 @@ block scriptdata
       var options = {
           legend: 'none',
           colors: ['#00aaff'],
-          chartArea: {left: 70, top: 15, 'width': '90%', 'height': '88%'},
+          chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
             gridlines: { count: hAxisCount, color:"#ccc" },
@@ -89,7 +88,7 @@ block scriptdata
                     min: 0,
                     max: 5000
             },
-            format: '# kW' 
+            format: '# W' 
           }
       };
 
@@ -117,7 +116,7 @@ block scriptdata
       var options = {
           legend: 'none',
           colors: ['#00aaff'],
-          chartArea: {left: 70, top: 15, 'width': '90%', 'height': '88%'},
+          chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
             gridlines: { count: hAxisCount, color:"#ccc" },
