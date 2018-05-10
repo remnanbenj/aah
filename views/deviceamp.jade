@@ -57,8 +57,9 @@ block scriptdata
         function selectHandler() {
           var selectedItem = chart.getSelection()[0];
           if (selectedItem) {
-            var value = data.getValue(selectedItem.row, selectedItem.column);
-            alert('The user selected ' + value);
+            //var value = data.getValue(selectedItem.row, selectedItem.column);
+            var value = data.getProperties(selectedItem.row, selectedItem.column);
+            console.log(value);
           }
         }
         google.visualization.events.addListener(chart, 'select', selectHandler);
