@@ -64,10 +64,12 @@ block scriptdata
       for(var i = 0; i < data.length; i++) {
         var date = new Date(data[i].receivedtime);
         readings.push([date, Number(data[i].data)]);
-        kWh = (kWh + Number(data[i].data)) / 2;
+        kWh = kWh + Number(data[i].data);
       }
 
-      $('.kWh').html((kWh/1000).toFixed(2) + " kWh");
+      kWh = kWh / data.length;
+
+      $('.kWh').html(kWh.toFixed(2) + " Wh");
 
       var options = {
           legend: 'none',
