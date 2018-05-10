@@ -59,8 +59,10 @@ block scriptdata
           if (selectedItem) {
             var value = data.getValue(selectedItem.row, 0);
             value = value.getHours();
-            if(value > 12) value = value - 12;
+            var ampm = "AM";
+            if(value > 11) ampm = "PM";
             console.log(value);
+            console.log(ampm);
           }
         }
         google.visualization.events.addListener(chart, 'select', selectHandler);
