@@ -63,9 +63,13 @@ block scriptdata
             if(value > 11) ampm = "PM";
             if(value > 12) value -= 12;
             if(value == 0) value = 12;
-            $('#timepicker').val(value);
-            $('#ampmpicker').val(ampm);
-            changeTime();
+
+            var url = '/device?id=' + getParameterByName('id');
+            url += '&timescale=hour';
+            url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
+            url += '&time=' + value;
+            url += '&ampm=' + ampm;
+            window.location.assign(url);
           }
         }
         google.visualization.events.addListener(chart, 'select', selectHandler);
