@@ -41,7 +41,7 @@ router.get('/', checkSignIn, function(req, res) {
 
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
-            var dataTemp = Number(data[i].data) * 230 / 1000;
+            var dataTemp = Number(data[i].data) * 230;
             if(timescale == 'day'){ dataTemp = dataTemp; }
             else if(timescale == 'hour'){ dataTemp = dataTemp; }
             else if(timescale == 'week'){ dataTemp = dataTemp; }

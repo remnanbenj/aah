@@ -14,7 +14,7 @@ block scriptdata
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
 
     if(getParameterByName('timescale') == 'day') {
-      var readings =  [['Time', 'KiloWatt Hours']];
+      var readings =  [['Time', 'Watt Hours']];
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
@@ -41,7 +41,7 @@ block scriptdata
             gridlines: { count: 3, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10
+                    max: 10000
             },
             format: '# kW' 
           }
@@ -57,7 +57,7 @@ block scriptdata
       }
 
     } else if(getParameterByName('timescale') == 'hour') {
-      var readings =  [['Time', 'KiloWatts']];
+      var readings =  [['Time', 'Watts']];
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
@@ -84,7 +84,7 @@ block scriptdata
             gridlines: { count: 3, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10
+                    max: 10000
             },
             format: '# kW' 
           }
@@ -100,7 +100,7 @@ block scriptdata
       }
 
     } else {
-      var readings =  [['Time', 'KiloWatts Hours']];
+      var readings =  [['Time', 'Watts Hours']];
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
@@ -127,7 +127,7 @@ block scriptdata
             gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 20
+                    max: 20000
             },
             format: '# kWh' 
           }
