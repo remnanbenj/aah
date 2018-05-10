@@ -13,7 +13,7 @@ router.get('/', checkSignIn, function(req, res) {
   var id = req.query.id;
   var timescale = 'day';
   if(req.query.timescale) timescale = req.query.timescale;
-  console.log(timescale);
+  console.log('1' + timescale);
 
   var sql = "SELECT * FROM devices where id = "+id+" and userid = "+req.session.user.id+";";
   con.query(sql, function (err, device) {
@@ -23,6 +23,7 @@ router.get('/', checkSignIn, function(req, res) {
       var startEndDate = getDateRange(req, timescale);
       var startDate = new Date(startEndDate[0]);
       var endDate = new Date(startEndDate[1]);
+      console.log('2' + timescale);
 
       var sql = "SELECT * FROM data where devicemac = '"+device[0].mac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
       con.query(sql, function (err, data) {
@@ -38,6 +39,8 @@ router.get('/', checkSignIn, function(req, res) {
           var data = arrangeData(data, timescale, startDate, endDate);
         else
           var data = [{ data: 0, receivedtime: startDate }];
+
+        console.log('3' + timescale);
 
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
@@ -279,7 +282,7 @@ function setDay(date, dayOfWeek) {
 }
 
 function showDevice(req, res, device, data, timescale){
-  console.log(timescale);
+  console.log('4' + timescale);
   if(device.type == 'TEMP')
     res.render('devicetemp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
