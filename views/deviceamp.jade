@@ -16,11 +16,12 @@ block scriptdata
     if(getParameterByName('timescale') == 'day') {
       var readings =  [['Time', 'Watt Hours']];
       var kWh = 0;
+      var startdate = new Date(data[i].receivedtime);
 
       for(var i = 0; i < data.length; i++) {
         var date = new Date(data[i].receivedtime);
         readings.push([date, Number(data[i].data)]);
-        kWh += Number(data[i].data);
+        kWh = kWh + Number(data[i].data);
       }
 
       $('.kWh').html((kWh/1000).toFixed(2) + " kWh");
@@ -38,7 +39,7 @@ block scriptdata
             }
           },
           vAxis: { 
-            gridlines: { count: 3, color:"#ccc" },
+            gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
                     min: 0,
                     max: 5000
@@ -63,7 +64,7 @@ block scriptdata
       for(var i = 0; i < data.length; i++) {
         var date = new Date(data[i].receivedtime);
         readings.push([date, Number(data[i].data)]);
-        kWh += Number(data[i].data);
+        kWh = (kWh + Number(data[i].data)) / 2;
       }
 
       $('.kWh').html((kWh/1000).toFixed(2) + " kWh");
@@ -81,7 +82,7 @@ block scriptdata
             }
           },
           vAxis: { 
-            gridlines: { count: 3, color:"#ccc" },
+            gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
                     min: 0,
                     max: 5000
