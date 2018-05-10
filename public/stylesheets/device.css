@@ -46,6 +46,14 @@
   margin-top: 2px;
 }
 
+.device-total {
+  margin-top: 10px;
+  font-size: 15px;
+  float: left;
+  text-align: right;
+  width: 100%;
+}
+
 
 /* GRAPH */
 

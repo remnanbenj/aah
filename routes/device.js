@@ -47,7 +47,6 @@ router.get('/', checkSignIn, function(req, res) {
             else if(timescale = 'month'){ dataTemp = dataTemp * 2; }
             else if(timescale = 'year'){ dataTemp = dataTemp * 24; }
             data[i].data = dataTemp;
-            console.log(dataTemp);
           }
         }
 
