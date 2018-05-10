@@ -42,7 +42,7 @@ router.get('/', checkSignIn, function(req, res) {
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
             var dataTemp = Number(data[i].data) * 230 / 1000;
-            if(timescale == 'day'){ dataTemp = dataTemp / 2; }
+            if(timescale == 'day'){ dataTemp = dataTemp; }
             else if(timescale == 'hour'){ dataTemp = dataTemp; }
             else if(timescale == 'week'){ dataTemp = dataTemp; }
             else if(timescale == 'month'){ dataTemp = dataTemp * 2; }
@@ -160,7 +160,7 @@ function arrangeData(data, timescale, startDate, endDate) {
     
   } else {
 
-    var minutes = 30;
+    var minutes = 60;
     var dataPoint = 0;
     var dataPointCount = 0;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
