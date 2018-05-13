@@ -5,7 +5,7 @@ block devicetitle
     .device-icon(style="background-image: url('/images/AMP-icon.png');")
     .device-name(style="margin-left: 5px;") #{device.name}
     .device-reading 
-      .div #{device.lastreadingdata.split(':')[0]} A - #{(Number(device.lastreadingdata.split(':')[0]) * 230).toFixed(2)} W
+      .div #{device.lastreadingdata.split(':')[0]} A - #{(Number(device.lastreadingdata.split(':')[channel]) * 230).toFixed(2)} W
       .div(style="font-size: 11px;") #{device.lastreading}
       .div.kWh 
 

@@ -60,7 +60,7 @@ router.get('/', checkSignIn, function(req, res) {
         }
 
         device[0].lastreading = getReadableDate(device[0].lastreading);
-        showDevice(req, res, device[0], data, timescale);
+        showDevice(req, res, device[0], data, timescale, channel);
 
       });
 
@@ -281,7 +281,7 @@ function setDay(date, dayOfWeek) {
   date.setDate(date.getDate() - date.getDay() + dayOfWeek);
 }
 
-function showDevice(req, res, device, data, timescale){
+function showDevice(req, res, device, data, timescale, channel){
   if(device.type == 'TEMP')
     res.render('device/temp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
@@ -289,7 +289,7 @@ function showDevice(req, res, device, data, timescale){
     res.render('device/volt', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
   else if(device.type == 'AMP')
-    res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
+    res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channel: channel });
 }
 
 
