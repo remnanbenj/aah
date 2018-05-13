@@ -13,6 +13,8 @@ router.get('/', checkSignIn, function(req, res) {
   var id = req.query.id;
   var timescale = 'day';
   if(req.query.timescale) timescale = req.query.timescale;
+  var channel = 1;
+  if(req.query.channel) channel = Number(req.query.channel.split(':')[0]);
 
   var sql = "SELECT * FROM devices where id = "+id+" and userid = "+req.session.user.id+";";
   con.query(sql, function (err, device) {
@@ -29,7 +31,7 @@ router.get('/', checkSignIn, function(req, res) {
 
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
-            data[i].data = Number(data[i].data.split(':')[0]);
+            data[i].data = Number(data[i].data.split(':')[channel-1]);
           }
         }
 
@@ -281,13 +283,13 @@ function setDay(date, dayOfWeek) {
 
 function showDevice(req, res, device, data, timescale){
   if(device.type == 'TEMP')
-    res.render('devicetemp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
+    res.render('device/temp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
   else if(device.type == 'VOLT')
-    res.render('devicevolt', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
+    res.render('device/volt', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
   else if(device.type == 'AMP')
-    res.render('deviceamp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
+    res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 }
 
 

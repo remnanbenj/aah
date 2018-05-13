@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   link(rel="stylesheet" href="/stylesheets/shop.css")
@@ -8,6 +8,10 @@ block content
       .shopmenu-items
 
         .shopmenu-item-main(id="FeaturedBtn" onclick="window.location.assign('/shop');" style="margin-top: 0px;") Featured
+
+        .shopmenu-item-main(id="OffGridBtn" onclick="window.location.assign('/shop?catagory=OffGrid');") Off Grid Solutions
+        .shopmenu-item-sub(id="OffGridPowerBtn" onclick="window.location.assign('/shop?catagory=OffGridPower');") Electricity
+        .shopmenu-item-sub(id="OffGridFoodBtn" onclick="window.location.assign('/shop?catagory=OffGridFood');") Food & Water
 
         .shopmenu-item-main(id="SensorsBtn" onclick="window.location.assign('/shop?catagory=Sensors');") Sensors
         .shopmenu-item-sub(id="SensorsWeatherBtn" onclick="window.location.assign('/shop?catagory=SensorsWeather');") Weather
@@ -20,12 +24,6 @@ block content
         .shopmenu-item-sub(id="ControlDoorsBtn" onclick="window.location.assign('/shop?catagory=ControlDoors');") Doors & More
         .shopmenu-item-sub(id="ControlTemperatureBtn" onclick="window.location.assign('/shop?catagory=ControlTemperature');") Temperature
         .shopmenu-item-sub(id="ControlOtherBtn" onclick="window.location.assign('/shop?catagory=ControlOther');") Other
-
-        .shopmenu-item-main(id="HarvestBtn" onclick="window.location.assign('/shop?catagory=Harvest');") Harvest
-        .shopmenu-item-sub(id="HarvestSolarBtn" onclick="window.location.assign('/shop?catagory=HarvestSolar');") Solar Power
-        .shopmenu-item-sub(id="HarvestWindBtn" onclick="window.location.assign('/shop?catagory=HarvestWind');") Wind Power
-        .shopmenu-item-sub(id="HarvestHydroBtn" onclick="window.location.assign('/shop?catagory=HarvestHydro');") Hydro Power
-        .shopmenu-item-sub(id="HarvestFarmBtn" onclick="window.location.assign('/shop?catagory=HarvestFarm');") Auto Farm
 
 
     .col-md-9(style="padding: 0px; margin: 0px;")

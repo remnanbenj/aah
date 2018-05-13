@@ -19,29 +19,32 @@ router.get('/', function(req, res) {
   else if(catagory && catagory.startsWith("Control"))
     renderControl(req, res, catagory.replace("Control", ""));
 
-  else if(catagory && catagory.startsWith("Harvest"))
-    renderHarvest(req, res, catagory.replace("Harvest", ""));
+  else if(catagory && catagory.startsWith("OffGrid"))
+    renderOffGrid(req, res, catagory.replace("OffGrid", ""));
 
   else 
-    res.render('shopfeatured', { title: 'AAH - Shop' });
+    res.render('shop/featured', { title: 'AAH - Shop' });
 
 });
 
-function renderHarvest(req, res, catagory) {
-  var sql = "SELECT * FROM shop where catagory = 'Harvest'";
-  if(catagory == "Solar") {
-    res.render('shopsolar', { title: 'AAH - Shop' });
+function renderOffGrid(req, res, catagory) {
+  var sql = "SELECT * FROM shop where catagory = 'OffGrid'";
+
+  if(catagory == "Power") {
+    res.render('shop/power', { title: 'AAH - Shop' });
+
+  } else if(catagory == "Food") {
+    res.render('shop/food', { title: 'AAH - Shop' });
+
   } else if(catagory) {
     sql += " and subcatagory = '"+catagory+"'";
     con.query(sql, function (err, items) {
       if (err) throw err;
-      res.render('shopsensors', { title: 'AAH - Shop', items: items });
+      res.render('shop/sensors', { title: 'AAH - Shop', items: items });
     });
+
   } else {
-    con.query(sql, function (err, items) {
-      if (err) throw err;
-      res.render('shopsensors', { title: 'AAH - Shop', items: items });
-    });
+    res.render('shop/offgrid', { title: 'AAH - Shop' });
   }
 }
 
@@ -51,12 +54,12 @@ function renderControl(req, res, catagory) {
     sql += " and subcatagory = '"+catagory+"'";
     con.query(sql, function (err, items) {
       if (err) throw err;
-      res.render('shopsensors', { title: 'AAH - Shop', items: items });
+      res.render('shop/sensors', { title: 'AAH - Shop', items: items });
     });
   } else {
     con.query(sql, function (err, items) {
       if (err) throw err;
-      res.render('shopsensors', { title: 'AAH - Shop', items: items });
+      res.render('shop/sensors', { title: 'AAH - Shop', items: items });
     });
   }
 }
@@ -67,12 +70,12 @@ function renderSensors(req, res, catagory) {
     sql += " and subcatagory = '"+catagory+"'";
     con.query(sql, function (err, items) {
       if (err) throw err;
-      res.render('shopsensors', { title: 'AAH - Shop', items: items });
+      res.render('shop/sensors', { title: 'AAH - Shop', items: items });
     });
   } else {
     con.query(sql, function (err, items) {
       if (err) throw err;
-      res.render('shopsensors', { title: 'AAH - Shop', items: items });
+      res.render('shop/sensors', { title: 'AAH - Shop', items: items });
     });
   }
 }

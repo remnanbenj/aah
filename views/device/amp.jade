@@ -1,16 +1,42 @@
 extends device
 
 block devicetitle
-  .device-icon(style="background-image: url('/images/AMP-icon.png');")
-  .device-name(style="margin-left: 5px;") #{device.name}
-  .device-reading 
-    .div #{device.lastreadingdata.split(':')[0]} A - #{(Number(device.lastreadingdata.split(':')[0]) * 230).toFixed(2)} W
-    .div(style="font-size: 11px;") #{device.lastreading}
-    .div.kWh 
+  .div(style="overflow: auto;")
+    .device-icon(style="background-image: url('/images/AMP-icon.png');")
+    .device-name(style="margin-left: 5px;") #{device.name}
+    .device-reading 
+      .div #{device.lastreadingdata.split(':')[0]} A - #{(Number(device.lastreadingdata.split(':')[0]) * 230).toFixed(2)} W
+      .div(style="font-size: 11px;") #{device.lastreading}
+      .div.kWh 
+
+block devicecontent
+  .graph-button-holder
+
+    select.current-picker-label
+      option Channel:
+
+    select.current-picker(id="channel" onchange="changeChannel(this.value)")
+      each label, index in device.labels.split(',')
+        option(value="#{index+1}: #{label}") #{index+1}: #{label}
+
+    .main-button-alt(style="margin-left: 5px;") Rename
     
 
 block scriptdata
   script(type="text/javascript").
+    if(getParameterByName('channel')) $("#channel").val(getParameterByName('channel'));
+
+    function changeChannel(channel) {
+        var url = '/device?id=' + getParameterByName('id');
+        url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
+        if($('#timepicker').val()) url += '&time=' + $('#timepicker').val();
+        if($('#ampmpicker').val()) url += '&ampm=' + $('#ampmpicker').val();
+        if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
+        url += '&channel=' + channel;
+
+        window.location.assign(url);
+    }
+
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
 
     if('#{timescale}' == 'day') {

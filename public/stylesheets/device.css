@@ -16,9 +16,13 @@
   z-index: 1;
 }
 
+.device-content {
+  overflow: auto;
+}
+
 /* TITLE BAR */
 
-.title-container {
+.device-title {
   overflow: auto;
   margin: 0 auto;
   max-width: 800px;
@@ -60,7 +64,6 @@
 .graph-holder {
   overflow: auto;
   padding: 5px;
-  margin-top: 30px;
 }
 
 .graph-button-holder {
@@ -108,6 +111,53 @@ select {
     text-indent: 1px;
     text-overflow: '';
 }
+
+/* AMP */
+
+.current-picker-label {
+  float: left;
+  width: 60px;
+  height: 28px;
+  font-size: 14px;
+  text-align: left;
+  color: #000;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.current-picker {
+  float: left;
+  width: 120px;
+  height: 28px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+  background: #00aaff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  text-align-last: center;
+}
+
+.current-picker-rename {
+  float: left;
+  width: 120px;
+  height: 28px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+  background: #00aaff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  text-align-last: center;
+}
+
+.current-picker:hover, .current-picker-rename:hover {
+  background: #0092DB;
+}
+
 
 
 
