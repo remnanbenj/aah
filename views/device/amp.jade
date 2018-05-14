@@ -123,7 +123,7 @@ block scriptdata
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
       }
 
-      $('.kWh').html(kWh.toFixed(2));
+      $('.kWh').html(kWh.toFixed(2) + ' kWh');
 
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
       if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
@@ -197,7 +197,10 @@ block scriptdata
       for(var i = 0; i < data.length; i++) {
         data[i].reading[0] = new Date(data[i].reading[0]);
         readings.push(data[i].reading);
+        for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
       }
+
+      $('.kWh').html(kWh.toFixed(2) + ' kWh');
 
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
       if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
