@@ -28,13 +28,6 @@ router.get('/', checkSignIn, function(req, res) {
         if (err) throw err;
 
         if(device[0].type == 'AMP') {
-
-          if(startDate.getTimezoneOffset() != -720) {
-            for(var i = 0; i < data.length; i++) {
-              data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
-            }
-          }
-
           renderAMP(req, res, device[0], data, timescale);
           return;
         }
