@@ -173,6 +173,7 @@ block scriptdata
       var columns = ['Time'];
       for(var i = 0 ; i < #{channels.split(',').length}; i++) columns.push('Watts');
       var readings =  [columns];
+      var colors =  [];
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
@@ -180,20 +181,24 @@ block scriptdata
         readings.push(data[i].reading);
       }
 
+      if('#{channels}'.indexOf('1') != -1) colors.push('#00aaff');
+      if('#{channels}'.indexOf('2') != -1)  colors.push('#00ff00');
+      if('#{channels}'.indexOf('3') != -1)  colors.push('#ff0000');
+
       var options = {
           legend: 'none',
-          colors: ['#00aaff', '#ffaa00'],
+          colors: colors,
           chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
-            gridlines: { count: hAxisCount, color:"#fff" },
+            gridlines: { count: hAxisCount, color:"#ccc" },
             viewWindow: {
                     min: startDate,
                     max: endDate
             }
           },
           vAxis: { 
-            gridlines: { count: 11, color:"#fff" },
+            gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
                     max: 10000
