@@ -129,7 +129,6 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
 
-    if(!isNaN(dataPoint)) tData.push({data: String(dataPoint.toFixed(1)), receivedtime: new Date(tStartDate)});
   }
 
   device.lastreading = getReadableDate(device.lastreading);
