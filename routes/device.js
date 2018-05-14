@@ -71,6 +71,13 @@ function renderAMP(req, res, device, data, timescale){
     if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
+  if(startDate.getTimezoneOffset() != -720) {
+    for(var i = 0; i < data.length; i++) {
+      data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
+    }
+  }
+
+  device[0].lastreading = getReadableDate(device[0].lastreading);
   res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
 }
 
