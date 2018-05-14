@@ -216,7 +216,7 @@ function getDateRange(req, timescale) {
           if(ampm == 'AM') {
             startDate.setHours(time);
             endDate.setHours(time);
-          } else if(time != 12) {
+          } else {
             startDate.setHours(time + 12);
             endDate.setHours(time + 12);
           }
@@ -236,8 +236,8 @@ function getDateRange(req, timescale) {
         endDate.setMinutes(60);
         endDate.setSeconds(0);
 
-        console.log(getReadableDate(startDate));
-        console.log(getReadableDate(endDate));
+        console.log(startDate);
+        console.log(endDate);
 
       } else if(timescale == 'week') {
 
