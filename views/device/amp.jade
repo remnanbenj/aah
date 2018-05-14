@@ -27,34 +27,56 @@ block devicecontent
 
 
   .graph-button-holder(style="overflow: auto; margin-top: 30px;")
+
     .col-md-3
       if channels.indexOf('1') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #000;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
-    - var n = 1;
-    while n < 4
-      .col-md-3
-        if channels.indexOf(String(n+1)) != -1
-          .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
-        else
-          .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
-      - n = n + 1
+
+    .col-md-3
+      if channels.indexOf('2') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #f00;" onclick="alterChannel(2)") 2: #{device.labels.split(',')[1]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(2)") 2: #{device.labels.split(',')[1]}
+
+    .col-md-3
+      if channels.indexOf('3') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #0f0;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
+
+    .col-md-3
+      if channels.indexOf('4') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #00f;" onclick="alterChannel(4)") 4: #{device.labels.split(',')[3]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(4)") 4: #{device.labels.split(',')[3]}
 
   .graph-button-holder(style="overflow: auto; margin-bottom: 10px;")
-    .col-md-3
+
       if channels.indexOf('5') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #ff0;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
-    - var n = 5;
-    while n < 8
-      .col-md-3
-        if channels.indexOf(String(n+1)) != -1
-          .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
-        else
-          .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
-      - n = n + 1
+
+    .col-md-3
+      if channels.indexOf('6') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #0ff;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
+
+    .col-md-3
+      if channels.indexOf('7') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #f0f;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
+
+    .col-md-3
+      if channels.indexOf('8') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #000;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
+
 
   .graph-button-holder(style="text-align: center; overflow: auto; margin-bottom: 30px;")
     .col-md-3
@@ -181,9 +203,14 @@ block scriptdata
         readings.push(data[i].reading);
       }
 
-      if('#{channels}'.indexOf('1') != -1) colors.push('#00aaff');
-      if('#{channels}'.indexOf('2') != -1)  colors.push('#00ff00');
-      if('#{channels}'.indexOf('3') != -1)  colors.push('#ff0000');
+      if('#{channels}'.indexOf('1') != -1) colors.push('#000');
+      if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
+      if('#{channels}'.indexOf('3') != -1)  colors.push('#0f0');
+      if('#{channels}'.indexOf('4') != -1) colors.push('#00f');
+      if('#{channels}'.indexOf('5') != -1)  colors.push('#ff0');
+      if('#{channels}'.indexOf('6') != -1)  colors.push('#0ff');
+      if('#{channels}'.indexOf('7') != -1)  colors.push('#f0f');
+      if('#{channels}'.indexOf('8') != -1)  colors.push('#000');
 
       var options = {
           legend: 'none',
