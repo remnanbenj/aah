@@ -123,6 +123,8 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       if(channels.indexOf('7') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
       if(channels.indexOf('8') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
 
+      console.log(dataPoints);
+
       tData.push({data: dataPoints.toString(), receivedtime: new Date(tStartDate)});
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
