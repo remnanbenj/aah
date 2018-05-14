@@ -77,7 +77,7 @@ function renderAMP(req, res, device, data, timescale){
     if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
-  device[0].lastreading = getReadableDate(device[0].lastreading);
+  device.lastreading = getReadableDate(device.lastreading);
   res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
 }
 
