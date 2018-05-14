@@ -60,7 +60,7 @@ function renderAMP(req, res, device, data, timescale){
   if(req.query.channels) channels = req.query.channels;
 
   for(var i = 0; i < data.length; i++) {
-    data[i].reading = [getReadableDate(new Date(data[i].receivedtime))];
+    data[i].reading = [new Date(data[i].receivedtime)];
     if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]) * 230);
     if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]) * 230);
     if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]) * 230);

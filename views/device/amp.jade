@@ -103,6 +103,7 @@ block scriptdata
     console.log(startDate);
     console.log(endDate);
     console.log(hAxisCount);
+    console.log(format);
 
 
     if('#{timescale}' == 'day') {
@@ -169,11 +170,10 @@ block scriptdata
       }
 
     } else if(getParameterByName('timescale') == 'hour') {
-      var readings =  [['Time', 'Watts']];
+      var readings =  [['Time', 'Watts', 'Watts']];
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
-        var date = new Date(data[i].receivedtime); 
         readings.push(data[i].reading);
       }
 
