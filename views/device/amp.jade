@@ -184,6 +184,7 @@ block scriptdata
         google.visualization.events.addListener(chart, 'select', selectHandler);
 
         chart.draw(data, options);
+        $('.loader').css('display', 'none');
       }
 
     } else if(getParameterByName('timescale') == 'hour') {
@@ -239,6 +240,7 @@ block scriptdata
         var data = google.visualization.arrayToDataTable(readings);
         var chart = new google.visualization.AreaChart(document.getElementById('chart'));
         chart.draw(data, options);
+        $('.loader').css('display', 'none');
       }
 
     } else {
@@ -282,6 +284,7 @@ block scriptdata
         var data = google.visualization.arrayToDataTable(readings);
         var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
         chart.draw(data, options);
+        $('.loader').css('display', 'none');
       }
 
     }
