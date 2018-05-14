@@ -27,13 +27,14 @@ router.get('/', checkSignIn, function(req, res) {
       con.query(sql, function (err, data) {
         if (err) throw err;
 
-        if(startDate.getTimezoneOffset() != -720) {
-          for(var i = 0; i < data.length; i++) {
-            data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
-          }
-        }
-
         if(device[0].type == 'AMP') {
+
+          if(startDate.getTimezoneOffset() != -720) {
+            for(var i = 0; i < data.length; i++) {
+              data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
+            }
+          }
+
           renderAMP(req, res, device[0], data, timescale);
           return;
         }
@@ -66,7 +67,7 @@ function renderAMP(req, res, device, data, timescale){
   if(req.query.channels) channels = req.query.channels;
 
   for(var i = 0; i < data.length; i++) {
-    data[i].reading = [data[i].receivedtime];
+    data[i].reading = [getReadableDate(data[i].receivedtime)];
     if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]) * 230);
     if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]) * 230);
     if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]) * 230);
