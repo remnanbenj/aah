@@ -99,15 +99,24 @@ block scriptdata
     }
 
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
+    console.log(data[0]);
+
 
     if('#{timescale}' == 'day') {
       var readings =  [['Time', 'Watt Hours']];
       var kWh = 0;
+      var kWhCount = 0;
 
       for(var i = 0; i < data.length; i++) {
-        var date = new Date(data[i].receivedtime);
-        readings.push([date, Number(data[i].data)]);
-        kWh += Number(data[i].data);
+        var date = new Date(data[i].receivedtime); 
+        var reading = [date];
+        for(var j = 0; j < '#{channels}'.split(',').length; j++) {
+          readings.push(Number(data[i].datas[j]));
+          kWh += Number(data[i].datas[j]);
+          kWhCount++;
+        }
+
+        readings.push(reading);
       }
 
       $('.kWh').html((kWh/1000).toFixed(2) + " kWh");

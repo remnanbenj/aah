@@ -13,8 +13,6 @@ router.get('/', checkSignIn, function(req, res) {
   var id = req.query.id;
   var timescale = 'day';
   if(req.query.timescale) timescale = req.query.timescale;
-  var channels = '1';
-  if(req.query.channels) channels = req.query.channels;
 
   var sql = "SELECT * FROM devices where id = "+id+" and userid = "+req.session.user.id+";";
   con.query(sql, function (err, device) {
@@ -30,28 +28,14 @@ router.get('/', checkSignIn, function(req, res) {
         if (err) throw err;
 
         if(device[0].type == 'AMP') {
-          for(var i = 0; i < data.length; i++) {
-            data[i].data = data[i].data.split(':')[0];
-          }
+          renderAMP(req, res, device[0], data, timescale);
+          return;
         }
 
         if(data.length > 0)
           var data = arrangeData(data, timescale, startDate, endDate);
         else
           var data = [{ data: 0, receivedtime: startDate }];
-
-
-        if(device[0].type == 'AMP') {
-          for(var i = 0; i < data.length; i++) {
-            var dataTemp = Number(data[i].data) * 230;
-            if(timescale == 'day'){ dataTemp = dataTemp; }
-            else if(timescale == 'hour'){ dataTemp = dataTemp; }
-            else if(timescale == 'week'){ dataTemp = dataTemp; }
-            else if(timescale == 'month'){ dataTemp = dataTemp * 2; }
-            else if(timescale == 'year'){ dataTemp = dataTemp * 24; }
-            data[i].data = dataTemp;
-          }
-        }
 
         if(startDate.getTimezoneOffset() != -720) {
           for(var i = 0; i < data.length; i++) {
@@ -60,7 +44,7 @@ router.get('/', checkSignIn, function(req, res) {
         }
 
         device[0].lastreading = getReadableDate(device[0].lastreading);
-        showDevice(req, res, device[0], data, timescale, channels);
+        showDevice(req, res, device[0], data, timescale);
 
       });
 
@@ -70,6 +54,25 @@ router.get('/', checkSignIn, function(req, res) {
 
   });
 });
+
+function renderAMP(req, res, device, data, timescale){
+  var channels = '1';
+  if(req.query.channels) channels = req.query.channels;
+
+  for(var i = 0; i < data.length; i++) {
+    data[i].datas = [];
+    if(channels.indexOf('1') != -1) data[i].datas.push(Number(data[i].data.split(':')[0]) * 230);
+    if(channels.indexOf('2') != -1) data[i].datas.push(Number(data[i].data.split(':')[1]) * 230);
+    if(channels.indexOf('3') != -1) data[i].datas.push(Number(data[i].data.split(':')[2]) * 230);
+    if(channels.indexOf('4') != -1) data[i].datas.push(Number(data[i].data.split(':')[3]) * 230);
+    if(channels.indexOf('5') != -1) data[i].datas.push(Number(data[i].data.split(':')[4]) * 230);
+    if(channels.indexOf('6') != -1) data[i].datas.push(Number(data[i].data.split(':')[5]) * 230);
+    if(channels.indexOf('7') != -1) data[i].datas.push(Number(data[i].data.split(':')[6]) * 230);
+    if(channels.indexOf('8') != -1) data[i].datas.push(Number(data[i].data.split(':')[7]) * 230);
+  }
+
+  res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
+}
 
 function arrangeData(data, timescale, startDate, endDate) {
 
@@ -281,15 +284,12 @@ function setDay(date, dayOfWeek) {
   date.setDate(date.getDate() - date.getDay() + dayOfWeek);
 }
 
-function showDevice(req, res, device, data, timescale, channels){
+function showDevice(req, res, device, data, timescale){
   if(device.type == 'TEMP')
     res.render('device/temp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
   else if(device.type == 'VOLT')
     res.render('device/volt', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
-
-  else if(device.type == 'AMP')
-    res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
 }
 
 
