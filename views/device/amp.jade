@@ -139,9 +139,9 @@ block scriptdata
       };
 
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChartDay);
 
-      function drawChart() {
+      function drawChartDay() {
         var data = google.visualization.arrayToDataTable(readings);
         var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
 
@@ -182,8 +182,8 @@ block scriptdata
           colors: ['#00aaff'],
           chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
-            format: format,
-            gridlines: { count: hAxisCount, color:"#ccc" },
+            format: 'h:mmaa',
+            gridlines: { count: 2, color:"#ccc" },
             viewWindow: {
                     min: startDate,
                     max: endDate
@@ -200,9 +200,9 @@ block scriptdata
       };
 
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChartHour);
 
-      function drawChart() {
+      function drawChartHour() {
         var data = google.visualization.arrayToDataTable(readings);
         var chart = new google.visualization.AreaChart(document.getElementById('chart'));
         chart.draw(data, options);
@@ -243,9 +243,9 @@ block scriptdata
       };
 
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChartOther);
 
-      function drawChart() {
+      function drawChartOther() {
         var data = google.visualization.arrayToDataTable(readings);
         var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
         chart.draw(data, options);
