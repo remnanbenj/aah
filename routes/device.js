@@ -83,20 +83,20 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
 
     var minutes = 60;
     var dataPoints = [];
-    if(channels.indexOf('1') != -1) dataPoints.push(0);
-    if(channels.indexOf('2') != -1) dataPoints.push(0);
-    if(channels.indexOf('3') != -1) dataPoints.push(0);
-    if(channels.indexOf('4') != -1) dataPoints.push(0);
-    if(channels.indexOf('5') != -1) dataPoints.push(0);
-    if(channels.indexOf('6') != -1) dataPoints.push(0);
-    if(channels.indexOf('7') != -1) dataPoints.push(0);
-    if(channels.indexOf('8') != -1) dataPoints.push(0);
     var dataPointCount = 0;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
 
     for(var i = 0; i < diffMins / minutes; i++){
 
       dataPoints = [];
+      if(channels.indexOf('1') != -1) dataPoints.push(0);
+      if(channels.indexOf('2') != -1) dataPoints.push(0);
+      if(channels.indexOf('3') != -1) dataPoints.push(0);
+      if(channels.indexOf('4') != -1) dataPoints.push(0);
+      if(channels.indexOf('5') != -1) dataPoints.push(0);
+      if(channels.indexOf('6') != -1) dataPoints.push(0);
+      if(channels.indexOf('7') != -1) dataPoints.push(0);
+      if(channels.indexOf('8') != -1) dataPoints.push(0);
       dataPointCount = 0;
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
@@ -112,6 +112,8 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
           dataPointCount++;
         }
       }
+
+      console.log(dataPoints);
 
       var temp = 0;
       if(channels.indexOf('1') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
