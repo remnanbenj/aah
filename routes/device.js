@@ -117,7 +117,7 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
 
       var temp = 0;
       if(channels.indexOf('1') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1);  }
       if(channels.indexOf('3') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
       if(channels.indexOf('4') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
       if(channels.indexOf('5') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
@@ -133,6 +133,19 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
     data = tData;
+
+    for(var i = 0; i < data.length; i++) {
+      if(startDate.getTimezoneOffset() != -720) data[i].reading = [(new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4)];
+      else data[i].reading = [data[i].receivedtime];
+      if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(',')[0]));
+      if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(',')[1]));
+      if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(',')[2]));
+      if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(',')[3]));
+      if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(',')[4]));
+      if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(',')[5]));
+      if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(',')[6]));
+      if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(',')[7]));
+    }
   }
 
   device.lastreading = getReadableDate(device.lastreading);
