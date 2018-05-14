@@ -176,6 +176,7 @@ block scriptdata
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
+        data[i].reading[0] = new Date(data[i].reading[0]);
         readings.push(data[i].reading);
       }
 
@@ -185,14 +186,14 @@ block scriptdata
           chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: 'h:mmaa',
-            gridlines: { count: 2, color:"#f00" },
+            gridlines: { count: 2, color:"#fff" },
             viewWindow: {
                     min: new Date(startDate),
                     max: new Date(endDate)
             }
           },
           vAxis: { 
-            gridlines: { count: 11, color:"#f00" },
+            gridlines: { count: 11, color:"#fff" },
             viewWindow: {
                     min: 0,
                     max: 10000
