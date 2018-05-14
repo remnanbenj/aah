@@ -28,7 +28,7 @@ router.get('/', checkSignIn, function(req, res) {
         if (err) throw err;
 
         if(device[0].type == 'AMP') {
-          renderAMP(req, res, device[0], data, timescale, startDate);
+          renderAMP(req, res, device[0], data, timescale, startDate, endDate);
           return;
         }
 
@@ -55,7 +55,7 @@ router.get('/', checkSignIn, function(req, res) {
   });
 });
 
-function renderAMP(req, res, device, data, timescale, startDate){
+function renderAMP(req, res, device, data, timescale, startDate, endDate){
   var channels = '1';
   if(req.query.channels) channels = req.query.channels;
 
@@ -72,14 +72,14 @@ function renderAMP(req, res, device, data, timescale, startDate){
     if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
-  var tStartDate = new Date(startDate);
-  var tEndDate = new Date(startDate);
-  var tData = [];
-
-  var diffMs = (endDate - startDate);
-  var diffMins = diffMs / 60000;
-
   if(timescale == 'day') {
+
+    var tStartDate = new Date(startDate);
+    var tEndDate = new Date(startDate);
+    var tData = [];
+
+    var diffMs = (endDate - startDate);
+    var diffMins = diffMs / 60000;
 
     var minutes = 60;
     var dataPoints = [];
