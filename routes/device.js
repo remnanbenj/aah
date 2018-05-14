@@ -13,8 +13,8 @@ router.get('/', checkSignIn, function(req, res) {
   var id = req.query.id;
   var timescale = 'day';
   if(req.query.timescale) timescale = req.query.timescale;
-  var channel = 1;
-  if(req.query.channel) channel = Number(req.query.channel.split(':')[0]);
+  var channels = '1';
+  if(req.query.channels) channels = req.query.channels;
 
   var sql = "SELECT * FROM devices where id = "+id+" and userid = "+req.session.user.id+";";
   con.query(sql, function (err, device) {
@@ -31,18 +31,8 @@ router.get('/', checkSignIn, function(req, res) {
 
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
-            if(channel == 0) {
-              data[i].data1 = Number(data[i].data.split(':')[0]);
-              data[i].data2 = Number(data[i].data.split(':')[1]);
-              data[i].data3 = Number(data[i].data.split(':')[2]);
-              data[i].data4 = Number(data[i].data.split(':')[3]);
-              data[i].data5 = Number(data[i].data.split(':')[4]);
-              data[i].data6 = Number(data[i].data.split(':')[5]);
-              data[i].data7 = Number(data[i].data.split(':')[6]);
-              data[i].data8 = Number(data[i].data.split(':')[7]);
-            } else {
-              data[i].data = Number(data[i].data.split(':')[channel-1]);
-            }
+            var data = data[i].data;
+            data[i].data = [data.split(':')[0]];
           }
         }
 
@@ -71,7 +61,7 @@ router.get('/', checkSignIn, function(req, res) {
         }
 
         device[0].lastreading = getReadableDate(device[0].lastreading);
-        showDevice(req, res, device[0], data, timescale, channel);
+        showDevice(req, res, device[0], data, timescale, channels);
 
       });
 
@@ -292,7 +282,7 @@ function setDay(date, dayOfWeek) {
   date.setDate(date.getDate() - date.getDay() + dayOfWeek);
 }
 
-function showDevice(req, res, device, data, timescale, channel){
+function showDevice(req, res, device, data, timescale, channels){
   if(device.type == 'TEMP')
     res.render('device/temp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
@@ -300,7 +290,7 @@ function showDevice(req, res, device, data, timescale, channel){
     res.render('device/volt', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale });
 
   else if(device.type == 'AMP')
-    res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channel: channel });
+    res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
 }
 
 

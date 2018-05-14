@@ -10,7 +10,8 @@ block devicetitle
       .div.kWh 
 
 block devicecontent
-  .graph-button-holder
+
+  //-.graph-button-holder
 
     select.current-picker-label
       option Channel:
@@ -20,11 +21,71 @@ block devicecontent
         option(id="channel#{index+1}" value="#{index+1}: #{label}") #{index+1}: #{label}
 
     .main-button-alt(style="margin-left: 5px;" onclick="renameChannelDialog(#{device.id}, '#{device.mac}')") Rename
+
+    br
+    br
+
+
+  .graph-button-holder(style="overflow: auto; margin-top: 30px;")
+    .col-md-3
+      if channels.indexOf('1') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
+    - var n = 1;
+    while n < 4
+      .col-md-3
+        if channels.indexOf(String(n+1)) != -1
+          .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
+        else
+          .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
+      - n = n + 1
+
+  .graph-button-holder(style="overflow: auto; margin-bottom: 10px;")
+    .col-md-3
+      if channels.indexOf('5') != -1
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
+      else
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
+    - var n = 5;
+    while n < 8
+      .col-md-3
+        if channels.indexOf(String(n+1)) != -1
+          .main-button-alt(style="max-width: 200px; width: 96%; background: #00aaff;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
+        else
+          .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(#{n+1})") #{n+1}: #{device.labels.split(',')[n]}
+      - n = n + 1
+
+  .graph-button-holder(style="text-align: center; overflow: auto; margin-bottom: 30px;")
+    .col-md-3
+    .col-md-3
+      .main-button-alt(style="max-width: 200px; width: 96%; text-align: center; margin-right: 5px; " onclick="alterChannel('1,2,3,4,5,6,7,8')") Select All
+    .col-md-3
+      .main-button-alt(style="max-width: 200px; width: 96%; text-align: center; margin-right: 5px; " onclick="alterChannel('none')") Clear Selected
+    .col-md-3
     
 
 block scriptdata
   script(type="text/javascript").
     if(getParameterByName('channel')) $("#channel").val(getParameterByName('channel'));
+
+    function alterChannel(channel) {
+        var url = '/device?id=' + getParameterByName('id');
+        url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
+        if($('#timepicker').val()) url += '&time=' + $('#timepicker').val();
+        if($('#ampmpicker').val()) url += '&ampm=' + $('#ampmpicker').val();
+        if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
+
+        if(channel == 'none') url += '&channels=' + channel;
+        else {
+          var channels = '#{channels}'.split(',');
+          if(channels.indexOf(channel + '') != -1) { if(channels.length == 1) url += '&channels=none'; else { channels.splice(channels.indexOf(channel + '') , 1); url += '&channels=' + channels; } }
+          else { if(channels[0] == 'none') channels[0] = channel + ''; else channels.push(channel + ''); url += '&channels=' + channels; }
+          
+        }
+
+        window.location.assign(url);
+    }
 
     function changeChannel(channel) {
         var url = '/device?id=' + getParameterByName('id');

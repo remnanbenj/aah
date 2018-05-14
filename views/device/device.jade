@@ -144,7 +144,7 @@ block content
       function changeTimeScale(timescale) {
         var url = '/device?id=#{device.id}&timescale=' + timescale;
         if(getParameterByName('startDate')) url += '&startDate=' + getParameterByName('startDate');
-        if(getParameterByName('channel')) url += '&channel=' + getParameterByName('channel');
+        if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
         window.location.assign(url);
       }
 
@@ -154,7 +154,7 @@ block content
         url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
         url += '&time=' + $('#timepicker').val();
         url += '&ampm=' + $('#ampmpicker').val();
-        if(getParameterByName('channel')) url += '&channel=' + getParameterByName('channel');
+        if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
         window.location.assign(url);
       }
 
@@ -164,7 +164,7 @@ block content
         if(getParameterByName('time')) url += '&time=' + getParameterByName('time');
         if(getParameterByName('ampm')) url += '&ampm=' + getParameterByName('ampm');
         url += '&startDate=' + newDate.split('-')[2] + '-' + newDate.split('-')[1] + '-' + newDate.split('-')[0];
-        if(getParameterByName('channel')) url += '&channel=' + getParameterByName('channel');
+        if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
         window.location.assign(url);
       }
 
