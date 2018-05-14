@@ -131,8 +131,7 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
     data = tData;
 
     for(var i = 0; i < data.length; i++) {
-      if(startDate.getTimezoneOffset() != -720) data[i].reading = [(new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4)];
-      else data[i].reading = [data[i].receivedtime];
+      data[i].reading = [data[i].reading[0]];
       if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(',')[0]));
       if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(',')[1]));
       if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(',')[2]));
