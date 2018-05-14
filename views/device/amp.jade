@@ -179,19 +179,17 @@ block scriptdata
         data[i].reading[0] = new Date(data[i].reading[0]);
         readings.push(data[i].reading);
       }
-      console.log(readings);
-      console.log(readings[0]);
 
       var options = {
           legend: 'none',
-          colors: ['#00aaff'],
+          colors: ['#00aaff', '#ffaa00'],
           chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
-            format: 'h:mmaa',
-            gridlines: { count: 2, color:"#fff" },
+            format: format,
+            gridlines: { count: hAxisCount, color:"#fff" },
             viewWindow: {
-                    min: new Date(startDate),
-                    max: new Date(endDate)
+                    min: startDate,
+                    max: endDate
             }
           },
           vAxis: { 
