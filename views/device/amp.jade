@@ -227,6 +227,13 @@ block scriptdata
       var seconds = 59 - currentTime.getSeconds() + minutes * 60;
       var readingsToGo = seconds / 5;
 
+      console.log(lastReadingTime);
+      console.log(startTime);
+      console.log(currentTime);
+      console.log(readingsToGo);
+      console.log(data.length);
+      console.log(kWh);
+
       if(lastReadingTime > startTime) {
         $('.kWh').html((kWh/(data.length + readingsToGo)).toFixed(2) + ' Wh');
       } else {
