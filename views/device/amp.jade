@@ -100,6 +100,8 @@ block scriptdata
 
     var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
     console.log(data[0]);
+    console.log(startDate);
+    console.log(endDate);
 
 
     if('#{timescale}' == 'day') {
