@@ -179,7 +179,7 @@ block scriptdata
             url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
             url += '&time=' + value;
             url += '&ampm=' + ampm;
-            if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channel');
+            if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
             window.location.assign(url);
           }
         }
