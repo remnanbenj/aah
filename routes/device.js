@@ -123,7 +123,7 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       if(channels.indexOf('7') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
       if(channels.indexOf('8') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
 
-      tData.push({data: String(dataPoints), receivedtime: new Date(tStartDate)});
+      tData.push({data: dataPoints.toString(), receivedtime: new Date(tStartDate)});
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
@@ -133,14 +133,14 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
     for(var i = 0; i < data.length; i++) {
       if(startDate.getTimezoneOffset() != -720) data[i].reading = [(new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4)];
       else data[i].reading = [data[i].receivedtime];
-      if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]));
-      if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]));
-      if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]));
-      if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(':')[3]));
-      if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(':')[4]));
-      if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(':')[5]));
-      if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(':')[6]));
-      if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]));
+      if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(',')[0]));
+      if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(',')[1]));
+      if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(',')[2]));
+      if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(',')[3]));
+      if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(',')[4]));
+      if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(',')[5]));
+      if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(',')[6]));
+      if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(',')[7]));
     }
   }
 
