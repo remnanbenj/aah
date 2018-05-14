@@ -84,6 +84,7 @@ block content
   script(type="text/javascript").
 
       function moveLeft(timescale) {
+        $('.loader').css('display', 'block');
         var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
 
         if(timescale == 'hour') {
@@ -114,6 +115,7 @@ block content
       }
 
       function moveRight(timescale) {
+        $('.loader').css('display', 'block');
         var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
 
         if(timescale == 'hour') {
@@ -144,6 +146,7 @@ block content
       }
 
       function changeTimeScale(timescale) {
+        $('.loader').css('display', 'block');
         var url = '/device?id=#{device.id}&timescale=' + timescale;
         if(getParameterByName('startDate')) url += '&startDate=' + getParameterByName('startDate');
         if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
@@ -151,6 +154,7 @@ block content
       }
 
       function changeTime(){
+        $('.loader').css('display', 'block');
         var url = '/device?id=' + getParameterByName('id');
         if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
         url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
@@ -161,6 +165,7 @@ block content
       }
 
       function changeDate(newDate) {
+        $('.loader').css('display', 'block');
         var url = '/device?id=' + getParameterByName('id');
         if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
         if(getParameterByName('time')) url += '&time=' + getParameterByName('time');

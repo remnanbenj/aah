@@ -78,6 +78,7 @@ block scriptdata
     if(getParameterByName('channel')) $("#channel").val(getParameterByName('channel'));
 
     function alterChannel(channel) {
+        $('.loader').css('display', 'block');
         var url = '/device?id=' + getParameterByName('id');
         url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
         if($('#timepicker').val()) url += '&time=' + $('#timepicker').val();
@@ -96,6 +97,7 @@ block scriptdata
     }
 
     function changeChannel(channel) {
+        $('.loader').css('display', 'block');
         var url = '/device?id=' + getParameterByName('id');
         url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
         if($('#timepicker').val()) url += '&time=' + $('#timepicker').val();
