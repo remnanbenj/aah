@@ -216,7 +216,7 @@ function getDateRange(req, timescale) {
           if(ampm == 'AM') {
             startDate.setHours(time);
             endDate.setHours(time);
-          } else {
+          } else if(time != 12) {
             startDate.setHours(time + 12);
             endDate.setHours(time + 12);
           }
