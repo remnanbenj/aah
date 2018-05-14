@@ -203,6 +203,14 @@ input:focus {
   background-color: #00aaff;
 } 
 
+.new-device-input {
+  margin-top: 3px;
+  margin-bottom: 15px;
+  width: 220px;
+  height: 24px;
+  text-align: center;
+}
+
 
 /* =====TOAST===== */
 

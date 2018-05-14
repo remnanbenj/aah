@@ -17,9 +17,9 @@ block devicecontent
 
     select.current-picker(id="channel" onchange="changeChannel(this.value)")
       each label, index in device.labels.split(',')
-        option(value="#{index+1}: #{label}") #{index+1}: #{label}
+        option(id="channel#{index+1}" value="#{index+1}: #{label}") #{index+1}: #{label}
 
-    .main-button-alt(style="margin-left: 5px;") Rename
+    .main-button-alt(style="margin-left: 5px;" onclick="renameChannelDialog(#{device.id}, '#{device.mac}')") Rename
     
 
 block scriptdata
@@ -192,5 +192,64 @@ block scriptdata
         chart.draw(data, options);
       }
 
+    }
+
+
+    // RENAME DEVICE
+
+    function renameChannelDialog(id, mac) {
+      var currentName = $("#channel").val().trim();
+      $(".overlay-inner-title").html('Edit Channel '+currentName.split(': ')[0]);
+      $(".overlay-inner-subtitle").html('');
+      var html = "";
+      html += '<span style="font-weight: 600;">Rename Channel</span>';
+      html += '<br>';
+      html += '<span>What you want to call this channel:</span>';
+      html += '<br>';
+      html += '<input id="channelName" value="'+currentName.split(': ')[1]+'" class="new-device-input" onClick="this.select();" />';
+      html += '<br>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkServerChannel('+id+', '+currentName.split(': ')[0]+')">Rename</div>';
+      html += '<br>';
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+      $(".overlay").fadeIn();
+    }
+
+    function checkServerChannel(id, channel){
+      var newName = $("#channelName").val().trim();
+      if(newName=="") { toast("Channel name can not be empty", 1200); return; }
+
+      // Check device info on server
+      console.log('TODO: Check device info on server');
+
+      // Edit on server
+      var url = "/devices/editdevicechannel?id=" + id + "&name=" + newName + "&channel=" + channel + "&labels=" + '#{device.labels}';
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Success") {
+              toast('Channel name changed', 2400);
+              $(".overlay").fadeOut();
+              editChannelOnPage(id, newName, channel);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function editChannelOnPage(id, newName, channel) {
+      $('#channel'+ channel).html(channel + ': ' + newName);
+      $('#channel'+ channel).val(channel + ': ' + newName);
+    }
+
+    function cancel(){
+      $(".overlay").fadeOut();
     }
 
