@@ -37,7 +37,7 @@ router.get('/', checkSignIn, function(req, res) {
         }
 
         if(data.length > 0)
-          var data = arrangeData(data, timescale, startDate, endDate, channel);
+          var data = arrangeData(data, timescale, startDate, endDate);
         else
           var data = [{ data: 0, receivedtime: startDate }];
 
