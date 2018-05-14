@@ -170,7 +170,9 @@ block scriptdata
       }
 
     } else if(getParameterByName('timescale') == 'hour') {
-      var readings =  [['Time', 'Watts', 'Watts']];
+      var columns = ['Time'];
+      for(var i = 0 ; i < #{channels.split(',').length}; i++) columns.push('Watts');
+      var readings =  [columns];
       var kWh = 0;
 
       for(var i = 0; i < data.length; i++) {
@@ -185,8 +187,8 @@ block scriptdata
             format: 'h:mmaa',
             gridlines: { count: 2, color:"#f00" },
             viewWindow: {
-                    min: startDate,
-                    max: endDate
+                    min: new Date(startDate),
+                    max: new Date(endDate)
             }
           },
           vAxis: { 
