@@ -11,20 +11,6 @@ block devicetitle
 
 block devicecontent
 
-  //-.graph-button-holder
-
-    select.current-picker-label
-      option Channel:
-
-    select.current-picker(id="channel" onchange="changeChannel(this.value)")
-      each label, index in device.labels.split(',')
-        option(id="channel#{index+1}" value="#{index+1}: #{label}") #{index+1}: #{label}
-
-    .main-button-alt(style="margin-left: 5px;" onclick="renameChannelDialog(#{device.id}, '#{device.mac}')") Rename
-
-    br
-    br
-
 
   .graph-button-holder(style="overflow: auto; margin-top: 30px;")
 
@@ -54,6 +40,7 @@ block devicecontent
 
   .graph-button-holder(style="overflow: auto; margin-bottom: 10px;")
 
+    .col-md-3
       if channels.indexOf('5') != -1
         .main-button-alt(style="max-width: 200px; width: 96%; background: #ff0;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
       else
