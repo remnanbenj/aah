@@ -236,6 +236,9 @@ function getDateRange(req, timescale) {
         endDate.setMinutes(60);
         endDate.setSeconds(0);
 
+        console.log(getReadableDate(startDate));
+        console.log(getReadableDate(endDate));
+
       } else if(timescale == 'week') {
 
         setDay(startDate, 1);
