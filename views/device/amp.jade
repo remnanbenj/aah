@@ -116,18 +116,29 @@ block scriptdata
 
 
     if('#{timescale}' == 'day') {
-      var readings =  [['Time', 'Watt Hours']];
+      var columns = ['Time'];
+      for(var i = 0 ; i < #{channels.split(',').length}; i++) columns.push('Watt Hours');
+      var readings =  [columns];
+      var colors =  [];
       var kWh = 0;
-      var kWhCount = 0;
 
       for(var i = 0; i < data.length; i++) {
-        var date = new Date(data[i].receivedtime); 
+        data[i].reading[0] = new Date(data[i].reading[0]);
         readings.push(data[i].reading);
       }
 
+      if('#{channels}'.indexOf('1') != -1) colors.push('#000');
+      if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
+      if('#{channels}'.indexOf('3') != -1)  colors.push('#0f0');
+      if('#{channels}'.indexOf('4') != -1) colors.push('#00f');
+      if('#{channels}'.indexOf('5') != -1)  colors.push('#ff0');
+      if('#{channels}'.indexOf('6') != -1)  colors.push('#0ff');
+      if('#{channels}'.indexOf('7') != -1)  colors.push('#f0f');
+      if('#{channels}'.indexOf('8') != -1)  colors.push('#000');
+
       var options = {
           legend: 'none',
-          colors: ['#00aaff'],
+          colors: colors,
           chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
@@ -138,12 +149,12 @@ block scriptdata
             }
           },
           vAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
+            gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 5000
+                    max: 10000
             },
-            format: '# Wh' 
+            format: '# W' 
           }
       };
 
@@ -169,7 +180,7 @@ block scriptdata
             url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
             url += '&time=' + value;
             url += '&ampm=' + ampm;
-            if(getParameterByName('channel')) url += '&channel=' + getParameterByName('channel');
+            if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channel');
             window.location.assign(url);
           }
         }
