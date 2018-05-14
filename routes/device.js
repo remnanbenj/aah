@@ -59,6 +59,19 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
   var channels = '1';
   if(req.query.channels) channels = req.query.channels;
 
+  for(var i = 0; i < data.length; i++) {
+    if(startDate.getTimezoneOffset() != -720) data[i].reading = [(new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4)];
+    else data[i].reading = [data[i].receivedtime];
+    if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]) * 230);
+    if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]) * 230);
+    if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]) * 230);
+    if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(':')[3]) * 230);
+    if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(':')[4]) * 230);
+    if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(':')[5]) * 230);
+    if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(':')[6]) * 230);
+    if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
+  }
+
   if(timescale == 'day') {
 
     var tStartDate = new Date(startDate);
@@ -116,19 +129,19 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
     data = tData;
-  }
 
-  for(var i = 0; i < data.length; i++) {
-    if(startDate.getTimezoneOffset() != -720) data[i].reading = [(new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4)];
-    else data[i].reading = [data[i].receivedtime];
-    if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]) * 230);
-    if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]) * 230);
-    if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]) * 230);
-    if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(':')[3]) * 230);
-    if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(':')[4]) * 230);
-    if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(':')[5]) * 230);
-    if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(':')[6]) * 230);
-    if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
+    for(var i = 0; i < data.length; i++) {
+      if(startDate.getTimezoneOffset() != -720) data[i].reading = [(new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4)];
+      else data[i].reading = [data[i].receivedtime];
+      if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]));
+      if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]));
+      if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]));
+      if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(':')[3]));
+      if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(':')[4]));
+      if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(':')[5]));
+      if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(':')[6]));
+      if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]));
+    }
   }
 
   device.lastreading = getReadableDate(device.lastreading);
