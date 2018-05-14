@@ -212,7 +212,7 @@ function getDateRange(req, timescale) {
         if(req.query.time) {
           var time = Number(req.query.time);
           var ampm = req.query.ampm;
-          if(time == 12 && ampm == 'AM') time = 0;
+          if(time == 12) time = 0;
           if(ampm == 'AM') {
             startDate.setHours(time);
             endDate.setHours(time);
