@@ -31,12 +31,23 @@ router.get('/', checkSignIn, function(req, res) {
 
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
-            data[i].data = Number(data[i].data.split(':')[channel-1]);
+            if(channel == 0) {
+              data[i].data1 = Number(data[i].data.split(':')[0]);
+              data[i].data2 = Number(data[i].data.split(':')[1]);
+              data[i].data3 = Number(data[i].data.split(':')[2]);
+              data[i].data4 = Number(data[i].data.split(':')[3]);
+              data[i].data5 = Number(data[i].data.split(':')[4]);
+              data[i].data6 = Number(data[i].data.split(':')[5]);
+              data[i].data7 = Number(data[i].data.split(':')[6]);
+              data[i].data8 = Number(data[i].data.split(':')[7]);
+            } else {
+              data[i].data = Number(data[i].data.split(':')[channel-1]);
+            }
           }
         }
 
         if(data.length > 0)
-          var data = arrangeData(data, timescale, startDate, endDate);
+          var data = arrangeData(data, timescale, startDate, endDate, channel);
         else
           var data = [{ data: 0, receivedtime: startDate }];
 

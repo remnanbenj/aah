@@ -43,6 +43,6 @@ block scriptdata
 
     function drawChart() {
         var data = google.visualization.arrayToDataTable(readings);
-        var chart = new google.visualization.LineChart(document.getElementById('chart'));
+        var chart = new google.visualization.AreaChart(document.getElementById('chart'));
         chart.draw(data, options);
     }
