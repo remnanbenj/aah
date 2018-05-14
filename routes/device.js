@@ -28,7 +28,7 @@ router.get('/', checkSignIn, function(req, res) {
         if (err) throw err;
 
         if(device[0].type == 'AMP') {
-          renderAMP(req, res, device[0], data, timescale);
+          renderAMP(req, res, device[0], data, timescale, startDate);
           return;
         }
 
@@ -55,7 +55,7 @@ router.get('/', checkSignIn, function(req, res) {
   });
 });
 
-function renderAMP(req, res, device, data, timescale){
+function renderAMP(req, res, device, data, timescale, startDate){
   var channels = '1';
   if(req.query.channels) channels = req.query.channels;
 
