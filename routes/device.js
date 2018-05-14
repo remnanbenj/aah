@@ -116,14 +116,14 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       console.log(dataPoints);
 
       var temp = 0;
-      if(channels.indexOf('1') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('3') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('4') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('5') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('6') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('7') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
-      if(channels.indexOf('8') != -1) { if(dataPoints[temp]!=0) dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); else dataPoints.splice(temp, 1); temp++; }
+      if(channels.indexOf('1') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('3') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('4') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('5') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('6') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('7') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('8') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
 
       console.log(dataPoints);
 
