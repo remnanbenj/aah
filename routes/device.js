@@ -128,7 +128,7 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
-
+    data = tData;
   }
 
   device.lastreading = getReadableDate(device.lastreading);
