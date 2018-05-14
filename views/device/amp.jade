@@ -95,6 +95,7 @@ block scriptdata
             url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
             url += '&time=' + value;
             url += '&ampm=' + ampm;
+            if(getParameterByName('channel')) url += '&channel=' + getParameterByName('channel');
             window.location.assign(url);
           }
         }
