@@ -60,15 +60,15 @@ function renderAMP(req, res, device, data, timescale){
   if(req.query.channels) channels = req.query.channels;
 
   for(var i = 0; i < data.length; i++) {
-    data[i].datas = [];
-    if(channels.indexOf('1') != -1) data[i].datas.push(Number(data[i].data.split(':')[0]) * 230);
-    if(channels.indexOf('2') != -1) data[i].datas.push(Number(data[i].data.split(':')[1]) * 230);
-    if(channels.indexOf('3') != -1) data[i].datas.push(Number(data[i].data.split(':')[2]) * 230);
-    if(channels.indexOf('4') != -1) data[i].datas.push(Number(data[i].data.split(':')[3]) * 230);
-    if(channels.indexOf('5') != -1) data[i].datas.push(Number(data[i].data.split(':')[4]) * 230);
-    if(channels.indexOf('6') != -1) data[i].datas.push(Number(data[i].data.split(':')[5]) * 230);
-    if(channels.indexOf('7') != -1) data[i].datas.push(Number(data[i].data.split(':')[6]) * 230);
-    if(channels.indexOf('8') != -1) data[i].datas.push(Number(data[i].data.split(':')[7]) * 230);
+    data[i].reading = [data[i].receivedtime];
+    if(channels.indexOf('1') != -1) data[i].reading.push(Number(data[i].data.split(':')[0]) * 230);
+    if(channels.indexOf('2') != -1) data[i].reading.push(Number(data[i].data.split(':')[1]) * 230);
+    if(channels.indexOf('3') != -1) data[i].reading.push(Number(data[i].data.split(':')[2]) * 230);
+    if(channels.indexOf('4') != -1) data[i].reading.push(Number(data[i].data.split(':')[3]) * 230);
+    if(channels.indexOf('5') != -1) data[i].reading.push(Number(data[i].data.split(':')[4]) * 230);
+    if(channels.indexOf('6') != -1) data[i].reading.push(Number(data[i].data.split(':')[5]) * 230);
+    if(channels.indexOf('7') != -1) data[i].reading.push(Number(data[i].data.split(':')[6]) * 230);
+    if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
   res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });

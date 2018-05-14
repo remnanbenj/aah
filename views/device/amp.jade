@@ -109,12 +109,7 @@ block scriptdata
 
       for(var i = 0; i < data.length; i++) {
         var date = new Date(data[i].receivedtime); 
-        var reading = [date];
-        for(var j = 0; j < '#{channels}'.split(',').length; j++) {
-          readings.push(Number(data[i].datas[j]));
-          kWh += Number(data[i].datas[j]);
-          kWhCount++;
-        }
+        readings.push(data[i].reading);
 
         readings.push(reading);
       }
