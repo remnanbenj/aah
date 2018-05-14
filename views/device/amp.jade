@@ -122,7 +122,6 @@ block scriptdata
         readings.push(data[i].reading);
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
       }
-      kWh = kWh / data.length;
 
       $('.kWh').html(kWh.toFixed(2));
 
