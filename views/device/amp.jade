@@ -7,12 +7,11 @@ block devicetitle
     .device-reading 
       .div #{device.lastreadingdata.split(':')[0]} A - #{(Number(device.lastreadingdata.split(':')[0]) * 230).toFixed(2)} W
       .div(style="font-size: 11px;") #{device.lastreading}
-      .div.kWh 
+      .div.kWh 0 kWh
 
 block devicecontent
 
-
-  .graph-button-holder(style="overflow: auto; margin-top: 30px;")
+  .graph-button-holder(style="overflow: auto; margin-top: 20px;")
 
     .col-md-3
       if channels.indexOf('1') != -1
