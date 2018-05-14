@@ -31,7 +31,7 @@ router.get('/', checkSignIn, function(req, res) {
 
         if(device[0].type == 'AMP') {
           for(var i = 0; i < data.length; i++) {
-            data[i].data = data.split(':')[0]
+            data[i].data = data[i].data.split(':')[0];
           }
         }
 
