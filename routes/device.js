@@ -72,6 +72,66 @@ function renderAMP(req, res, device, data, timescale, startDate){
     if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
+  var tStartDate = new Date(startDate);
+  var tEndDate = new Date(startDate);
+  var tData = [];
+
+  var diffMs = (endDate - startDate);
+  var diffMins = diffMs / 60000;
+
+  if(timescale == 'day') {
+
+    var minutes = 60;
+    var dataPoints = [];
+    if(channels.indexOf('1') != -1) dataPoints.push(0);
+    if(channels.indexOf('2') != -1) dataPoints.push(0);
+    if(channels.indexOf('3') != -1) dataPoints.push(0);
+    if(channels.indexOf('4') != -1) dataPoints.push(0);
+    if(channels.indexOf('5') != -1) dataPoints.push(0);
+    if(channels.indexOf('6') != -1) dataPoints.push(0);
+    if(channels.indexOf('7') != -1) dataPoints.push(0);
+    if(channels.indexOf('8') != -1) dataPoints.push(0);
+    var dataPointCount = 0;
+    tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+
+    for(var i = 0; i < diffMins / minutes; i++){
+
+      dataPoints = [];
+      dataPointCount = 0;
+      for(var j = 0; j < data.length; j++){
+        if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
+          var temp = 0;
+          if(channels.indexOf('1') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('2') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('3') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('4') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('5') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('6') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('7') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('8') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          dataPointCount++;
+        }
+      }
+
+      var temp = 0;
+      if(channels.indexOf('1') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('2') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('3') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('4') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('5') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('6') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('7') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+      if(channels.indexOf('8') != -1) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; }
+
+      tData.push({data: String(dataPoints), receivedtime: new Date(tStartDate)});
+
+      tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
+      tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+    }
+
+    if(!isNaN(dataPoint)) tData.push({data: String(dataPoint.toFixed(1)), receivedtime: new Date(tStartDate)});
+  }
+
   device.lastreading = getReadableDate(device.lastreading);
   res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
 }
