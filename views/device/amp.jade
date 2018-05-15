@@ -210,7 +210,9 @@ block scriptdata
       var seconds = 59 - timeLeft.getSeconds() + minutes * 60;
       var readingsToGo = seconds / 5;
 
-      console.log();
+      console.log(kWh);
+      console.log(data.length);
+      console.log(readingsToGo);
       console.log(timeLeft);
       console.log(data[data.length-1].reading[0]);
 
