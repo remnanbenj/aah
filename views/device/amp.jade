@@ -255,7 +255,9 @@ block scriptdata
 
       var lastReading = data[data.length-1].reading;
       var secondLastReading = data[data.length-2].reading;
-      var changeInPower = lastReading[3] - secondLastReading[3];
+      console.log(lastReading[3]);
+      console.log(secondLastReading[3]);
+      var changeInPower = Number(lastReading[3]) - Number(secondLastReading[3]);
 
       console.log(changeInPower);
       
