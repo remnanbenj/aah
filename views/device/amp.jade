@@ -137,9 +137,10 @@ block scriptdata
 
         if(i == currentTime.getHours()) { 
 
-          for(var j = 1; j < data[i].reading.length; j++) {
-            data[i].reading[j] = (data[i].reading[j]/(data.length + readingsToGo)).toFixed(2);
+          for(var j = 0; j < #{channels.split(',').length}; j++) {
+            //data[i].reading[j+1] = (data[i].reading[j+1]/(data.length + readingsToGo)).toFixed(2);
           }
+          console.log(data[i].reading);
 
         }
 
