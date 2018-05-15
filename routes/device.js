@@ -129,6 +129,9 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
 
       tData.push({data: dataPoints.toString(), receivedtime: new Date(tStartDate)});
 
+
+      console.log(tStartDate);
+      console.log(tEndDate);
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
