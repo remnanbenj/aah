@@ -28,7 +28,7 @@ block devicecontent
 
     .col-md-3
       if channels.indexOf('3') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #0f0;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #00C400;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
 
@@ -42,25 +42,25 @@ block devicecontent
 
     .col-md-3
       if channels.indexOf('5') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #ff0;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #F2A100;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
 
     .col-md-3
       if channels.indexOf('6') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #0ff;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #0af;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
 
     .col-md-3
       if channels.indexOf('7') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #f0f;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #ED00C5;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
 
     .col-md-3
       if channels.indexOf('8') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #000;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
+        .main-button-alt(style="max-width: 200px; width: 96%; background: #9B00EF;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
       else
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
 
@@ -149,15 +149,14 @@ block scriptdata
 
       $('.kWh').html((kWh/1000).toFixed(2) + ' kWh');
 
-
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
-      if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
-      if('#{channels}'.indexOf('3') != -1)  colors.push('#0f0');
+      if('#{channels}'.indexOf('2') != -1) colors.push('#f00');
+      if('#{channels}'.indexOf('3') != -1) colors.push('#00C400');
       if('#{channels}'.indexOf('4') != -1) colors.push('#00f');
-      if('#{channels}'.indexOf('5') != -1)  colors.push('#ff0');
-      if('#{channels}'.indexOf('6') != -1)  colors.push('#0ff');
-      if('#{channels}'.indexOf('7') != -1)  colors.push('#f0f');
-      if('#{channels}'.indexOf('8') != -1)  colors.push('#000');
+      if('#{channels}'.indexOf('5') != -1) colors.push('#F2A100');
+      if('#{channels}'.indexOf('6') != -1) colors.push('#0af');
+      if('#{channels}'.indexOf('7') != -1) colors.push('#ED00C5');
+      if('#{channels}'.indexOf('8') != -1) colors.push('#9B00EF');
 
       var options = {
           legend: 'none',
@@ -245,13 +244,13 @@ block scriptdata
       }
 
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
-      if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
-      if('#{channels}'.indexOf('3') != -1)  colors.push('#00C400');
+      if('#{channels}'.indexOf('2') != -1) colors.push('#f00');
+      if('#{channels}'.indexOf('3') != -1) colors.push('#00C400');
       if('#{channels}'.indexOf('4') != -1) colors.push('#00f');
-      if('#{channels}'.indexOf('5') != -1)  colors.push('#F2A100');
-      if('#{channels}'.indexOf('6') != -1)  colors.push('#0af');
-      if('#{channels}'.indexOf('7') != -1)  colors.push('#ED00C5');
-      if('#{channels}'.indexOf('8') != -1)  colors.push('#9B00EF');
+      if('#{channels}'.indexOf('5') != -1) colors.push('#F2A100');
+      if('#{channels}'.indexOf('6') != -1) colors.push('#0af');
+      if('#{channels}'.indexOf('7') != -1) colors.push('#ED00C5');
+      if('#{channels}'.indexOf('8') != -1) colors.push('#9B00EF');
 
       var lastReading = data[data.length-1].reading;
       var secondLastReading = data[data.length-2].reading;
