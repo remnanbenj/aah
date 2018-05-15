@@ -124,23 +124,6 @@ block scriptdata
       var currentTime = new Date();
       var hourRatio = currentTime.getMinutes() / 60;
 
-      for(var i = 0; i < data.length; i++) {
-        data[i].reading[0] = new Date(data[i].reading[0]);
-        readings.push(data[i].reading);
-        for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
-
-        if(i == currentTime.getHours()) { 
-
-          console.log(data[i].reading);
-
-          for(var j = 1; j < data[i].reading.length; j++) {
-            data[i].reading[j] = data[i].reading[j] * hourRatio;
-          }
-
-        }
-      }
-      
-      /*
       var startTime = new Date();
       startTime.setMinutes(0);
       startTime.setSeconds(0);
@@ -149,9 +132,44 @@ block scriptdata
       var seconds = 59 - currentTime.getSeconds() + minutes * 60;
       var readingsToGo = seconds / 5;
 
-      */
+      for(var i = 0; i < data.length; i++) {
+        data[i].reading[0] = new Date(data[i].reading[0]);
+
+        if(i == currentTime.getHours()) { 
+
+          for(var j = 1; j < data[i].reading.length; j++) {
+            data[i].reading[j] = (data[i].reading[j]/(data.length + readingsToGo)/1000).toFixed(2);
+          }
+
+        }
+
+        readings.push(data[i].reading);
+        for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
+      }
 
       $('.kWh').html((kWh/1000).toFixed(2) + ' kWh');
+      
+      var currentTime = new Date();
+      var startTime = new Date();
+      startTime.setMinutes(0);
+      startTime.setSeconds(0);
+      var lastReadingTime = data[data.length-1].reading[0];
+      var minutes = 59 - currentTime.getMinutes();
+      var seconds = 59 - currentTime.getSeconds() + minutes * 60;
+      var readingsToGo = seconds / 5;
+
+      console.log(lastReadingTime);
+      console.log(startTime);
+      console.log(currentTime);
+      console.log(readingsToGo);
+      console.log(data.length);
+      console.log(kWh);
+
+      if(lastReadingTime > startTime) {
+        $('.kWh').html((kWh/(data.length + readingsToGo)).toFixed(2) + ' Wh');
+      } else {
+        $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
+      }
 
 
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
