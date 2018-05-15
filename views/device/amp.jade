@@ -205,7 +205,12 @@ block scriptdata
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
       }
       
-      console.log(new Date());
+      var timeLeft = new Date();
+      var minutes = 59 - timeLeft.getMinutes();
+      var seconds = 59 - timeLeft.getSeconds() + minutes * 60;
+
+      console.log(seconds);
+      console.log(timeLeft);
       console.log(data[data.length-1].reading[0]);
 
       $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
