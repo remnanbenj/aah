@@ -205,18 +205,27 @@ block scriptdata
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
       }
       
-      var timeLeft = new Date();
-      var minutes = 59 - timeLeft.getMinutes();
-      var seconds = 59 - timeLeft.getSeconds() + minutes * 60;
+      var currentTime = new Date();
+      var startTime = new Date();
+      startTime.setMinutes(0);
+      startTime.setSeconds(0);
+      var lastReadingTime = data[data.length-1].reading[0];
+      var minutes = 59 - currentTime.getMinutes();
+      var seconds = 59 - currentTime.getSeconds() + minutes * 60;
       var readingsToGo = seconds / 5;
 
       console.log(kWh);
       console.log(data.length);
       console.log(readingsToGo);
-      console.log(timeLeft);
-      console.log(data[data.length-1].reading[0]);
+      console.log(currentTime);
+      console.log(startTime);
+      console.log(lastReadingTime);
 
-      $('.kWh').html((kWh/(data.length + readingsToGo)).toFixed(2) + ' Wh');
+      if(lastReadingTime > startTime) {
+        $('.kWh').html((kWh/(data.length + readingsToGo)).toFixed(2) + ' Wh');
+      } else {
+        $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
+      }
 
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
       if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
