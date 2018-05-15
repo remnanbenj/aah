@@ -74,6 +74,7 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
 
   console.log(startDate);
   console.log(endDate);
+  console.log(data.length);
 
   if(timescale == 'day') {
 
