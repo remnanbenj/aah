@@ -132,6 +132,7 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
 
       console.log(tStartDate);
       console.log(tEndDate);
+      console.log(dataPointCount);
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
