@@ -253,6 +253,13 @@ block scriptdata
       if('#{channels}'.indexOf('7') != -1)  colors.push('#f0f');
       if('#{channels}'.indexOf('8') != -1)  colors.push('#000');
 
+      var lastReading = data[data.length-1].reading;
+      var secondLastReading = data[data.length-2].reading;
+      var changeInPower = lastReading[3] - secondLastReading[3];
+
+      console.log(changeInPower);
+      
+
       var options = {
           legend: 'none',
           colors: colors,
