@@ -9,7 +9,6 @@ block devicetitle
     .device-reading 
       .div #{device.lastreadingdata.split(':')[0]} A - #{(Number(device.lastreadingdata.split(':')[0]) * 230).toFixed(2)} W
       .div(style="font-size: 11px;") #{device.lastreading}
-      .div.kWh 0 kWh
 
 block devicecontent
 
@@ -73,6 +72,8 @@ block devicecontent
     .col-md-3
       .main-button-alt(style="max-width: 200px; width: 96%; text-align: center; margin-right: 5px; " onclick="alterChannel('none')") Clear Selected
     .col-md-3
+    .col-md-12
+      .div.kWh 0 kWh
     
 
 block scriptdata
