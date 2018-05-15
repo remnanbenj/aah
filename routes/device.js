@@ -72,6 +72,9 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
     if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
+  console.log(startDate);
+  console.log(endDate);
+
   if(timescale == 'day') {
 
     var tStartDate = new Date(startDate);
