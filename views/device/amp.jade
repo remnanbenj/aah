@@ -259,7 +259,7 @@ block scriptdata
       var temp = 0;
       if('#{channels}'.indexOf('1') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; }
       if('#{channels}'.indexOf('2') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; }
-      if('#{channels}'.indexOf('3') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; if(changeInPower > 1000) console.log('Heater On'); else if(changeInPower < -1000) console.log('Heater Off'); }
+      if('#{channels}'.indexOf('3') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; console.log(changeInPower); if(changeInPower > 1000) console.log('Heater On'); else if(changeInPower < -1000) console.log('Heater Off'); }
       if('#{channels}'.indexOf('4') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; }
       if('#{channels}'.indexOf('5') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; }
       if('#{channels}'.indexOf('6') != -1) { changeInPower = Number(lastReading[temp+1]) - Number(secondLastReading[temp+1]); temp++; }
