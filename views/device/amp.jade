@@ -228,6 +228,8 @@ block scriptdata
       }
       
       var currentTime = new Date();
+      var hourRatio = currentTime.getMinutes() / 60;
+
       var startTime = new Date();
       startTime.setMinutes(0);
       startTime.setSeconds(0);
@@ -236,15 +238,8 @@ block scriptdata
       var seconds = 59 - currentTime.getSeconds() + minutes * 60;
       var readingsToGo = seconds / 5;
 
-      console.log(lastReadingTime);
-      console.log(startTime);
-      console.log(currentTime);
-      console.log(readingsToGo);
-      console.log(data.length);
-      console.log(kWh);
-
       if(lastReadingTime > startTime) {
-        $('.kWh').html((kWh/(data.length + readingsToGo)).toFixed(2) + ' Wh');
+        $('.kWh').html((kWh/data.length*hourRatio).toFixed(2) + ' Wh');
       } else {
         $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
       }
