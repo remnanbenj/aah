@@ -122,12 +122,22 @@ block scriptdata
       var kWh = 0;
 
       var currentTime = new Date();
+      var hourRatio = currentTime.getMinutes() / 60;
 
       for(var i = 0; i < data.length; i++) {
         data[i].reading[0] = new Date(data[i].reading[0]);
         readings.push(data[i].reading);
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
-        if(i == currentTime.getHours()) console.log(data[i].reading);
+
+        if(i == currentTime.getHours()) { 
+
+          console.log(data[i].reading);
+
+          for(var j = 1; j < data[i].reading.length; j++) {
+            data[i].reading[j] = data[i].reading[j] * hourRatio;
+          }
+
+        }
       }
       
       /*
@@ -139,7 +149,7 @@ block scriptdata
       var seconds = 59 - currentTime.getSeconds() + minutes * 60;
       var readingsToGo = seconds / 5;
 
-      var hourRatio = currentTime.getMinutes() / 60;*/
+      */
 
       $('.kWh').html((kWh/1000).toFixed(2) + ' kWh');
 
