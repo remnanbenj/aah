@@ -65,7 +65,7 @@ block devicecontent
         .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
 
 
-  .graph-button-holder(style="text-align: center; overflow: auto; margin-bottom: 20px;")
+  .graph-button-holder(style="text-align: center; overflow: auto; margin-bottom: 10px;")
     .col-md-3
     .col-md-3
       .main-button-alt(style="max-width: 200px; width: 96%; text-align: center; margin-right: 5px; " onclick="alterChannel('1,2,3,4,5,6,7,8')") Select All
@@ -121,14 +121,16 @@ block scriptdata
       var colors =  [];
       var kWh = 0;
 
+      var currentTime = new Date();
+
       for(var i = 0; i < data.length; i++) {
         data[i].reading[0] = new Date(data[i].reading[0]);
         readings.push(data[i].reading);
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
-        if(i == data.length-1) console.log(data[i].reading);
+        if(i == currentTime.getHours()) console.log(data[i].reading);
       }
       
-      /*var currentTime = new Date();
+      /*
       var startTime = new Date();
       startTime.setMinutes(0);
       startTime.setSeconds(0);
@@ -167,7 +169,7 @@ block scriptdata
             gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10000
+                    max: 5000
             },
             format: '# Wh' 
           }
@@ -266,7 +268,7 @@ block scriptdata
             gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10000
+                    max: 5000
             },
             format: '# W' 
           }
@@ -310,7 +312,7 @@ block scriptdata
             gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 20000
+                    max: 10000
             },
             format: '# Wh' 
           }
