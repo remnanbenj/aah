@@ -205,7 +205,7 @@ block scriptdata
         for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
       }
 
-      $('.kWh').html((kWh/720).toFixed(2) + ' Wh');
+      $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
 
       if('#{channels}'.indexOf('1') != -1) colors.push('#000');
       if('#{channels}'.indexOf('2') != -1)  colors.push('#f00');
