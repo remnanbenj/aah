@@ -224,6 +224,7 @@ block scriptdata
       endDate.setMinutes(0);
       endDate.setSeconds(0);
 
+
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
@@ -232,8 +233,13 @@ block scriptdata
         for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
       }
 
+      // Get readings left
+      var minutesLeft = 60 - new Date().getMinutes();
+      var secondsLeft = (60 - new Date().getSeconds()) + minutesLeft * 60;
+      var readingsLeft = Math.round(secondsLeft / 5);
+
       // Display total kWh
-      $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
+      $('.kWh').html((kWh/(data.length + readingsLeft)).toFixed(2) + ' Wh');
 
       // Add colors to graph
       var colors = [];
