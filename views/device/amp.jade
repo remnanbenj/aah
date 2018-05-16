@@ -232,7 +232,6 @@ block scriptdata
 
           // Format data
           var data = JSON.parse(this.responseText)
-          console.log(data);
           for(var i = 1; i < data.length; i++) {
             data[i][0] = new Date(data[i][0]);
             for(var j = 1; j < data[i].length; j++) {

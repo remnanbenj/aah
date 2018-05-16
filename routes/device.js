@@ -395,7 +395,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var dataRow = [];
 
     // Reduce Data
-    //results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+    results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
 
     // Offset time if AUS
     if(startDate.getTimezoneOffset() != -720) {
@@ -478,6 +478,7 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
           if(channels.indexOf('8') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
           dataPointCount++;
         }
+        if(data[j].receivedtime > tEndDate) break;
       }
 
       var temp = 0;
