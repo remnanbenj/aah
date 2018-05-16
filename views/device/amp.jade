@@ -110,9 +110,9 @@ block scriptdata
         } else {
           date.setDate(date.getDate() - 1);
           var dateString = "";
-          dateString += date.getFullYear() + "-";
+          dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "-" : date.getDate() + "-";
           dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-          dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate();
+          dateString += date.getFullYear();
           $('#datepicker').val(dateString);
         }
 
@@ -148,9 +148,9 @@ block scriptdata
         } else {
           date.setDate(date.getDate() + 1);
           var dateString = "";
-          dateString += date.getFullYear() + "-";
+          dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "-" : date.getDate() + "-";
           dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-          dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate();
+          dateString += date.getFullYear();
           $('#datepicker').val(dateString);
         }
 
