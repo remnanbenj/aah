@@ -399,6 +399,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var data = [];
     var dataRow = [];
 
+    // Arrange Data
+    data = arrangeAmpData(results, timescale, startDate, endDate, channels);
+
     // Setup Fields
     dataRow.push('Time');
     for(var i = 0; i < channels.length; i++){
@@ -431,6 +434,74 @@ router.get('/getdata', checkSignIn, function(req, res) {
   });
 
 });
+
+function arrangeAmpData(data, timescale, startDate, endDate, channels) {
+
+  var tStartDate = new Date(startDate);
+  var tEndDate = new Date(startDate);
+  var tData = [];
+
+  var diffMs = (endDate - startDate);
+  var diffMins = diffMs / 60000;
+
+  if(timescale == 'day')
+
+    var minutes = 60;
+    var dataPoints = [];
+    var dataPointCount = 0;
+    tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+
+    for(var i = 0; i < diffMins / minutes; i++){
+
+      dataPoints = [];
+      if(channels.indexOf('1') != -1) dataPoints.push(0);
+      if(channels.indexOf('2') != -1) dataPoints.push(0);
+      if(channels.indexOf('3') != -1) dataPoints.push(0);
+      if(channels.indexOf('4') != -1) dataPoints.push(0);
+      if(channels.indexOf('5') != -1) dataPoints.push(0);
+      if(channels.indexOf('6') != -1) dataPoints.push(0);
+      if(channels.indexOf('7') != -1) dataPoints.push(0);
+      if(channels.indexOf('8') != -1) dataPoints.push(0);
+      dataPointCount = 0;
+      for(var j = 0; j < data.length; j++){
+        if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
+          var temp = 0;
+          if(channels.indexOf('1') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('2') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('3') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('4') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('5') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('6') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('7') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('8') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          dataPointCount++;
+        }
+      }
+
+      var temp = 0;
+      if(channels.indexOf('1') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('3') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('4') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('5') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('6') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('7') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('8') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+
+
+      tData.push({data: dataPoints.toString(), receivedtime: new Date(tStartDate)});
+
+
+      tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
+      tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+    }
+
+  } else {
+    tData = data;
+  }
+
+  return tData;
+}
 
 
 
