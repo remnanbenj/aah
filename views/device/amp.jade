@@ -307,11 +307,12 @@ block scriptdata
         console.log(getFormatedDateR(currentDate));*/
         // If this day and this hour then ratio the readings
         if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours()) {
-          console.log(i);
+          console.log(hourRatio);
           for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) * hourRatio;
         } else {
           for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]);
         }
+        console.log(data[i]);
 
         // Record the readings kWh
         for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
