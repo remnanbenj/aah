@@ -437,7 +437,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
         dataRow = [];
         dataRow.push(new Date(results[i].receivedtime));
         for(var j = 0; j < channels.length; j++){
-          dataRow.push(readings[channels[j]-1]*230);
+          if(timeScale == 'day')
+            dataRow.push(readings[j]*230);
+          if(timeScale == 'hour')
+            dataRow.push(readings[channels[j]-1]*230);
         }
         data.push(dataRow);
       }
