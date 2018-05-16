@@ -110,6 +110,71 @@ block scriptdata
       drawDayChart(firstData, startDate, 1);
     }
 
+    function drawHourChart(data, startDate) {
+
+      var kWh = 0;
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 1);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        data[i][0] = new Date(data[i][0]);
+
+        // Record the readings kWh
+        for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
+      }
+
+      // Display total kWh
+      $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
+
+      // Add colors to graph
+      var colors = [];
+      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#000');
+      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#f00');
+      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#00C400');
+      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#00f');
+      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#F2A100');
+      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#0af');
+      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#ED00C5');
+      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#9B00EF');
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          colors: colors,
+          chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
+          hAxis: { 
+            format: format,
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 6000
+            },
+            format: '# Wh' 
+          }
+      };
+
+      drawChart(data);
+
+      function drawChart(data) {
+        console.log(data);
+        var data = google.visualization.arrayToDataTable(data);
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+
+        chart.draw(data, options);
+        $('.loader').css('display', 'none');
+      }
+    }
+
     function drawDayChart(data, startDate, first) {
 
       var kWh = 0;
@@ -251,7 +316,22 @@ block scriptdata
           }
 
           // Redraw Chart
-          if(timescale == 'day') {
+          if(timescale == 'hour') {
+            var time = Number($('#timepicker').val());
+            var ampm = $('#ampmpicker').val();
+
+            if(time == 12 && ampm == 'AM') time = 0;
+            if(time != 12 && ampm == 'PM') {
+              time += 12;
+            }
+            
+            var tempDate = new Date(startdate);
+            tempDate.setHours(time);
+            tempDate.setMinutes(0);
+            tempDate.setSeconds(0);
+            drawHourChart(data, tempDate);
+
+          } else if(timescale == 'day') {
             var tempDate = new Date(startdate);
             tempDate.setHours(0);
             tempDate.setMinutes(-1);
