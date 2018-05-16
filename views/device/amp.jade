@@ -203,7 +203,6 @@ block scriptdata
 
       // Build url for new data
       var devicemac = '#{device.mac}';
-      console.log(devicemac);
       var type = '#{device.type}';
 
       var startdate = $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
@@ -233,8 +232,7 @@ block scriptdata
 
           // Format data
           var data = JSON.parse(this.responseText)
-          console.log(data[0]);
-          console.log(data[data.length-1]);
+          console.log(data);
           for(var i = 1; i < data.length; i++) {
             data[i][0] = new Date(data[i][0]);
             for(var j = 1; j < data[i].length; j++) {
