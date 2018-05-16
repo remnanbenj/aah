@@ -72,16 +72,15 @@ block scriptdata
       getData();
     }
 
-    function changeChannel(channel) {
-        $('.loader').css('display', 'block');
-        var url = '/device?id=' + getParameterByName('id');
-        url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
-        if($('#timepicker').val()) url += '&time=' + $('#timepicker').val();
-        if($('#ampmpicker').val()) url += '&ampm=' + $('#ampmpicker').val();
-        if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
-        url += '&channel=' + channel;
+    function changeTimeScale(timescale) {
+      // Change timescale
+      $('#hourScale').css('background-color', '#00AAFF'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
+      $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
+      if(timescale == 'hour') { $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); }
+      else if(timescale == 'day') { $('#dayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); }
 
-        window.location.assign(url);
+      // Get Data
+      getData();
     }
 
 

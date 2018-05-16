@@ -124,14 +124,6 @@ block content
         }
       }
 
-      function changeTimeScale(timescale) {
-        $('.loader').css('display', 'block');
-        var url = '/device?id=#{device.id}&timescale=' + timescale;
-        if(getParameterByName('startDate')) url += '&startDate=' + getParameterByName('startDate');
-        if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
-        window.location.assign(url);
-      }
-
       function changeTime(){
         $('.loader').css('display', 'block');
         var url = '/device?id=' + getParameterByName('id');
