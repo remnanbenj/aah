@@ -217,6 +217,8 @@ block scriptdata
       // Display total kWh
       $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
 
+      console.log(data);
+
       // Add colors to graph
       var colors = [];
       if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#000');
@@ -254,7 +256,6 @@ block scriptdata
       drawChart(data);
 
       function drawChart(data) {
-        console.log(data);
         var data = google.visualization.arrayToDataTable(data);
         var chart = new google.visualization.AreaChart(document.getElementById('chart'));
 
@@ -290,6 +291,8 @@ block scriptdata
 
       // Display total kWh
       $('.kWh').html((kWh/1000).toFixed(2) + ' kWh');
+
+      console.log(data);
 
       // Add colors to graph
       var colors = [];
@@ -329,7 +332,6 @@ block scriptdata
       else { drawChart(data); }
 
       function drawChart(data) {
-        console.log(data);
         var data = google.visualization.arrayToDataTable(data);
         var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
 
