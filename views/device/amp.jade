@@ -109,7 +109,11 @@ block scriptdata
 
         } else {
           date.setDate(date.getDate() - 1);
-          $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+          var dateString = "";
+          dateString += date.getFullYear() + "-";
+          dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+          dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate();
+          $('#datepicker').val(dateString);
         }
 
         getData();
@@ -143,7 +147,11 @@ block scriptdata
 
         } else {
           date.setDate(date.getDate() + 1);
-          $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+          var dateString = "";
+          dateString += date.getFullYear() + "-";
+          dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+          dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate();
+          $('#datepicker').val(dateString);
         }
 
         getData();
