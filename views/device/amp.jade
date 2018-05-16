@@ -302,8 +302,12 @@ block scriptdata
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
         console.log("HERE:" + i);
+        console.log(currentDate.getHours());
+        console.log(getFormatedDateR(startDate));
+        console.log(getFormatedDateR(currentDate));
         // If this day and this hour then ratio the readings
         if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours()) {
+          console.log("TRUE");
           for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) * hourRatio;
         } else {
           for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]);
