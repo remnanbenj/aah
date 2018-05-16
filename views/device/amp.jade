@@ -297,7 +297,7 @@ block scriptdata
       endDate.setSeconds(0);
 
       var currentDate = new Date();
-      var hourRatio = (currentDate.getMinutes()*60) + currentDate.getSeconds() / 3600;
+      var hourRatio = ((currentDate.getMinutes()*60) + currentDate.getSeconds()) / 3600;
 
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
