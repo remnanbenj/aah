@@ -301,13 +301,14 @@ block scriptdata
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
+
         // If this day and this hour then ratio the readings
-        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours()) {
+        /*if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours()) {
           for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) * hourRatio;
         } else {
           for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]);
         }
-        console.log(data[i]);
+        console.log(data[i]);*/
 
         // Record the readings kWh
         for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
