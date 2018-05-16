@@ -377,11 +377,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
   var channels = req.query.channels.split(',');
-  console.log(deviceMac);
-  console.log(type);
-  console.log(timeScale);
-  console.log(startDate);
-  console.log(channels);;
 
   if(timeScale == 'day'){
     startDate.setHours(0);
@@ -401,6 +396,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Arrange Data
     data = arrangeAmpData(results, timeScale, startDate, endDate, channels);
+    console.log(data);
 
     // Setup Fields
     dataRow.push('Time');
