@@ -109,6 +109,7 @@
   float: right;
   text-align-last: center;
   margin-left: 5px;
+  display: none;
 }
 
 .time-picker {
