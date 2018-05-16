@@ -52,6 +52,9 @@ block content
       .loader(style="top: 430px; left: 432.5px;")
 
 
+
+
+
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
 
   script(type="text/javascript").
@@ -61,6 +64,110 @@ block content
         $( "#datepicker" ).val(getFormatedDate(new Date(getParameterByName('startDate'))));
       else
         $( "#datepicker" ).val(getFormatedDate(new Date()));
+
+      var timescale = '#{timescale}';
+      var hAxisCount = 6;
+      var format = '';
+      var dateNow = new Date();
+
+      if(timescale == 'hour') {
+        var hours = dateNow.getHours();
+        var hoursSuffix = "AM";
+        if(hours == 12) { hoursSuffix = "PM"; }
+        else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+        $("#timepicker").val(hours);
+        $("#ampmpicker").val(hoursSuffix);
+      }
+
+      if(getParameterByName('time')) {
+        $("#timepicker").val(getParameterByName('time'));
+        $("#ampmpicker").val(getParameterByName('ampm'));
+      }
+
+      var startDate = new Date();
+      if(getParameterByName('startDate')) startDate = new Date(getParameterByName('startDate'));
+      var endDate = new Date(startDate);
+
+      if(timescale == 'hour') {
+        if(getParameterByName('time')) {
+          var time = Number(getParameterByName('time'));
+          var ampm = getParameterByName('ampm');
+          if(time == 12) time = 0;
+          if(ampm == 'AM') {
+            startDate.setHours(time);
+            endDate.setHours(time);
+          } else {
+            startDate.setHours(time + 12);
+            endDate.setHours(time + 12);
+          }
+
+        } else { 
+          startDate.setHours(new Date().getHours()); 
+          endDate.setHours(new Date().getHours()); 
+        }
+
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        hAxisCount = 8;
+        format = 'h:mmaa';
+
+      } else if(timescale == 'week') {
+        setDay(startDate, 1);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        setDay(endDate, 7);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        format = 'E dd';
+
+      } else if(timescale == 'month') {
+        startDate.setDate(0);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        endDate.setMonth(endDate.getMonth() + 1);
+        endDate.setDate(1);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        hAxisCount = 10;
+        format = "dd/MM";
+
+      } else if(timescale == 'year') {
+        startDate.setMonth(0);
+        startDate.setDate(0);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(-1);
+
+        endDate.setMonth(12);
+        endDate.setDate(0);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(61);
+
+        hAxisCount = 10;
+        format = "dd/MM";
+
+      } else {
+        startDate.setHours(0);
+        startDate.setMinutes(-1);
+        startDate.setSeconds(0);
+
+        endDate.setHours(23);
+        endDate.setMinutes(61);
+        endDate.setSeconds(0);
+      }
 
   block scriptdata
 
