@@ -43,10 +43,10 @@ block devicecontent
 
   .graph-button-holder(style="text-align: center; overflow: auto; margin-bottom: 10px;")
     .col-md-3
-    .col-md-3
-      .main-button-alt(style="float: right; max-width: 200px; width: 96%; text-align: center; margin-right: 5px; " onclick="selectAll()") Select All
-    .col-md-3
-      .main-button-alt(style="float: left; max-width: 200px; width: 96%; text-align: center; margin-right: 5px; " onclick="clearAll()") Clear Selected
+    .col-md-3(style="text-align: right;")
+      .main-button-alt(style="max-width: 200px; width: 96%; text-align: center;" onclick="selectAll()") Select All
+    .col-md-3(style="text-align: left;")
+      .main-button-alt(style="max-width: 200px; width: 96%; text-align: center;" onclick="clearAll()") Clear Selected
     .col-md-3
     .col-md-12
       .div.kWh 0 kWh
