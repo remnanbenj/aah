@@ -466,17 +466,14 @@ function arrangeAmpData(data, timeScale, startDate, endDate, channels) {
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
           var temp = 0;
-          if(channels.indexOf('1') != -1) { 
-            dataPoints[temp] += data[j].reading[temp+1]; 
-            temp++; 
-          }
-          if(channels.indexOf('2') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
-          if(channels.indexOf('3') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
-          if(channels.indexOf('4') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
-          if(channels.indexOf('5') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
-          if(channels.indexOf('6') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
-          if(channels.indexOf('7') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
-          if(channels.indexOf('8') != -1) { dataPoints[temp] += data[j].reading[temp+1]; temp++; }
+          if(channels.indexOf('1') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('2') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('3') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('4') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('5') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('6') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('7') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
+          if(channels.indexOf('8') != -1) { dataPoints[temp] += data[j].data.split(':')[temp]; temp++; }
           dataPointCount++;
         }
       }
