@@ -451,7 +451,7 @@ block scriptdata
           } else if(timescale == 'day') {
             var tempDate = new Date(startdate);
             tempDate.setHours(0);
-            tempDate.setMinutes(-1);
+            tempDate.setMinutes(0);
             tempDate.setSeconds(0);
             if(first == 1)
               drawDayChart(data, tempDate, first);
