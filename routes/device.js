@@ -413,7 +413,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         dataRow = [];
         dataRow.push(new Date(results[i].receivedtime));
         for(var j = 0; j < channels.length; j++){
-          dataRow.push(readings[j]);
+          dataRow.push(readings[j]*230);
         }
         data.push(dataRow);
       }
@@ -426,8 +426,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
       }
       data.push(dataRow);
     }
-
-    console.log(data);
 
     res.send(data);
   });
