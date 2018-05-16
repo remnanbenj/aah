@@ -379,7 +379,8 @@ function getReadableDate(date){
   var dateString = "";
   var hours = date.getHours();
   var hoursSuffix = "am";
-  if(hours >= 12) { hours -= 12; hoursSuffix = "pm"; }
+  if(hours == 12) { hoursSuffix = "PM"; }
+  else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
 
   dateString += String(hours).length == 1 ? "0" + hours + ":" : hours + ":";
   dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
