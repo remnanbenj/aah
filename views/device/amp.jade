@@ -168,7 +168,7 @@ block scriptdata
       function drawChart(data) {
         console.log(data);
         var data = google.visualization.arrayToDataTable(data);
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+        var chart = new google.visualization.AreaChart(document.getElementById('chart'));
 
         chart.draw(data, options);
         $('.loader').css('display', 'none');
