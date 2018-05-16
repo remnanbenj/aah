@@ -395,7 +395,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var dataRow = [];
 
     // Reduce Data
-    results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+    //results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
 
     // Offset time if AUS
     if(startDate.getTimezoneOffset() != -720) {
