@@ -428,8 +428,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     dataRow.push('Time');
     for(var i = 0; i < channels.length; i++){
-      if(timeScale == 'hour') dataRow.push('Watts');
-      else if(timeScale == 'day') dataRow.push('Watt Hours');
+      if(timeScale == 'hour') dataRow.push('KiloWatts');
+      else if(timeScale == 'day') dataRow.push('KiloWatt Hours');
     }
     data.push(dataRow);
 
