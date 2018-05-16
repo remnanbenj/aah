@@ -196,17 +196,7 @@ block scriptdata
 
     // Draw Graph
 
-    var firstData = [];
-    firstData.push(['Time', 'Watt Hours']);
-    firstData.push(['2018-05-16 11:00:00', '3000']);
-    firstData.push(['2018-05-16 12:00:00', '2000']);
-    firstData.push(['2018-05-16 13:00:00', '1000']);
-
-    var startDate = new Date();
-    startDate.setHours(0);
-    startDate.setMinutes(-1);
-    startDate.setSeconds(0);
-    drawDayChart(firstData, startDate, 1);
+    getData();
 
     function drawHourChart(data, startDate) {
 
@@ -369,7 +359,7 @@ block scriptdata
     }
 
     // Gets data based on whats selected and redraws the graph
-    function getData() {
+    function getData(first) {
       // Start loading graph
       $('.loader').css('display', 'block');
 
@@ -432,7 +422,10 @@ block scriptdata
             tempDate.setHours(0);
             tempDate.setMinutes(-1);
             tempDate.setSeconds(0);
-            drawDayChart(data, tempDate);
+            if(first == 1)
+              drawDayChart(data, tempDate, first);
+            else
+              drawDayChart(data, tempDate);
           }
 
         }
