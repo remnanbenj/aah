@@ -394,8 +394,15 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var data = [];
     var dataRow = [];
 
-    // Arrange Data
-    results = arrangeAmpData(results, timeScale, startDate, endDate, channels);
+    // Reduce Data
+    results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+
+    // Offset time if AUS
+    if(startDate.getTimezoneOffset() != -720) {
+      for(var i = 0; i < data.length; i++) {
+        data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
+      }
+    }
 
     // Setup Fields
     dataRow.push('Time');
@@ -430,7 +437,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
 });
 
-function arrangeAmpData(data, timeScale, startDate, endDate, channels) {
+function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
 
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
