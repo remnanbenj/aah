@@ -395,8 +395,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var dataRow = [];
 
     // Arrange Data
-    data = arrangeAmpData(results, timeScale, startDate, endDate, channels);
-    console.log(data);
+    results = arrangeAmpData(results, timeScale, startDate, endDate, channels);
 
     // Setup Fields
     dataRow.push('Time');
