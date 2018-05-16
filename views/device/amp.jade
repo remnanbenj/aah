@@ -334,6 +334,7 @@ block scriptdata
         function selectHandler() {
           var selectedItem = chart.getSelection()[0];
           if (selectedItem) {
+            $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
             $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
 
             var hours = data.getValue(selectedItem.row, 0).getHours();
@@ -344,6 +345,8 @@ block scriptdata
             $("#ampmpicker").css('display', 'block');
             $("#timepicker").val(hours);
             $("#ampmpicker").val(hoursSuffix);
+
+            getData();
           }
         }
         google.visualization.events.addListener(chart, 'select', selectHandler);
