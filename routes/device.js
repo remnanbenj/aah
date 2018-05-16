@@ -72,10 +72,6 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
     if(channels.indexOf('8') != -1) data[i].reading.push(Number(data[i].data.split(':')[7]) * 230);
   }
 
-  console.log(startDate);
-  console.log(endDate);
-  console.log(data.length);
-
   if(timescale == 'day') {
 
     var tStartDate = new Date(startDate);
@@ -131,9 +127,6 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
       tData.push({data: dataPoints.toString(), receivedtime: new Date(tStartDate)});
 
 
-      console.log(tStartDate);
-      console.log(tEndDate);
-      console.log(dataPointCount);
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }

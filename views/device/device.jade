@@ -193,7 +193,7 @@ block content
       if(timescale == 'hour') {
         var hours = dateNow.getHours();
         var hoursSuffix = "AM";
-        if(hours >= 12) { hours -= 12; hoursSuffix = "PM"; }
+        if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
         $("#timepicker").val(hours);
         $("#ampmpicker").val(hoursSuffix);
       }
