@@ -206,7 +206,7 @@ block scriptdata
     }
 
     function refresh() {
-      getData();
+      getData(0, 'none');
       setTimeout(refresh, 5000);
     }
     setTimeout(refresh, 5000);
@@ -379,9 +379,10 @@ block scriptdata
     }
 
     // Gets data based on whats selected and redraws the graph
-    function getData(first) {
+    function getData(first, loader) {
       // Start loading graph
-      $('.loader').css('display', 'block');
+      if(loader != 'none')
+        $('.loader').css('display', 'block');
 
       // Build url for new data
       var devicemac = '#{device.mac}';
