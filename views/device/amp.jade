@@ -110,6 +110,7 @@ block scriptdata
       var currentDate = new Date();
       var hourRatio = currentDate.getMinutes() / 60;
 
+
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
@@ -138,6 +139,9 @@ block scriptdata
       if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#0af');
       if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#ED00C5');
       if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#9B00EF');
+
+      console.log(startDate);
+      console.log(endDate);
 
       // Set Options
       var options = {
