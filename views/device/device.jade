@@ -17,30 +17,9 @@ block content
     .graph-holder
       .graph-button-holder
 
-          if timescale == 'year'
-            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Year
-          else
-            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('year')") Year
+          .main-button-alt(id="dayScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px;" onclick="changeTimeScale('day')") Day
 
-          if timescale == 'month'
-            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Month
-          else
-            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('month')") Month
-
-          if timescale == 'week'
-            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Week
-          else
-            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('week')") Week
-
-          if timescale == 'day'
-            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Day
-          else
-            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('day')") Day
-
-          if timescale == 'hour'
-            .main-button-alt(style="margin-right: 5px; background: #0092DB; cursor: default; font-weight: 600;") Hour
-          else
-            .main-button-alt(style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
+          .main-button-alt(id="hourScale" style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
 
           .main-button-alt(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveRight('#{timescale}')")

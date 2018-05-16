@@ -15,54 +15,30 @@ block devicecontent
   .graph-button-holder(style="overflow: auto; margin-top: 20px;")
 
     .col-md-3
-      if channels.indexOf('1') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #000;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
+        .main-button-alt(id="channel1" style="max-width: 200px; width: 96%; background: #000;" onclick="alterChannel(1)") 1: #{device.labels.split(',')[0]}
 
     .col-md-3
-      if channels.indexOf('2') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #f00;" onclick="alterChannel(2)") 2: #{device.labels.split(',')[1]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(2)") 2: #{device.labels.split(',')[1]}
+        .main-button-alt(id="channel2" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(2)") 2: #{device.labels.split(',')[1]}
 
     .col-md-3
-      if channels.indexOf('3') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #00C400;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
+        .main-button-alt(id="channel3" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(3)") 3: #{device.labels.split(',')[2]}
 
     .col-md-3
-      if channels.indexOf('4') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #00f;" onclick="alterChannel(4)") 4: #{device.labels.split(',')[3]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(4)") 4: #{device.labels.split(',')[3]}
+        .main-button-alt(id="channel4" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(4)") 4: #{device.labels.split(',')[3]}
 
   .graph-button-holder(style="overflow: auto; margin-bottom: 10px;")
 
     .col-md-3
-      if channels.indexOf('5') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #F2A100;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
+        .main-button-alt(id="channel5" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(5)") 5: #{device.labels.split(',')[4]}
 
     .col-md-3
-      if channels.indexOf('6') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #0af;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
+        .main-button-alt(id="channel6" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(6)") 6: #{device.labels.split(',')[5]}
 
     .col-md-3
-      if channels.indexOf('7') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #ED00C5;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
+        .main-button-alt(id="channel7" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(7)") 7: #{device.labels.split(',')[6]}
 
     .col-md-3
-      if channels.indexOf('8') != -1
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #9B00EF;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
-      else
-        .main-button-alt(style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
+        .main-button-alt(id="channel8" style="max-width: 200px; width: 96%; background: #bbb;" onclick="alterChannel(8)") 8: #{device.labels.split(',')[7]}
 
 
   .graph-button-holder(style="text-align: center; overflow: auto; margin-bottom: 10px;")
@@ -78,25 +54,22 @@ block devicecontent
 
 block scriptdata
   script(type="text/javascript").
-    if(getParameterByName('channel')) $("#channel").val(getParameterByName('channel'));
 
     function alterChannel(channel) {
-        $('.loader').css('display', 'block');
-        var url = '/device?id=' + getParameterByName('id');
-        url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
-        if($('#timepicker').val()) url += '&time=' + $('#timepicker').val();
-        if($('#ampmpicker').val()) url += '&ampm=' + $('#ampmpicker').val();
-        if(getParameterByName('timescale')) url += '&timescale=' + getParameterByName('timescale');
+      // Change button color (select / deselect)
+      if($('#channel' + channel).css('background-color') == 'rgb(187, 187, 187)') {
+        if(channel == 1) $('#channel' + channel).css('background-color', '#000000');
+        if(channel == 2) $('#channel' + channel).css('background-color', '#ff0000');
+        if(channel == 3) $('#channel' + channel).css('background-color', '#00C400');
+        if(channel == 4) $('#channel' + channel).css('background-color', '#0000ff');
+        if(channel == 5) $('#channel' + channel).css('background-color', '#F2A100');
+        if(channel == 6) $('#channel' + channel).css('background-color', '#00aaff');
+        if(channel == 7) $('#channel' + channel).css('background-color', '#ED00C5');
+        if(channel == 8) $('#channel' + channel).css('background-color', '#9B00EF');
+      } else $('#channel' + channel).css('background-color', 'rgb(187, 187, 187)');
 
-        if(channel == 'none') url += '&channels=' + channel;
-        else {
-          var channels = '#{channels}'.split(',');
-          if(channels.indexOf(channel + '') != -1) { if(channels.length == 1) url += '&channels=none'; else { channels.splice(channels.indexOf(channel + '') , 1); url += '&channels=' + channels; } }
-          else { if(channels[0] == 'none') channels[0] = channel + ''; else channels.push(channel + ''); url += '&channels=' + channels; }
-          
-        }
-
-        window.location.assign(url);
+      // Get Data
+      getData();
     }
 
     function changeChannel(channel) {
@@ -111,60 +84,70 @@ block scriptdata
         window.location.assign(url);
     }
 
-    var data = JSON.parse('#{JSON.stringify(data)}'.replace(/&quot;/g, '"'));
 
+    // Draw Graph
 
-    if('#{timescale}' == 'day') {
-      var columns = ['Time'];
-      for(var i = 0 ; i < #{channels.split(',').length}; i++) columns.push('Watt Hours');
-      var readings =  [columns];
-      var colors =  [];
+    var firstData = [];
+    firstData.push(['Time', 'Watt Hours']);
+    firstData.push(['2018-05-16 11:00:00', '3000']);
+    firstData.push(['2018-05-16 12:00:00', '2000']);
+    firstData.push(['2018-05-16 13:00:00', '1000']);
+
+    if(timescale == 'day') {
+      var startDate = new Date();
+      startDate.setHours(0);
+      startDate.setMinutes(-1);
+      startDate.setSeconds(0);
+      drawDayChart(firstData, startDate, 1);
+    }
+
+    function drawDayChart(data, startDate, first) {
+
       var kWh = 0;
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 25);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+      var currentDate = new Date();
+      var hourRatio = currentDate.getMinutes() / 60;
 
-      var currentTime = new Date();
-      var hourRatio = currentTime.getMinutes() / 60;
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        data[i][0] = new Date(data[i][0]);
 
-      var startTime = new Date();
-      startTime.setMinutes(0);
-      startTime.setSeconds(0);
-      var lastReadingTime = data[data.length-1].reading[0];
-      var minutes = 59 - currentTime.getMinutes();
-      var seconds = 59 - currentTime.getSeconds() + minutes * 60;
-      var readingsToGo = seconds / 5;
-
-      for(var i = 0; i < data.length; i++) {
-        data[i].reading[0] = new Date(data[i].reading[0]);
-
-        if(i == currentTime.getHours()) { 
-
-          for(var j = 0; j < #{channels.split(',').length}; j++) {
-            data[i].reading[j+1] = data[i].reading[j+1] * hourRatio;
-          }
-
+        // If this day and this hour then ratio the readings
+        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours()) {
+          for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) * hourRatio;
+        } else {
+          for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j])
         }
 
-        readings.push(data[i].reading);
-        for(var k = 0 ; k < #{channels.split(',').length}; k++) kWh += data[i].reading[k+1];
+        // Record the readings kWh
+        for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
       }
 
+      // Display total kWh
       $('.kWh').html((kWh/1000).toFixed(2) + ' kWh');
 
-      if('#{channels}'.indexOf('1') != -1) colors.push('#000');
-      if('#{channels}'.indexOf('2') != -1) colors.push('#f00');
-      if('#{channels}'.indexOf('3') != -1) colors.push('#00C400');
-      if('#{channels}'.indexOf('4') != -1) colors.push('#00f');
-      if('#{channels}'.indexOf('5') != -1) colors.push('#F2A100');
-      if('#{channels}'.indexOf('6') != -1) colors.push('#0af');
-      if('#{channels}'.indexOf('7') != -1) colors.push('#ED00C5');
-      if('#{channels}'.indexOf('8') != -1) colors.push('#9B00EF');
+      // Add colors to graph
+      var colors = [];
+      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#000');
+      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#f00');
+      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#00C400');
+      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#00f');
+      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#F2A100');
+      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#0af');
+      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#ED00C5');
+      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#9B00EF');
 
+      // Set Options
       var options = {
           legend: 'none',
           colors: colors,
           chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
-            gridlines: { count: hAxisCount, color:"#ccc" },
+            gridlines: { count: 7, color:"#ccc" },
             viewWindow: {
                     min: startDate,
                     max: endDate
@@ -180,11 +163,11 @@ block scriptdata
           }
       };
 
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChartDay);
+      if(first == 1) { google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(function(){drawChart(data);}); }
+      else { drawChart(data); }
 
-      function drawChartDay() {
-        var data = google.visualization.arrayToDataTable(readings);
+      function drawChart(data) {
+        var data = google.visualization.arrayToDataTable(data);
         var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
 
         function selectHandler() {
@@ -211,123 +194,61 @@ block scriptdata
         chart.draw(data, options);
         $('.loader').css('display', 'none');
       }
+    }
 
-    } else if(getParameterByName('timescale') == 'hour') {
+    // Gets data based on whats selected and redraws the graph
+    function getData() {
+      // Start loading graph
+      $('.loader').css('display', 'block');
 
-      var columns = ['Time'];
-      for(var i = 0 ; i < #{channels.split(',').length}; i++) columns.push('Watts');
-      var readings =  [columns];
-      var colors =  [];
-      var kWh = 0;
+      // Build url for new data
+      var devicemac = '#{device.mac}';
+      console.log(devicemac);
+      var type = '#{device.type}';
 
-      for(var i = 0; i < data.length; i++) {
-        data[i].reading[0] = new Date(data[i].reading[0]);
-        readings.push(data[i].reading);
-        for(var j = 0 ; j < #{channels.split(',').length}; j++) kWh += data[i].reading[j+1];
-      }
-      
-      var currentTime = new Date();
-      var hourRatio = currentTime.getMinutes() / 60;
+      var startdate = $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
 
-      var startTime = new Date();
-      startTime.setMinutes(0);
-      startTime.setSeconds(0);
-      var lastReadingTime = data[data.length-1].reading[0];
-      var minutes = 59 - currentTime.getMinutes();
-      var seconds = 59 - currentTime.getSeconds() + minutes * 60;
-      var readingsToGo = seconds / 5;
+      var timescale = '';
+      if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
+      else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
 
-      if(lastReadingTime > startTime) {
-        $('.kWh').html((kWh/data.length*hourRatio).toFixed(2) + ' Wh');
-      } else {
-        $('.kWh').html((kWh/data.length).toFixed(2) + ' Wh');
-      }
+      var channels = [];
+      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') channels.push(1);
+      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') channels.push(2);
+      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') channels.push(3);
+      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') channels.push(4);
+      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') channels.push(5);
+      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') channels.push(6);
+      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') channels.push(7);
+      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') channels.push(8);
 
-      if('#{channels}'.indexOf('1') != -1) colors.push('#000');
-      if('#{channels}'.indexOf('2') != -1) colors.push('#f00');
-      if('#{channels}'.indexOf('3') != -1) colors.push('#00C400');
-      if('#{channels}'.indexOf('4') != -1) colors.push('#00f');
-      if('#{channels}'.indexOf('5') != -1) colors.push('#F2A100');
-      if('#{channels}'.indexOf('6') != -1) colors.push('#0af');
-      if('#{channels}'.indexOf('7') != -1) colors.push('#ED00C5');
-      if('#{channels}'.indexOf('8') != -1) colors.push('#9B00EF');
+      var url = "/device/getdata?devicemac=" + devicemac + "&type=" + type + "&timescale=" + timescale + "&startdate=" + startdate + "&channels=" + channels.toString();
 
-      var options = {
-          legend: 'none',
-          colors: colors,
-          chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
-          hAxis: { 
-            format: format,
-            gridlines: { count: hAxisCount, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
+      if(timescale == 'hour') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
+
+      // Get new data
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText);
+
+          // Format data
+          var data = JSON.parse(this.responseText)
+          for(var i = 1; i < data.length; i++) {
+            data[i][0] = new Date(data[i][0]);
+            for(var j = 1; j < data[i].length; j++) {
+              data[i][j] = Number(data[i][j]);
             }
-          },
-          vAxis: { 
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 6000
-            },
-            format: '# W' 
           }
+
+          // Redraw Chart
+          if(timescale == 'day')
+            drawDayChart(data, startDate);
+
+        }
       };
-
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChartHour);
-
-      function drawChartHour() {
-        var data = google.visualization.arrayToDataTable(readings);
-        var chart = new google.visualization.AreaChart(document.getElementById('chart'));
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
-      }
-
-    } else {
-      var readings =  [['Time', 'Watt Hours']];
-      var kWh = 0;
-
-      for(var i = 0; i < data.length; i++) {
-        var date = new Date(data[i].receivedtime);
-        readings.push([date, Number(data[i].data)]);
-        kWh += Number(data[i].data);
-      }
-
-      $('.kWh').html((kWh/1000).toFixed(2) + " kWh");
-
-      var options = {
-          legend: 'none',
-          colors: ['#00aaff'],
-          chartArea: {left: 70, top: 15, 'width': '86%', 'height': '88%'},
-          hAxis: { 
-            format: format,
-            gridlines: { count: hAxisCount, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 10000
-            },
-            format: '# Wh' 
-          }
-      };
-
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChartOther);
-
-      function drawChartOther() {
-        var data = google.visualization.arrayToDataTable(readings);
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
-      }
-
+      xhttp.open("GET", url, true);
+      xhttp.send();
     }
 
 

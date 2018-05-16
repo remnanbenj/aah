@@ -370,6 +370,55 @@ function showDevice(req, res, device, data, timescale){
 }
 
 
+router.get('/getdata', checkSignIn, function(req, res) {
+  var deviceMac = req.query.devicemac;
+  var type = req.query.type;
+  var timeScale = req.query.timescale;
+  var startDate = new Date(req.query.startdate);
+  var endDate = new Date(req.query.startdate);
+  var channels = req.query.channels.split(',');
+  console.log(deviceMac);
+  console.log(type);
+  console.log(timeScale);
+  console.log(startDate);
+  console.log(channels);;
+
+  if(timeScale == 'day'){
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+    endDate.setHours(24);
+    endDate.setMinutes(0);
+    endDate.setSeconds(0);
+  }
+
+  console.log(startDate);
+  console.log(endDate);
+
+
+  var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+  console.log(sql);
+  console.log(getFormatedDate(startDate));
+  console.log(req.query.startdate);
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+
+    console.log(result);
+
+    var data = [];
+
+    data.push(['Time', 'Channel1', 'Channel2']);
+    data.push(['2018-05-16 11:00:00', '3000', '3500']);
+    data.push(['2018-05-16 12:00:00', '2000', '2500']);
+    data.push(['2018-05-16 13:00:00', '1000', '1500']);
+
+    res.send(data);
+  });
+
+});
+
+
+
 // =====POSTS=====
 
 
