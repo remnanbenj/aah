@@ -109,11 +109,11 @@
   float: right;
   text-align-last: center;
   margin-left: 5px;
-  display: none;
 }
 
 .time-picker {
   width: 30px;
+  display: none;
 }
 
 .date-picker:hover, .time-picker:hover {
