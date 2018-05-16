@@ -378,7 +378,26 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var endDate = new Date(req.query.startdate);
   var channels = req.query.channels.split(',');
 
-  if(timeScale == 'day'){
+  if(timeScale == 'hour'){
+    var time = Number(req.query.time);
+    var ampm = req.query.ampm;
+
+    if(time == 12 && ampm == 'AM') time = 0;
+    if(ampm == 'AM') {
+      startDate.setHours(time);
+      endDate.setHours(time);
+    } else {
+      startDate.setHours(time + 12);
+      endDate.setHours(time + 12);
+    }
+
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+
+    endDate.setMinutes(60);
+    endDate.setSeconds(0);
+
+  } else if(timeScale == 'day'){
     startDate.setHours(0);
     startDate.setMinutes(0);
     startDate.setSeconds(0);
