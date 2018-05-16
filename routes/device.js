@@ -410,8 +410,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
   con.query(sql, function (err, results) {
     if (err) throw err;
 
-    var data = [];
-    var dataRow = [];
 
     // Reduce Data
     results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
@@ -423,7 +421,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
       }
     }
 
+
     // Setup Fields
+    var data = [];
+    var dataRow = [];
+
     dataRow.push('Time');
     for(var i = 0; i < channels.length; i++){
       dataRow.push('Watt Hours');
@@ -434,7 +436,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(results.length > 0) {
       for(var i = 0; i < results.length; i++){
         var readings = results[i].data.split(':');
-        console.log(readings);
         dataRow = [];
         dataRow.push(new Date(results[i].receivedtime));
         for(var j = 0; j < channels.length; j++){
@@ -491,14 +492,14 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
           var temp = 0;
-          if(channels.indexOf('1') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('2') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('3') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('4') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('5') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('6') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('7') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
-          if(channels.indexOf('8') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[temp]); temp++; }
+          if(channels.indexOf('1') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[0]); temp++; }
+          if(channels.indexOf('2') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[1]); temp++; }
+          if(channels.indexOf('3') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[2]); temp++; }
+          if(channels.indexOf('4') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[3]); temp++; }
+          if(channels.indexOf('5') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[4]); temp++; }
+          if(channels.indexOf('6') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[5]); temp++; }
+          if(channels.indexOf('7') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[6]); temp++; }
+          if(channels.indexOf('8') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[7]); temp++; }
           dataPointCount++;
         }
         if(data[j].receivedtime > tEndDate) break;
