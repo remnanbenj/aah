@@ -303,7 +303,7 @@ block scriptdata
         data[i][0] = new Date(data[i][0]);
 
         // If this day and this hour then ratio the readings
-        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i + 1 == currentDate.getHours()) {
+        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours() + 1) {
           console.log(data[i]);
           //for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) * hourRatio;
         } else {
