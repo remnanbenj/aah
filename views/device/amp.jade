@@ -272,7 +272,6 @@ block scriptdata
       var currentDate = new Date();
       var hourRatio = currentDate.getMinutes() / 60;
 
-
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
@@ -335,20 +334,16 @@ block scriptdata
         function selectHandler() {
           var selectedItem = chart.getSelection()[0];
           if (selectedItem) {
-            var value = data.getValue(selectedItem.row, 0);
-            value = value.getHours();
-            var ampm = "AM";
-            if(value > 11) ampm = "PM";
-            if(value > 12) value -= 12;
-            if(value == 0) value = 12;
+            $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
 
-            var url = '/device?id=' + getParameterByName('id');
-            url += '&timescale=hour';
-            url += '&startDate=' + $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
-            url += '&time=' + value;
-            url += '&ampm=' + ampm;
-            if(getParameterByName('channels')) url += '&channels=' + getParameterByName('channels');
-            window.location.assign(url);
+            var hours = data.getValue(selectedItem.row, 0).getHours();
+            var hoursSuffix = "AM";
+            if(hours == 12) { hoursSuffix = "PM"; }
+            else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+            $("#timepicker").css('display', 'block');
+            $("#ampmpicker").css('display', 'block');
+            $("#timepicker").val(hours);
+            $("#ampmpicker").val(hoursSuffix);
           }
         }
         google.visualization.events.addListener(chart, 'select', selectHandler);
