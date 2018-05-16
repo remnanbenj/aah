@@ -392,25 +392,42 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
-  console.log(startDate);
-  console.log(endDate);
-
-
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
-  console.log(sql);
-  console.log(getFormatedDate(startDate));
-  console.log(req.query.startdate);
-  con.query(sql, function (err, result) {
+  con.query(sql, function (err, results) {
     if (err) throw err;
 
-    console.log(result);
-
     var data = [];
+    var dataRow = [];
 
-    data.push(['Time', 'Channel1', 'Channel2']);
-    data.push(['2018-05-16 11:00:00', '3000', '3500']);
-    data.push(['2018-05-16 12:00:00', '2000', '2500']);
-    data.push(['2018-05-16 13:00:00', '1000', '1500']);
+    // Setup Fields
+    dataRow.push('Time');
+    for(var i = 0; i < channels.length; i++){
+      dataRow.push('Watt Hours');
+    }
+    data.push(dataRow);
+
+    // Setup Data
+    if(results.length > 0) {
+      for(var i = 0; i < results.length; i++){
+        var readings = results[i].data.split(':');
+        dataRow = [];
+        dataRow.push(new Date(results[i].data.receivedtime));
+        for(var j = 0; j < channels.length; j++){
+          dataRow.push(readings[j]);
+        }
+        data.push(dataRow);
+      }
+
+    } else {
+      dataRow = [];
+      dataRow.push(new Date());
+      for(var j = 0; j < channels.length; j++){
+        dataRow.push('0');
+      }
+      data.push(dataRow);
+    }
+
+    console.log(data);
 
     res.send(data);
   });
