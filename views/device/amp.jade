@@ -362,7 +362,7 @@ block content
         data[i][0] = new Date(data[i][0]);
 
         // Record the readings kWh
-        for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
+        for(var j = 1; j < data[i].length; j++) kWh += Number(data[i][j]) / 1000;
       }
 
       // Get readings left
@@ -371,7 +371,7 @@ block content
       var readingsLeft = Math.round(secondsLeft / 5);
 
       // Display total kWh
-      $('.kWh').html('Total: ' + (kWh/(data.length + readingsLeft)).toFixed(2) + ' Wh');
+      $('.kWh').html('Total: ' + (kWh/(data.length + readingsLeft)).toFixed(2) + ' kWh');
 
       // Add colors to graph
       var colors = [];
@@ -390,7 +390,7 @@ block content
       var options = {
           legend: 'none',
           colors: colors,
-          chartArea: {left: 100, top: 10, 'width': '86%', 'height': '88%'},
+          chartArea: {left: 60, top: 10, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
             gridlines: { count: 7, color:"#ccc" },
@@ -403,9 +403,9 @@ block content
             gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10000
+                    max: 10
             },
-            format: '# W' 
+            format: '# kW' 
           }
       };
 
@@ -439,7 +439,9 @@ block content
 
         // If this day and this hour then ratio the readings
         if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours() + 1) {
-          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j]) * hourRatio);
+          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j]) * hourRatio / 1000);
+        } else {
+          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j]) / 1000);
         }
 
         // Record the readings kWh
@@ -447,7 +449,7 @@ block content
       }
 
       // Display total kWh
-      $('.kWh').html('Total: ' + (kWh/1000).toFixed(2) + ' kWh');
+      $('.kWh').html('Total: ' + (kWh).toFixed(2) + ' kWh');
 
       // Add colors to graph
       var colors = [];
@@ -467,7 +469,7 @@ block content
           legend: 'none',
           bar: {groupWidth: "80%"},
           colors: colors,
-          chartArea: {left: 100, top: 10, 'width': '86%', 'height': '88%'},
+          chartArea: {left: 60, top: 10, 'width': '86%', 'height': '88%'},
           hAxis: { 
             format: format,
             gridlines: { count: 7, color:"#ccc" },
@@ -480,9 +482,9 @@ block content
             gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10000
+                    max: 10
             },
-            format: '# Wh' 
+            format: '# kWh' 
           }
       };
 
