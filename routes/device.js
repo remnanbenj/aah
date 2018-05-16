@@ -411,7 +411,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
       for(var i = 0; i < results.length; i++){
         var readings = results[i].data.split(':');
         dataRow = [];
-        dataRow.push(new Date(results[i].data.receivedtime));
+        dataRow.push(new Date(results[i].receivedtime));
         for(var j = 0; j < channels.length; j++){
           dataRow.push(readings[j]);
         }
