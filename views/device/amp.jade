@@ -205,6 +205,12 @@ block scriptdata
       getData();
     }
 
+    function refresh() {
+      getData();
+      setTimeout(refresh, 5000);
+    }
+    setTimeout(refresh, 5000);
+
 
     // Draw Graph
 
