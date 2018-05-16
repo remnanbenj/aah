@@ -399,8 +399,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Offset time if AUS
     if(startDate.getTimezoneOffset() != -720) {
-      for(var i = 0; i < data.length; i++) {
-        data[i].receivedtime = (new Date(data[i].receivedtime)).setHours((new Date(data[i].receivedtime)).getHours() - 4);
+      for(var i = 0; i < results.length; i++) {
+        results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() - 4);
       }
     }
 
