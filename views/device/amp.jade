@@ -243,7 +243,7 @@ block scriptdata
           if(timescale == 'day') {
             var tempDate = new Date(startdate);
             tempDate.setHours(0);
-            tempDate.setMinutes(0);
+            tempDate.setMinutes(-1);
             tempDate.setSeconds(0);
             drawDayChart(data, tempDate);
           }
