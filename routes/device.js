@@ -400,7 +400,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var dataRow = [];
 
     // Arrange Data
-    data = arrangeAmpData(results, timescale, startDate, endDate, channels);
+    data = arrangeAmpData(results, timeScale, startDate, endDate, channels);
 
     // Setup Fields
     dataRow.push('Time');
@@ -435,7 +435,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
 });
 
-function arrangeAmpData(data, timescale, startDate, endDate, channels) {
+function arrangeAmpData(data, timeScale, startDate, endDate, channels) {
 
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
@@ -444,7 +444,7 @@ function arrangeAmpData(data, timescale, startDate, endDate, channels) {
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
 
-  if(timescale == 'day') {
+  if(timeScale == 'day') {
 
     var minutes = 60;
     var dataPoints = [];
