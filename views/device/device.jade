@@ -21,19 +21,16 @@ block content
 
           .main-button-alt(id="hourScale" style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
-
           .main-button-alt(style="float: right; padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveRight('#{timescale}')")
             .glyphicon.glyphicon-triangle-right
 
-          if timescale == 'week' || timescale == 'day' || timescale == 'hour'
-            input.date-picker(type="text" id="datepicker" onchange="changeDate(this.value)" style="margin-right: 5px;")
+          input.date-picker(type="text" id="datepicker" onchange="getData()" style="margin-right: 5px;")
 
-          if timescale == 'hour'
-            select.time-picker(type="text" id="ampmpicker" onchange="changeTime()")
+          select.time-picker(type="text" id="ampmpicker" onchange="getData()")
               option AM
               option PM
 
-            select.time-picker(type="text" id="timepicker" onchange="changeTime()")
+          select.time-picker(type="text" id="timepicker" onchange="getData()")
               option 1
               option 2
               option 3
