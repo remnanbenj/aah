@@ -485,7 +485,7 @@ function arrangeAmpData(data, timeScale, startDate, endDate, channels) {
       if(channels.indexOf('8') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
 
 
-      tData.push({data: dataPoints.toString(), receivedtime: new Date(tStartDate)});
+      tData.push({data: dataPoints.join(':'), receivedtime: new Date(tStartDate)});
 
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
