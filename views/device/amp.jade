@@ -238,11 +238,8 @@ block scriptdata
       var secondsLeft = (60 - new Date().getSeconds()) + minutesLeft * 60;
       var readingsLeft = Math.round(secondsLeft / 5);
 
-      var currentDate = new Date();
-      var hourRatio = currentDate.getMinutes() / 60;
-
       // Display total kWh
-      $('.kWh').html((kWh/data.length*hourRatio).toFixed(2) + ' Wh');
+      $('.kWh').html((kWh/(data.length + readingsLeft)).toFixed(2) + ' Wh');
 
       // Add colors to graph
       var colors = [];
