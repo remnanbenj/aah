@@ -400,7 +400,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var dataRow = [];
 
     // Arrange Data
-    console.log("CHANNELS1: " + channels);
     data = arrangeAmpData(results, timeScale, startDate, endDate, channels);
 
     // Setup Fields
@@ -446,7 +445,6 @@ function arrangeAmpData(data, timeScale, startDate, endDate, channels) {
   var diffMins = diffMs / 60000;
 
   if(timeScale == 'day') {
-    console.log("CHANNELS2: " + channels);
 
     var minutes = 60;
     var dataPoints = [];
@@ -464,6 +462,7 @@ function arrangeAmpData(data, timeScale, startDate, endDate, channels) {
       if(channels.indexOf('6') != -1) dataPoints.push(0);
       if(channels.indexOf('7') != -1) dataPoints.push(0);
       if(channels.indexOf('8') != -1) dataPoints.push(0);
+      console.log(dataPoints);
       dataPointCount = 0;
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
