@@ -84,6 +84,10 @@ block scriptdata
     function moveLeft(timescale) {
         var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
 
+        var timescale = '';
+        if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
+        else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
+
         if(timescale == 'hour') {
 
           if($('#timepicker').val() == 1) {
@@ -113,6 +117,10 @@ block scriptdata
 
     function moveRight(timescale) {
         var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
+
+        var timescale = '';
+        if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
+        else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
 
         if(timescale == 'hour') {
 
