@@ -55,6 +55,66 @@ block devicecontent
 block scriptdata
   script(type="text/javascript").
 
+      function moveLeft(timescale) {
+        var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
+
+        if(timescale == 'hour') {
+
+          if($('#timepicker').val() == 1) {
+            $('#timepicker').val(12);
+
+          } else if($('#timepicker').val() == 12) {
+            $('#timepicker').val(11);
+            if($('#ampmpicker').val() == "PM"){
+              $('#ampmpicker').val('AM');
+            } else {
+              date.setDate(date.getDate() - 1);
+              $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+              $('#ampmpicker').val('PM');
+            }
+
+          } else {
+            $('#timepicker').val(Number($('#timepicker').val()) - 1);
+          }
+
+        } else {
+          date.setDate(date.getDate() - 1);
+          $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+        }
+
+        getData();
+      }
+
+      function moveRight(timescale) {
+        var date = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
+
+        if(timescale == 'hour') {
+
+          if($('#timepicker').val() == 12) {
+            $('#timepicker').val(1);
+
+          } else if($('#timepicker').val() == 11) {
+            $('#timepicker').val(12);
+            if($('#ampmpicker').val() == "PM"){
+              date.setDate(date.getDate() + 1);
+              $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+              $('#ampmpicker').val('AM');
+            } else {
+              $('#ampmpicker').val('PM');
+            }
+
+          } else {
+            $('#timepicker').val(Number($('#timepicker').val()) + 1);
+          }
+
+        } else {
+          date.setDate(date.getDate() + 1);
+          $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+        }
+
+        getData();
+      }
+
     function alterChannel(channel) {
       // Change button color (select / deselect)
       if($('#channel' + channel).css('background-color') == 'rgb(187, 187, 187)') {
@@ -91,8 +151,8 @@ block scriptdata
 
       } else if(timescale == 'day') { 
         $('#dayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); 
-        $("#timepicker").css('display', 'block');
-        $("#ampmpicker").css('display', 'block');
+        $("#timepicker").css('display', 'none');
+        $("#ampmpicker").css('display', 'none');
       }
 
       // Get Data
@@ -108,13 +168,11 @@ block scriptdata
     firstData.push(['2018-05-16 12:00:00', '2000']);
     firstData.push(['2018-05-16 13:00:00', '1000']);
 
-    if(timescale == 'day') {
-      var startDate = new Date();
-      startDate.setHours(0);
-      startDate.setMinutes(-1);
-      startDate.setSeconds(0);
-      drawDayChart(firstData, startDate, 1);
-    }
+    var startDate = new Date();
+    startDate.setHours(0);
+    startDate.setMinutes(-1);
+    startDate.setSeconds(0);
+    drawDayChart(firstData, startDate, 1);
 
     function drawHourChart(data, startDate) {
 
@@ -160,10 +218,10 @@ block scriptdata
             }
           },
           vAxis: { 
-            gridlines: { count: 7, color:"#ccc" },
+            gridlines: { count: 9, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 6000
+                    max: 8000
             },
             format: '# Wh' 
           }
