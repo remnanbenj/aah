@@ -444,7 +444,7 @@ function arrangeAmpData(data, timescale, startDate, endDate, channels) {
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
 
-  if(timescale == 'day')
+  if(timescale == 'day') {
 
     var minutes = 60;
     var dataPoints = [];
