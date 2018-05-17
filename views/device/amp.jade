@@ -538,8 +538,8 @@ block content
             var hoursSuffix = "AM";
             if(hours == 12) { hoursSuffix = "PM"; }
             else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
-            $("#timepicker").css('display', 'block');
-            $("#ampmpicker").css('display', 'block');
+            $("#timepicker").css('display', 'inline-block');
+            $("#ampmpicker").css('display', 'inline-block');
             $("#timepicker").val(hours);
             $("#ampmpicker").val(hoursSuffix);
 
