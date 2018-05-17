@@ -20,13 +20,16 @@
   overflow: auto;
 }
 
+.color-select:hover {
+  border: 2px solid red;
+}
+
 /* TITLE BAR */
 
 .device-title {
   overflow: auto;
   margin: 0 auto;
-  margin-top: 10px;
-  padding-right: 50px;
+  margin-bottom: 15px;
 }
 
 .device-icon {
@@ -62,6 +65,7 @@
   float: right;
   font-size: 17px;
   margin-top: 2px;
+  position: relative;
 }
 
 .device-total {
@@ -125,6 +129,27 @@ select {
 
 /* AMP */
 
+.device-settings {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  background: #00aaff;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  cursor: pointer;
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/settings-icon.png');
+}
+
+.device-settings:hover {
+  background-color: #0092DB;
+} 
+
 .channel-button {
   padding-left: 0px;
   padding-right: 0px;
@@ -135,6 +160,9 @@ select {
 
 .kWh {
   font-size: 17px;
+  float: right;
+  margin-top: 7px;
+  margin-right: 20px;
 }
 
 .current-picker-label {
