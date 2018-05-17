@@ -186,16 +186,22 @@ block content
           var channel = channels[i];
           html += '<div id="channelActive'+(i+1)+'" onclick="activateChannel('+id+', '+(i+1)+')" style="padding-left: 0px; padding-right: 0px; width: 70px; background: '+( channel.split('-')[2] == 1 ? '#00aaff' : '#bbb' )+'; text-align: center; margin-bottom: 5px;" class="main-button-alt">'+( channel.split('-')[2] == 1 ? 'Active' : 'Disabled' )+'</div>';
           html += '<div id="channel'+(i+1)+'" onclick="renameChannelDialog('+id+', \''+channel.split('-')[0]+'\', '+(i+1)+')" style="text-align: left; width: 50%; margin-bottom: 5px; margin-left: 5px;" class="main-button-alt">'+(i+1)+': '+channel.split('-')[0]+'</div>';
-          html += '<select id="channelColor'+(i+1)+'" data-color="'+channel.split('-')[1]+'" onchange="recolorChannel('+id+', this.value, '+(i+1)+')" style="padding-left: 0px; text-align: left; width: 35px; background: #'+channel.split('-')[1]+'; margin-left: 5px;" class="main-button-alt">';
-          html += '<option style="background: #000000;" value="000000">Black</option>'
-          html += '<option style="background: #ff0000;" value="FF0000">Red</option>'
-          html += '<option style="background: #f2a100;" value="F2A100">Orange</option>'
-          html += '<option style="background: #00c400;" value="00C400">Green</option>'
-          html += '<option style="background: #00aaff;" value="00AAFF">Teal</option>'
-          html += '<option style="background: #5162ff;" value="5162FF">Blue</option>'
-          html += '<option style="background: #9b00ef;" value="9B00EF">Purple</option>'
-          html += '<option style="background: #ed00c5;" value="ED00C5">Pink</option>'
-          html += '</select>'
+          
+          html += '<div class="dropdown" style="margin-left: 5px;">';
+          html += '<div id="channelColor'+(i+1)+'" data-color="'+channel.split('-')[1]+'" class="dropbtn" style="background: #'+channel.split('-')[1]+';">&nbsp;</div>';
+          html += '<div class="dropdown-content">';
+          html += '<div onclick="recolorChannel('+id+', \'000000\', '+(i+1)+')" class="color-option" style="background: #000000;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'FF0000\', '+(i+1)+')" class="color-option" style="background: #FF0000;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'F2A100\', '+(i+1)+')" class="color-option" style="background: #F2A100;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'00C400\', '+(i+1)+')" class="color-option" style="background: #00C400;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'00AAFF\', '+(i+1)+')" class="color-option" style="background: #00AAFF;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'5162FF\', '+(i+1)+')" class="color-option" style="background: #5162FF;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'9B00EF\', '+(i+1)+')" class="color-option" style="background: #9B00EF;"></div>';
+          html += '<div onclick="recolorChannel('+id+', \'ED00C5\', '+(i+1)+')" class="color-option" style="background: #ED00C5;"></div>';
+          html += '</div>';
+          html += '</div>';
+          html += '<br>';
+
           html += '<br>';
         }
         html += '</div>';
