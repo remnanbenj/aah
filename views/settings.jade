@@ -26,7 +26,7 @@ block content
                   else
                     .device-holder-item-signal
 
-                  .device-holder-item-settings(onclick="editDeviceDialog(#{device.id}, '#{device.mac}')")
+                  .device-holder-item-settings(onclick="editDeviceDialog(#{device.id}, '#{device.mac}', '#{device.type}', '#{device.labels}')")
 
                   .device-holder-item-remove(onclick="removeDeviceDialog(#{device.id}, '#{device.mac}')")
 
@@ -148,6 +148,8 @@ block content
       if(isConnected == 'true')
         style = "background-image: url('/images/signal-green.png');"
 
+      window.location.reload();
+
       var html = '<div id="device'+ id +'" class="device-holder-item"><div class="device-holder-item-icon"></div><div class="device-holder-item-name" id="deviceName'+id+'" onclick="window.location.assign(\'/device?id='+id+'\')">'+deviceName+'</div><div class="device-holder-item-mac">'+deviceMAC+'</div><div class="device-holder-item-buttons"><div class="device-holder-item-signal" style="'+style+'"></div><div class="device-holder-item-settings" onclick="editDeviceDialog('+id+', \''+deviceMAC+'\')"></div><div class="device-holder-item-remove" onclick="removeDeviceDialog('+id+', \''+deviceMAC+'\')"></div></div></div>'
       $('.device-holder').append(html);
     }
@@ -155,20 +157,49 @@ block content
 
     // EDIT DEVICE
 
-    function editDeviceDialog(id, mac){
+    function editDeviceDialog(id, mac, type, channels){
+      channels = channels.split(',');
       var deviceName = $("#deviceName" + id).html();
 
       $(".overlay-inner-title").html('Edit Device');
       $(".overlay-inner-subtitle").html('');
+
       var html = "";
       html += '<span style="font-weight: 600;">Rename Device</span>';
       html += '<br>';
       html += '<span>What you want to call this device:</span>';
       html += '<br>';
-      html += '<input id="deviceName" value="'+deviceName+'" class="new-device-input" onClick="this.select();" />';
+      html += '<input id="deviceName" value="'+deviceName+'" class="new-device-input"/>';
       html += '<br>';
       html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkServerEdit('+id+')">Rename</div>';
       html += '<br>';
+
+      if(type == 'AMP') {
+        html += '<hr style="width: 80%;">';
+        html += '<span style="font-weight: 600;">Edit Channels</span>';
+        html += '<br>';
+        html += '<span>Rename and change the color of this devices channels</span>';
+        html += '<br>';
+
+        html += '<div style="text-align: center; padding: 10px;">';
+        for(var i = 0 ; i < channels.length; i++) {
+          var channel = channels[i];
+          html += '<div id="channel'+(i+1)+'" onclick="renameChannelDialog('+id+', \''+channel.split('-')[0]+'\', '+(i+1)+')" style="text-align: left; width: 50%; margin-bottom: 5px;" class="main-button-alt">'+(i+1)+': '+channel.split('-')[0]+'</div>';
+          html += '<select id="channelColor'+(i+1)+'" data-color="'+channel.split('-')[1]+'" onchange="recolorChannelDialog('+id+', this.value, '+(i+1)+')" style="padding-left: 0px; text-align: left; width: 35px; background: #'+channel.split('-')[1]+'; margin-left: 5px;" class="main-button-alt">';
+          html += '<option style="background: #000000;" value="000000">Black</option>'
+          html += '<option style="background: #ff0000;" value="FF0000">Red</option>'
+          html += '<option style="background: #f2a100;" value="F2A100">Orange</option>'
+          html += '<option style="background: #00c400;" value="00C400">Green</option>'
+          html += '<option style="background: #00aaff;" value="00AAFF">Teal</option>'
+          html += '<option style="background: #5162ff;" value="5162FF">Blue</option>'
+          html += '<option style="background: #9b00ef;" value="9B00EF">Purple</option>'
+          html += '<option style="background: #ed00c5;" value="ED00C5">Pink</option>'
+          html += '</select>'
+          html += '<br>';
+        }
+        html += '</div>';
+      }
+
       html += '<hr style="width: 80%;">';
       html += '<span style="font-weight: 600;">Delete Device Data</span>';
       html += '<br>';
@@ -177,10 +208,89 @@ block content
       html += '<br>';
       html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkDeleteDataDialog(\''+mac+'\')">Delete</div>';
       html += '<br>';
+
       $('.overlay-inner-container').html('');
       $('.overlay-inner-container').append(html);
+
       $(".overlay").fadeIn();
-      //$("#deviceName").select();
+
+      // Set values for color selects
+      for(var i = 0 ; i < channels.length; i++) {
+        $('#channelColor'+(i+1)).val($('#channelColor'+(i+1)).data('color'));
+      }
+    }
+    var tempHTML = "";
+
+    function recolorChannelDialog(deviceID, color, channel) {
+      $('#channelColor'+channel).css('backgroundColor', '#' + color);
+
+      // Edit on server
+      var url = "/devices/recolorchannel?id=" + deviceID + "&color=" + color + "&channel=" + channel;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Success") {
+              toast('Channel color changed', 2400);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function renameChannelDialog(deviceID, channelName, channel) {
+      tempHTML = $('.overlay-inner-container').html();
+
+      var html = "";
+      html += '<span style="font-weight: 600;">Rename Channel</span>';
+      html += '<br>';
+      html += '<span>What you want to call this channel:</span>';
+      html += '<br>';
+      html += '<input id="channelName" value="'+channelName+'" class="new-device-input" />';
+      html += '<br>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="renameChannel('+deviceID+', '+channel+')">Rename</div>';
+      html += '<div class="overlay-button" onclick="cancelChannel()">Cancel</div>';
+      html += '<br>';
+      
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+      $("#channelName").select();
+    }
+
+    function renameChannel(deviceID, channel) {
+      var newName = $('#channelName').val();
+
+      // Edit on server
+      var url = "/devices/renamechannel?id=" + deviceID + "&name=" + newName + "&channel=" + channel;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Success") {
+              toast('Channel name changed', 2400);
+              cancelChannel();
+              $('#channel' +  channel).html(channel + ': ' + newName);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function cancelChannel(){
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(tempHTML);
     }
 
     function checkServerEdit(id){

@@ -88,17 +88,45 @@ router.post('/removedevicedata', function(req, res) {
   });
 });
 	
-router.post('/editdevicechannel', function(req, res) {
+router.post('/renamechannel', function(req, res) {
   var deviceID = req.query.id;
   var newName = req.query.name;
   var channel = Number(req.query.channel);
-  var labels = req.query.labels.split(',');
-  labels[channel-1] = newName;
 
-  var sql = "UPDATE devices SET labels = '"+labels.toString()+"' WHERE id = "+deviceID+";";
-  con.query(sql, function (err, result) {
+  var sql = "SELECT labels FROM devices WHERE id = "+deviceID+";";
+  con.query(sql, function (err, device) {
     if (err) throw err;
-    res.send('Success');
+
+    var channels = device[0].labels.split(',');
+    channels[channel-1] = newName + '-' + channels[channel-1].split('-')[1];
+
+    var sql = "UPDATE devices SET labels = '"+channels.toString()+"' WHERE id = "+deviceID+";";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      res.send('Success');
+    });
+
+  });
+});
+	
+router.post('/recolorchannel', function(req, res) {
+  var deviceID = req.query.id;
+  var newColor = req.query.color;
+  var channel = Number(req.query.channel);
+
+  var sql = "SELECT labels FROM devices WHERE id = "+deviceID+";";
+  con.query(sql, function (err, device) {
+    if (err) throw err;
+
+    var channels = device[0].labels.split(',');
+    channels[channel-1] = channels[channel-1].split('-')[0] + '-' + newColor;
+
+    var sql = "UPDATE devices SET labels = '"+channels.toString()+"' WHERE id = "+deviceID+";";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      res.send('Success');
+    });
+
   });
 });
 
