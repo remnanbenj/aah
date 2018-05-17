@@ -184,8 +184,9 @@ block content
         html += '<div style="text-align: center; padding: 10px;">';
         for(var i = 0 ; i < channels.length; i++) {
           var channel = channels[i];
-          html += '<div id="channel'+(i+1)+'" onclick="renameChannelDialog('+id+', \''+channel.split('-')[0]+'\', '+(i+1)+')" style="text-align: left; width: 50%; margin-bottom: 5px;" class="main-button-alt">'+(i+1)+': '+channel.split('-')[0]+'</div>';
-          html += '<select id="channelColor'+(i+1)+'" data-color="'+channel.split('-')[1]+'" onchange="recolorChannelDialog('+id+', this.value, '+(i+1)+')" style="padding-left: 0px; text-align: left; width: 35px; background: #'+channel.split('-')[1]+'; margin-left: 5px;" class="main-button-alt">';
+          html += '<div id="channelActive'+(i+1)+'" onclick="activateChannel('+id+', '+(i+1)+')" style="padding-left: 0px; padding-right: 0px; width: 70px; background: '+( channel.split('-')[2] == 1 ? '#00aaff' : '#bbb' )+'; text-align: center; margin-bottom: 5px;" class="main-button-alt">'+( channel.split('-')[2] == 1 ? 'Active' : 'Disabled' )+'</div>';
+          html += '<div id="channel'+(i+1)+'" onclick="renameChannelDialog('+id+', \''+channel.split('-')[0]+'\', '+(i+1)+')" style="text-align: left; width: 50%; margin-bottom: 5px; margin-left: 5px;" class="main-button-alt">'+(i+1)+': '+channel.split('-')[0]+'</div>';
+          html += '<select id="channelColor'+(i+1)+'" data-color="'+channel.split('-')[1]+'" onchange="recolorChannel('+id+', this.value, '+(i+1)+')" style="padding-left: 0px; text-align: left; width: 35px; background: #'+channel.split('-')[1]+'; margin-left: 5px;" class="main-button-alt">';
           html += '<option style="background: #000000;" value="000000">Black</option>'
           html += '<option style="background: #ff0000;" value="FF0000">Red</option>'
           html += '<option style="background: #f2a100;" value="F2A100">Orange</option>'
@@ -221,7 +222,35 @@ block content
     }
     var tempHTML = "";
 
-    function recolorChannelDialog(deviceID, color, channel) {
+    function activateChannel(deviceID, channel) {
+      // Edit on server
+      var url = "/devices/activechannel?id=" + deviceID + "&channel=" + channel;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Activated") {
+              toast('Channel activated', 2400);
+              $('#channelActive'+channel).css('background',  '#0af');
+              $('#channelActive'+channel).html('Active');
+
+            } else if(this.responseText == "Disabled") {
+              toast('Channel disabled', 2400);
+              $('#channelActive'+channel).css('background',  '#bbb');
+              $('#channelActive'+channel).html('Disabled');
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function recolorChannel(deviceID, color, channel) {
       $('#channelColor'+channel).css('backgroundColor', '#' + color);
 
       // Edit on server

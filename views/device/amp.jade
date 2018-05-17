@@ -18,20 +18,54 @@ block content
     .device-content
 
       .col-md-2(style="padding: 0px; padding-top: 25px;")
-          .main-button-alt.channel-button(id="channel1" style="background: #000;" onclick="alterChannel(1)" data-color="#{device.labels.split(',')[0].split('-')[1]}") 1: #{device.labels.split(',')[0].split('-')[0]}
-          .main-button-alt.channel-button(id="channel2" style="background: #bbb;" onclick="alterChannel(2)" data-color="#{device.labels.split(',')[1].split('-')[1]}") 2: #{device.labels.split(',')[1].split('-')[0]}
-          .main-button-alt.channel-button(id="channel3" style="background: #bbb;" onclick="alterChannel(3)" data-color="#{device.labels.split(',')[2].split('-')[1]}") 3: #{device.labels.split(',')[2].split('-')[0]}
-          .main-button-alt.channel-button(id="channel4" style="background: #bbb;" onclick="alterChannel(4)" data-color="#{device.labels.split(',')[3].split('-')[1]}") 4: #{device.labels.split(',')[3].split('-')[0]}
-          .main-button-alt.channel-button(id="channel5" style="background: #bbb;" onclick="alterChannel(5)" data-color="#{device.labels.split(',')[4].split('-')[1]}") 5: #{device.labels.split(',')[4].split('-')[0]}
-          .main-button-alt.channel-button(id="channel6" style="background: #bbb;" onclick="alterChannel(6)" data-color="#{device.labels.split(',')[5].split('-')[1]}") 6: #{device.labels.split(',')[5].split('-')[0]}
-          .main-button-alt.channel-button(id="channel7" style="background: #bbb;" onclick="alterChannel(7)" data-color="#{device.labels.split(',')[6].split('-')[1]}") 7: #{device.labels.split(',')[6].split('-')[0]}
-          .main-button-alt.channel-button(id="channel8" style="background: #bbb;" onclick="alterChannel(8)" data-color="#{device.labels.split(',')[7].split('-')[1]}") 8: #{device.labels.split(',')[7].split('-')[0]}
 
-          .col-md-6(style="padding: 0px; margin-top: 5px;")
+        if device.labels.split(',')[0].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel1" style="background: #000;" onclick="alterChannel(1)" data-color="#{device.labels.split(',')[0].split('-')[1]}") 1: #{device.labels.split(',')[0].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel1" style="background: #000; display: none;" onclick="alterChannel(1)" data-color="#{device.labels.split(',')[0].split('-')[1]}") 1: #{device.labels.split(',')[0].split('-')[0]}
+
+        if device.labels.split(',')[1].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel2" style="background: #bbb;" onclick="alterChannel(2)" data-color="#{device.labels.split(',')[1].split('-')[1]}") 2: #{device.labels.split(',')[1].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel2" style="background: #bbb; display: none;" onclick="alterChannel(2)" data-color="#{device.labels.split(',')[1].split('-')[1]}") 2: #{device.labels.split(',')[1].split('-')[0]}
+
+        if device.labels.split(',')[2].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel3" style="background: #bbb;" onclick="alterChannel(3)" data-color="#{device.labels.split(',')[2].split('-')[1]}") 3: #{device.labels.split(',')[2].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel3" style="background: #bbb; display: none;" onclick="alterChannel(3)" data-color="#{device.labels.split(',')[2].split('-')[1]}") 3: #{device.labels.split(',')[2].split('-')[0]}
+
+        if device.labels.split(',')[3].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel4" style="background: #bbb;" onclick="alterChannel(4)" data-color="#{device.labels.split(',')[3].split('-')[1]}") 4: #{device.labels.split(',')[3].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel4" style="background: #bbb; display: none;" onclick="alterChannel(4)" data-color="#{device.labels.split(',')[3].split('-')[1]}") 4: #{device.labels.split(',')[3].split('-')[0]}
+
+        if device.labels.split(',')[4].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel5" style="background: #bbb;" onclick="alterChannel(5)" data-color="#{device.labels.split(',')[4].split('-')[1]}") 5: #{device.labels.split(',')[4].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel5" style="background: #bbb; display: none;" onclick="alterChannel(5)" data-color="#{device.labels.split(',')[4].split('-')[1]}") 5: #{device.labels.split(',')[4].split('-')[0]}
+        
+        if device.labels.split(',')[5].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel6" style="background: #bbb;" onclick="alterChannel(6)" data-color="#{device.labels.split(',')[5].split('-')[1]}") 6: #{device.labels.split(',')[5].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel6" style="background: #bbb; display: none;" onclick="alterChannel(6)" data-color="#{device.labels.split(',')[5].split('-')[1]}") 6: #{device.labels.split(',')[5].split('-')[0]}
+       
+        if device.labels.split(',')[6].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel7" style="background: #bbb;" onclick="alterChannel(7)" data-color="#{device.labels.split(',')[6].split('-')[1]}") 7: #{device.labels.split(',')[6].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel7" style="background: #bbb; display: none;" onclick="alterChannel(7)" data-color="#{device.labels.split(',')[6].split('-')[1]}") 7: #{device.labels.split(',')[6].split('-')[0]}
+
+        if device.labels.split(',')[7].split('-')[2] == 1
+          .main-button-alt.channel-button(id="channel8" style="background: #bbb;" onclick="alterChannel(8)" data-color="#{device.labels.split(',')[7].split('-')[1]}") 8: #{device.labels.split(',')[7].split('-')[0]}
+        else
+          .main-button-alt.channel-button(id="channel8" style="background: #bbb; display: none;" onclick="alterChannel(8)" data-color="#{device.labels.split(',')[7].split('-')[1]}") 8: #{device.labels.split(',')[7].split('-')[0]}
+        
+
+        .col-md-6(style="padding: 0px; margin-top: 5px;")
               .main-button-alt(style="padding-left: 0px; padding-right: 0px; text-align: center; width: 92%; font-size: 11px;" onclick="selectAll()") Select All
 
-          .col-md-6(style="padding: 0px; margin-top: 5px;")
+        .col-md-6(style="padding: 0px; margin-top: 5px;")
               .main-button-alt(style="padding-left: 0px; padding-right: 0px; text-align: center; width: 92%; font-size: 11px;" onclick="clearAll()") Clear Selected
+
 
       .col-md-10(style="padding: 0px; overflow: auto;")
 
@@ -192,14 +226,14 @@ block content
   script(type="text/javascript").
 
     function selectAll(){
-      $('#channel1').css('background-color', '#000000');
-      $('#channel2').css('background-color', '#ff0000');
-      $('#channel3').css('background-color', '#f2a100');
-      $('#channel4').css('background-color', '#00C400');
-      $('#channel5').css('background-color', '#00aaff');
-      $('#channel6').css('background-color', '#5162ff');
-      $('#channel7').css('background-color', '#9B00EF');
-      $('#channel8').css('background-color', '#ED00C5');
+      var channels = '#{device.labels}'.split(',');
+
+      for(var  i = 0; i < channels.length; i++) {
+        if(channels[i].split('-')[2] == 1) {
+          console.log(channels[i].split('-')[1]);
+          $('#channel' + (i+1)).css('background-color', '#' + channels[i].split('-')[1]);
+        }
+      }
 
       getData();
     }
