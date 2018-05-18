@@ -416,6 +416,7 @@ block content
           bar: {groupWidth: "80%"},
           colors: colors,
           chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
+          explorer: {axis: 'horizontal'},
           hAxis: { 
             format: format,
             gridlines: { count: 7, color:"#ccc" },
@@ -674,6 +675,13 @@ block content
     var tempHTML = "";
 
     function activateChannel(deviceID, channel) {
+      if($('#channelActive'+channel).css('backgroundColor') == 'rgb(187, 187, 187)'){
+        $('#channelActive'+channel).css('background',  '#0af');
+        $('#channelActive'+channel).html('Active');
+      } else {
+        $('#channelActive'+channel).css('background',  '#bbb');
+        $('#channelActive'+channel).html('Disabled');
+      }
       // Edit on server
       var url = "/devices/activechannel?id=" + deviceID + "&channel=" + channel;
       var xhttp = new XMLHttpRequest();
@@ -683,8 +691,6 @@ block content
             // Close dialog and edit device
             if(this.responseText == "Activated") {
               toast('Channel activated', 2400);
-              $('#channelActive'+channel).css('background',  '#0af');
-              $('#channelActive'+channel).html('Active');
               $('#channel'+channel).css('display', 'inline-block');
               deviceLabels[channel-1] = deviceLabels[channel-1].split('-')[0] + '-' + deviceLabels[channel-1].split('-')[1] + '-' + 1;
 
@@ -695,6 +701,7 @@ block content
               $('#channel'+channel).css('background', 'rgb(187, 187, 187)');
               $('#channel'+channel).css('display', 'none');
               deviceLabels[channel-1] = deviceLabels[channel-1].split('-')[0] + '-' + deviceLabels[channel-1].split('-')[1] + '-' + 0;
+              getData();
 
             } else {
               console.log(this.responseText);
@@ -721,6 +728,7 @@ block content
               toast('Channel color changed', 2400);
               if($('#channel'+channel).css('backgroundColor') != 'rgb(187, 187, 187)') {
                 $('#channel'+channel).css('background', '#' + color);
+                getData();
               }
               $('#channel'+channel).data('color', color);
               deviceLabels[channel-1] = deviceLabels[channel-1].split('-')[0] + '-' + color + '-' + deviceLabels[channel-1].split('-')[2];
