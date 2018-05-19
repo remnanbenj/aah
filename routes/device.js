@@ -413,7 +413,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     startDate.setHours(startDate.getHours() - 12);
     startDate.setMinutes(0);
     startDate.setSeconds(0);
-    endDate.setMinutes(0);
+    endDate.setMinutes(60);
     endDate.setSeconds(0);
 
   } else if(timeScale == 'day'){

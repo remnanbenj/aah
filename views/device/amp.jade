@@ -522,10 +522,10 @@ block content
 
     function drawHalfdayChart(data, startDate) {
 
-      startDate.setHours(startDate.getHours() - 12);
       var endDate = new Date(startDate);
-      endDate.setMinutes(0);
+      endDate.setMinutes(60);
       endDate.setSeconds(0);
+      startDate.setHours(startDate.getHours() - 12);
 
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
