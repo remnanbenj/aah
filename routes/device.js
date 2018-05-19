@@ -374,10 +374,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var deviceMac = req.query.devicemac;
   var type = req.query.type;
   var timeScale = req.query.timescale;
-  var startDate = new Date(req.query.startdate);
-  var endDate = new Date(req.query.startdate);
   var channels = req.query.channels.split(',');
 
+  // Set start and end date
+  var startDate = new Date(req.query.startdate);
+  var endDate = new Date(req.query.startdate);
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -392,10 +393,28 @@ router.get('/getdata', checkSignIn, function(req, res) {
     }
 
     startDate.setMinutes(0);
-    startDate.setSeconds(0);
-
+    startDate.setSeconds(-10);
     endDate.setMinutes(60);
-    endDate.setSeconds(0);
+    endDate.setSeconds(10);
+
+  } else if(timeScale == 'halfday'){
+    var time = Number(req.query.time);
+    var ampm = req.query.ampm;
+
+    if(time == 12 && ampm == 'AM') time = 0;
+    if(ampm == 'AM') {
+      startDate.setHours(time);
+      endDate.setHours(time);
+    } else {
+      startDate.setHours(time + 12);
+      endDate.setHours(time + 12);
+    }
+
+    startDate.setMinutes(0);
+    startDate.setSeconds(-10);
+    endDate.setHours(endDate.getHours() + 12);
+    endDate.setMinutes(0);
+    endDate.setSeconds(10);
 
   } else if(timeScale == 'day'){
     startDate.setHours(0);
@@ -406,10 +425,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
+  // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+  console.log(sql);
   con.query(sql, function (err, results) {
     if (err) throw err;
-
 
     // Reduce Data
     results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
@@ -421,7 +441,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
       }
     }
 
-
     // Setup Fields
     var data = [];
     var dataRow = [];
@@ -429,6 +448,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     dataRow.push('Time');
     for(var i = 0; i < channels.length; i++){
       if(timeScale == 'hour') dataRow.push('KiloWatts');
+      else if(timeScale == 'halfday') dataRow.push('KiloWatts');
       else if(timeScale == 'day') dataRow.push('KiloWatt Hours');
     }
     data.push(dataRow);
@@ -440,10 +460,12 @@ router.get('/getdata', checkSignIn, function(req, res) {
         dataRow = [];
         dataRow.push(new Date(results[i].receivedtime));
         for(var j = 0; j < channels.length; j++){
-          if(timeScale == 'day')
-            dataRow.push(readings[j]*230);
           if(timeScale == 'hour')
             dataRow.push(readings[channels[j]-1]*230);
+          if(timeScale == 'halfday')
+            dataRow.push(readings[channels[j]-1]*230);
+          if(timeScale == 'day')
+            dataRow.push(readings[j]*230);
         }
         data.push(dataRow);
       }
@@ -467,6 +489,8 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
   var tData = [];
+  var dataPoints = [];
+  var dataPointCount = 0;
 
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
@@ -474,8 +498,57 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
   if(timeScale == 'day') {
 
     var minutes = 60;
-    var dataPoints = [];
-    var dataPointCount = 0;
+    tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+
+    for(var i = 0; i < diffMins / minutes; i++){
+
+      dataPoints = [];
+      if(channels.indexOf('1') != -1) dataPoints.push(0);
+      if(channels.indexOf('2') != -1) dataPoints.push(0);
+      if(channels.indexOf('3') != -1) dataPoints.push(0);
+      if(channels.indexOf('4') != -1) dataPoints.push(0);
+      if(channels.indexOf('5') != -1) dataPoints.push(0);
+      if(channels.indexOf('6') != -1) dataPoints.push(0);
+      if(channels.indexOf('7') != -1) dataPoints.push(0);
+      if(channels.indexOf('8') != -1) dataPoints.push(0);
+      dataPointCount = 0;
+      for(var j = 0; j < data.length; j++){
+        if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
+          var temp = 0;
+          if(channels.indexOf('1') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[0]); temp++; }
+          if(channels.indexOf('2') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[1]); temp++; }
+          if(channels.indexOf('3') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[2]); temp++; }
+          if(channels.indexOf('4') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[3]); temp++; }
+          if(channels.indexOf('5') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[4]); temp++; }
+          if(channels.indexOf('6') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[5]); temp++; }
+          if(channels.indexOf('7') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[6]); temp++; }
+          if(channels.indexOf('8') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[7]); temp++; }
+          dataPointCount++;
+        }
+        if(data[j].receivedtime > tEndDate) break;
+      }
+
+      var temp = 0;
+      if(channels.indexOf('1') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('3') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('4') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('5') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('6') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('7') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+      if(channels.indexOf('8') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
+
+
+      tData.push({data: dataPoints.join(':'), receivedtime: new Date(tStartDate)});
+
+
+      tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
+      tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+    }
+
+  } else if(timeScale == 'halfday') {
+
+    var minutes = 1;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
 
     for(var i = 0; i < diffMins / minutes; i++){

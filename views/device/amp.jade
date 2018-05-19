@@ -74,9 +74,9 @@ block content
 
               .main-button-alt(id="dayScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px; margin-left: 50px;" onclick="changeTimeScale('day')") Day
 
-              .main-button-alt(id="hourScale" style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
+              .main-button-alt(id="halfdayScale" style="margin-right: 5px;" onclick="changeTimeScale('halfday')") 12 Hours
 
-              .kWh Total: 0 kWh
+              .main-button-alt(id="hourScale" style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
 
           .graph(id="chart")
@@ -126,13 +126,6 @@ block content
     var hAxisCount = 6;
     var format = '';
 
-    // Setup refresh loop
-    function refresh() {
-      getData(0, 'none');
-      setTimeout(refresh, 5000);
-    }
-    setTimeout(refresh, 5000);
-
 
   script(type="text/javascript").
 
@@ -159,7 +152,6 @@ block content
     function selectAll(){
       for(var  i = 0; i < deviceLabels.length; i++) {
         if(deviceLabels[i].split('-')[2] == 1) {
-          console.log(deviceLabels[i].split('-')[0]);
           $('#channel' + (i+1)).css('background-color', '#' + deviceLabels[i].split('-')[1]);
         }
       }
@@ -184,6 +176,7 @@ block content
     function changeTimeScale(timescale) {
       // Change timescale
       $('#hourScale').css('background-color', '#00AAFF'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
+      $('#halfdayScale').css('background-color', '#00AAFF'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
       $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
 
       if(timescale == 'hour') { 
@@ -198,8 +191,21 @@ block content
         $("#timepicker").val(hours);
         $("#ampmpicker").val(hoursSuffix);
 
+      } else if(timescale == 'halfday') { 
+        $('#halfdayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); 
+
+        var hours = new Date().getHours();
+        var hoursSuffix = "AM";
+        if(hours == 12) { hoursSuffix = "PM"; }
+        else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+        $("#timepicker").css('display', 'inline-block');
+        $("#ampmpicker").css('display', 'inline-block');
+        $("#timepicker").val(hours);
+        $("#ampmpicker").val(hoursSuffix);
+
       } else if(timescale == 'day') { 
         $('#dayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); 
+
         $("#timepicker").css('display', 'none');
         $("#ampmpicker").css('display', 'none');
       }
@@ -213,9 +219,29 @@ block content
 
         var timescale = '';
         if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
+        else if($('#halfdayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'halfday';
         else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
 
         if(timescale == 'hour') {
+
+          if($('#timepicker').val() == 1) {
+            $('#timepicker').val(12);
+
+          } else if($('#timepicker').val() == 12) {
+            $('#timepicker').val(11);
+            if($('#ampmpicker').val() == "PM"){
+              $('#ampmpicker').val('AM');
+            } else {
+              date.setDate(date.getDate() - 1);
+              $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+              $('#ampmpicker').val('PM');
+            }
+
+          } else {
+            $('#timepicker').val(Number($('#timepicker').val()) - 1);
+          }
+
+        } else if(timescale == 'halfday') {
 
           if($('#timepicker').val() == 1) {
             $('#timepicker').val(12);
@@ -252,9 +278,29 @@ block content
 
         var timescale = '';
         if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
+        else if($('#halfdayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'halfday';
         else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
 
         if(timescale == 'hour') {
+
+          if($('#timepicker').val() == 12) {
+            $('#timepicker').val(1);
+
+          } else if($('#timepicker').val() == 11) {
+            $('#timepicker').val(12);
+            if($('#ampmpicker').val() == "PM"){
+              date.setDate(date.getDate() + 1);
+              $('#datepicker').val(date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear());
+              $('#ampmpicker').val('AM');
+            } else {
+              $('#ampmpicker').val('PM');
+            }
+
+          } else {
+            $('#timepicker').val(Number($('#timepicker').val()) + 1);
+          }
+
+        } else if(timescale == 'halfday') {
 
           if($('#timepicker').val() == 12) {
             $('#timepicker').val(1);
@@ -288,201 +334,43 @@ block content
 
   script(type="text/javascript").
 
-    // =====MAIN=====
 
+    // =====GRAPH=====
 
-    // Draw Graph
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(startLoop);
+    var chart;
 
-    getData(1);
+    function startLoop(){
+      // Draw Graph
+      getData();
 
-    function drawHourChart(data, startDate) {
-
-      var kWh = 0;
-      var endDate = new Date(startDate);
-      endDate.setHours(endDate.getHours() + 1);
-      endDate.setMinutes(0);
-      endDate.setSeconds(0);
-
-      // Set proper dates
-      for(var i = 1; i < data.length; i++) {
-        data[i][0] = new Date(data[i][0]);
-
-        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) / 1000;
-
-        // Record the readings kWh
-        for(var j = 1; j < data[i].length; j++) kWh += Number(data[i][j]);
+      // Setup graph refresh loop
+      /*function refreshLoop() {
+        getData(0, 'none');
+        setTimeout(refreshLoop, 5000);
       }
-
-      // Get readings left
-      var minutesLeft = 60 - new Date().getMinutes();
-      var secondsLeft = (60 - new Date().getSeconds()) + minutesLeft * 60;
-      var readingsLeft = Math.round(secondsLeft / 5);
-
-      // Display total kWh
-      $('.kWh').html('Total: ' + (kWh/(data.length + readingsLeft)).toFixed(2) + ' kWh');
-
-      // Add colors to graph
-      var colors = [];
-      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
-      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
-      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
-      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
-      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
-      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
-      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
-      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));
-
-      if(colors.length < 1) colors.push('#000');
-
-      // Set Options
-      var options = {
-          legend: 'none',
-          colors: colors,
-          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
-          hAxis: { 
-            format: format,
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 11, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 10
-            },
-            format: '# kW' 
-          }
-      };
-
-      drawChart(data);
-
-      function drawChart(data) {
-        var data = google.visualization.arrayToDataTable(data);
-        var chart = new google.visualization.AreaChart(document.getElementById('chart'));
-
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
-      }
+      setTimeout(refreshLoop, 5000);*/
     }
 
-    function drawDayChart(data, startDate, first) {
-
-      var kWh = 0;
-      var endDate = new Date(startDate);
-      endDate.setHours(endDate.getHours() + 24);
-      endDate.setMinutes(0);
-      endDate.setSeconds(0);
-
-      var currentDate = new Date();
-      var hourRatio = ((currentDate.getMinutes()*60) + currentDate.getSeconds()) / 3600;
-
-      // Set proper dates
-      for(var i = 1; i < data.length; i++) {
-        data[i][0] = new Date(data[i][0]);
-
-        // If this day and this hour then ratio the readings
-        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours() + 1) {
-          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j]) * hourRatio) / 1000;
-        } else {
-          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j])) / 1000;
-        }
-
-        // Record the readings kWh
-        for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
-      }
-
-      // Display total kWh
-      $('.kWh').html('Total: ' + (kWh).toFixed(2) + ' kWh');
-
-      // Add colors to graph
-      var colors = [];
-      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
-      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
-      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
-      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
-      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
-      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
-      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
-      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));
-
-      if(colors.length < 1) colors.push('#000');
-
-      // Set Options
-      var options = {
-          legend: 'none',
-          bar: {groupWidth: "80%"},
-          colors: colors,
-          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
-          explorer: {axis: 'horizontal'},
-          hAxis: { 
-            format: format,
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 11, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 10
-            },
-            format: '# kWh' 
-          }
-      };
-
-      if(first == 1) { google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(function(){drawChart(data);}); }
-      else { drawChart(data); }
-
-      function drawChart(data) {
-        var data = google.visualization.arrayToDataTable(data);
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
-
-        function selectHandler() {
-          var selectedItem = chart.getSelection()[0];
-          if (selectedItem) {
-            $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
-            $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
-
-            var hours = data.getValue(selectedItem.row, 0).getHours();
-            var hoursSuffix = "AM";
-            if(hours == 12) { hoursSuffix = "PM"; }
-            else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
-            $("#timepicker").css('display', 'inline-block');
-            $("#ampmpicker").css('display', 'inline-block');
-            $("#timepicker").val(hours);
-            $("#ampmpicker").val(hoursSuffix);
-
-            getData();
-          }
-        }
-        google.visualization.events.addListener(chart, 'select', selectHandler);
-
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
-      }
+    function refresh() {
+      getData();
     }
 
     // Gets data based on whats selected and redraws the graph
     function getData(first, loader) {
-      // Start loading graph
+      // Start loading graph if user clicked something
       if(loader != 'none')
         $('.loader').css('display', 'block');
 
       // Build url for new data
       var devicemac = '#{device.mac}';
       var type = '#{device.type}';
-
       var startdate = $('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0];
-
       var timescale = '';
       if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
+      else if($('#halfdayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'halfday';
       else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
-
       var channels = [];
       if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') channels.push(1);
       if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') channels.push(2);
@@ -492,10 +380,8 @@ block content
       if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') channels.push(6);
       if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') channels.push(7);
       if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') channels.push(8);
-
       var url = "/device/getdata?devicemac=" + devicemac + "&type=" + type + "&timescale=" + timescale + "&startdate=" + startdate + "&channels=" + channels.toString();
-
-      if(timescale == 'hour') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
+      if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
 
       // Get new data
       var xhttp = new XMLHttpRequest();
@@ -525,23 +411,279 @@ block content
             tempDate.setHours(time);
             tempDate.setMinutes(0);
             tempDate.setSeconds(0);
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
             drawHourChart(data, tempDate);
+
+          } else if(timescale == 'halfday') {
+            var time = Number($('#timepicker').val());
+            var ampm = $('#ampmpicker').val();
+
+            if(time == 12 && ampm == 'AM') time = 0;
+            if(time != 12 && ampm == 'PM') {
+              time += 12;
+            }
+            
+            var tempDate = new Date(startdate);
+            tempDate.setHours(time);
+            tempDate.setMinutes(0);
+            tempDate.setSeconds(0);
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
+            drawHalfdayChart(data, tempDate);
 
           } else if(timescale == 'day') {
             var tempDate = new Date(startdate);
             tempDate.setHours(0);
             tempDate.setMinutes(0);
             tempDate.setSeconds(0);
-            if(first == 1)
-              drawDayChart(data, tempDate, first);
-            else
-              drawDayChart(data, tempDate);
+            chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+            drawDayChart(data, tempDate);
           }
 
         }
       };
       xhttp.open("GET", url, true);
       xhttp.send();
+    }
+
+    function drawHourChart(data, startDate) {
+
+      //var kWh = 0;
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 1);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        data[i][0] = new Date(data[i][0]);
+
+        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) / 1000;
+
+        // Record the readings kWh
+        //for(var j = 1; j < data[i].length; j++) kWh += Number(data[i][j]);
+      }
+
+      // Get readings left & Display total kWh
+      /*var minutesLeft = 60 - new Date().getMinutes();
+      var secondsLeft = (60 - new Date().getSeconds()) + minutesLeft * 60;
+      var readingsLeft = Math.round(secondsLeft / 5);
+      $('.kWh').html('Total: ' + (kWh/(data.length + readingsLeft)).toFixed(2) + ' kWh');*/
+
+      // Add colors to graph
+      var colors = [];
+      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
+      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
+      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
+      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
+      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
+      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
+      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
+      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));
+
+      if(colors.length < 1) colors.push('#000');
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          colors: colors,
+          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          hAxis: { 
+            format: format,
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 11, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '# kW' 
+          }
+      };
+
+      drawChart(data);
+
+      function drawChart(data) {
+        var data = google.visualization.arrayToDataTable(data);
+
+        chart.draw(data, options);
+        $('.loader').css('display', 'none');
+      }
+    }
+
+    function drawHalfdayChart(data, startDate) {
+
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 12);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        data[i][0] = new Date(data[i][0]);
+
+        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) / 1000;
+      }
+
+      // Add colors to graph
+      var colors = [];
+      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
+      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
+      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
+      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
+      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
+      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
+      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
+      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));
+
+      if(colors.length < 1) colors.push('#000');
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          colors: colors,
+          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          hAxis: { 
+            format: format,
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 11, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '# kW' 
+          }
+      };
+
+      drawChart(data);
+
+      function drawChart(data) {
+        var data = google.visualization.arrayToDataTable(data);
+
+        chart.draw(data, options);
+        $('.loader').css('display', 'none');
+      }
+    }
+
+    function drawDayChart(data, startDate, first) {
+
+      //var kWh = 0;
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 24);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      var currentDate = new Date();
+      var hourRatio = ((currentDate.getMinutes()*60) + currentDate.getSeconds()) / 3600;
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        data[i][0] = new Date(data[i][0]);
+
+        // If this day and this hour then ratio the readings
+        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours() + 1) {
+          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j]) * hourRatio) / 1000;
+        } else {
+          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j])) / 1000;
+        }
+
+        // Record the readings kWh
+        //for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
+      }
+
+      // Display total kWh
+      //$('.kWh').html('Total: ' + (kWh).toFixed(2) + ' kWh');
+
+      // Add colors to graph
+      var colors = [];
+      if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
+      if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
+      if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
+      if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
+      if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
+      if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
+      if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
+      if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));
+
+      if(colors.length < 1) colors.push('#000');
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          bar: {groupWidth: "80%"},
+          colors: colors,
+          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          hAxis: { 
+            format: format,
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 11, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '# kWh' 
+          }
+      };
+
+      drawChart(data);
+
+      function drawChart(data) {
+        var data = google.visualization.arrayToDataTable(data);
+
+        function selectHandler() {
+          var selectedItem = chart.getSelection()[0];
+          if (selectedItem) {
+            $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
+            $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
+
+            var hours = data.getValue(selectedItem.row, 0).getHours();
+            var hoursSuffix = "AM";
+            if(hours == 12) { hoursSuffix = "PM"; }
+            else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+            $("#timepicker").css('display', 'inline-block');
+            $("#ampmpicker").css('display', 'inline-block');
+            $("#timepicker").val(hours);
+            $("#ampmpicker").val(hoursSuffix);
+
+            getData();
+          }
+        }
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        chart.draw(data, options);
+        $('.loader').css('display', 'none');
+      }
     }
 
 
