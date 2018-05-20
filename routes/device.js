@@ -125,7 +125,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     } else if(type == "WTRLVL") {
       dataRow.push('Time');
-      dataRow.push('Metres');
+      dataRow.push('Centimetre');
     }
     data.push(dataRow);
 

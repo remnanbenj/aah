@@ -342,7 +342,6 @@ block content
 
     function drawHourChart(data, startDate) {
 
-      //var kWh = 0;
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 1);
       endDate.setMinutes(0);
@@ -351,18 +350,7 @@ block content
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
-
-        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) / 1000;
-
-        // Record the readings kWh
-        //for(var j = 1; j < data[i].length; j++) kWh += Number(data[i][j]);
       }
-
-      // Get readings left & Display total kWh
-      /*var minutesLeft = 60 - new Date().getMinutes();
-      var secondsLeft = (60 - new Date().getSeconds()) + minutesLeft * 60;
-      var readingsLeft = Math.round(secondsLeft / 5);
-      $('.kWh').html('Total: ' + (kWh/(data.length + readingsLeft)).toFixed(2) + ' kWh');*/
 
       // Add colors to graph
       var colors = ['#000'];
@@ -386,12 +374,12 @@ block content
             }
           },
           vAxis: { 
-            gridlines: { count: 11, color:"#ccc" },
+            gridlines: { count: 9, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10
+                    max: 300
             },
-            format: '# kW' 
+            format: '# cm' 
           }
       };
 
@@ -415,8 +403,6 @@ block content
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
-
-        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]) / 1000;
       }
 
       // Add colors to graph
@@ -444,9 +430,9 @@ block content
             gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10
+                    max: 300
             },
-            format: '# kW' 
+            format: '# cm' 
           }
       };
 
@@ -495,16 +481,14 @@ block content
             }
           },
           vAxis: { 
-            gridlines: { count: 11, color:"#ccc" },
+            gridlines: { count: 9, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 1000
+                    max: 300
             },
             format: '# cm' 
           }
       };
-
-      console.log(data);
 
       drawChart(data);
 
