@@ -40,7 +40,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var deviceMac = req.query.devicemac;
   var type = req.query.type;
   var timeScale = req.query.timescale;
-  var channels = req.query.channels.split(',');
+  if(req.query.channels) var channels = req.query.channels.split(',');
 
   // Set start and end date
   var startDate = new Date(req.query.startdate);
