@@ -311,7 +311,7 @@ block content
             tempDate.setHours(0);
             tempDate.setMinutes(0);
             tempDate.setSeconds(0);
-            chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
             drawDayChart(data, tempDate);
           }
 
@@ -411,7 +411,6 @@ block content
           }
       };
 
-      console.log(data);
       var data = google.visualization.arrayToDataTable(data);
       google.visualization.events.addListener(chart, 'select', daySelectHandler);
       chart.draw(data, options);
