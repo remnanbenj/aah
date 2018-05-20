@@ -148,11 +148,19 @@ router.get('/getdata', checkSignIn, function(req, res) {
           data.push(dataRow);
         }
 
-      } else {
+      } else if(type == "WTRLVL") {
         for(var i = 0; i < results.length; i++){
           dataRow = [];
           dataRow.push(new Date(results[i].receivedtime));
           dataRow.push(results[i].data/100);
+          data.push(dataRow);
+        }
+
+      } else {
+        for(var i = 0; i < results.length; i++){
+          dataRow = [];
+          dataRow.push(new Date(results[i].receivedtime));
+          dataRow.push(results[i].data);
           data.push(dataRow);
         }
       }
@@ -210,57 +218,6 @@ function reduceResults(data, timeScale, startDate, endDate) {
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
 
       tData.push({data: dataPoint, receivedtime: new Date(tStartDate)});
-
-      tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
-      tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
-    }
-
-  } else if(timeScale == 'halfday') {
-
-    var minutes = 1;
-    tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
-
-    for(var i = 0; i < diffMins / minutes; i++){
-
-      dataPoints = [];
-      if(channels.indexOf('1') != -1) dataPoints.push(0);
-      if(channels.indexOf('2') != -1) dataPoints.push(0);
-      if(channels.indexOf('3') != -1) dataPoints.push(0);
-      if(channels.indexOf('4') != -1) dataPoints.push(0);
-      if(channels.indexOf('5') != -1) dataPoints.push(0);
-      if(channels.indexOf('6') != -1) dataPoints.push(0);
-      if(channels.indexOf('7') != -1) dataPoints.push(0);
-      if(channels.indexOf('8') != -1) dataPoints.push(0);
-      dataPointCount = 0;
-      for(var j = 0; j < data.length; j++){
-        if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
-          var temp = 0;
-          if(channels.indexOf('1') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[0]); temp++; }
-          if(channels.indexOf('2') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[1]); temp++; }
-          if(channels.indexOf('3') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[2]); temp++; }
-          if(channels.indexOf('4') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[3]); temp++; }
-          if(channels.indexOf('5') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[4]); temp++; }
-          if(channels.indexOf('6') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[5]); temp++; }
-          if(channels.indexOf('7') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[6]); temp++; }
-          if(channels.indexOf('8') != -1) { dataPoints[temp] += Number(data[j].data.split(':')[7]); temp++; }
-          dataPointCount++;
-        }
-        if(data[j].receivedtime > tEndDate) break;
-      }
-
-      var temp = 0;
-      if(channels.indexOf('1') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('2') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('3') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('4') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('5') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('6') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('7') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-      if(channels.indexOf('8') != -1) { if(dataPoints[temp]!=0) { dataPoints[temp] = (dataPoints[temp] / dataPointCount).toFixed(1); temp++; } else dataPoints.splice(temp, 1); }
-
-
-      tData.push({data: dataPoints.join(':'), receivedtime: new Date(tStartDate)});
-
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
