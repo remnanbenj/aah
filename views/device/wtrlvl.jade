@@ -22,8 +22,6 @@ block content
 
               .main-button-alt(id="dayScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px; margin-left: 50px;" onclick="changeTimeScale('day')") Day
 
-              .main-button-alt(id="halfdayScale" style="margin-right: 5px;" onclick="changeTimeScale('halfday')") 12 Hours
-
               .main-button-alt(id="hourScale" style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
 
@@ -330,54 +328,6 @@ block content
       endDate.setHours(endDate.getHours() + 1);
       endDate.setMinutes(0);
       endDate.setSeconds(0);
-
-      // Set proper dates
-      for(var i = 1; i < data.length; i++) {
-        data[i][0] = new Date(data[i][0]);
-      }
-
-      // Add colors to graph
-      var colors = ['#000'];
-
-      // Set Options
-      var options = {
-          legend: 'none',
-          colors: colors,
-          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
-          explorer: {
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomOut: 1.0
-          },
-          hAxis: { 
-            format: format,
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 4, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 3
-            },
-            format: '# m' 
-          }
-      };
-
-      var data = google.visualization.arrayToDataTable(data);
-      chart.draw(data, options);
-      $('.loader').css('display', 'none');
-    }
-
-    function drawHalfdayChart(data, startDate) {
-
-      var endDate = new Date(startDate);
-      endDate.setMinutes(60);
-      endDate.setSeconds(0);
-      startDate.setHours(startDate.getHours() - 12);
 
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
