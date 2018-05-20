@@ -149,9 +149,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
         }
 
       } else {
-        dataRow.push(new Date(results[i].receivedtime));
-        dataRow.push(results[i].data);
-        data.push(dataRow);
+        for(var i = 0; i < results.length; i++){
+          dataRow.push(new Date(results[i].receivedtime));
+          dataRow.push(results[i].data);
+          data.push(dataRow);
+        }
       }
 
     } else {
