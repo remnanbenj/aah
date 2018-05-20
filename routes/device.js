@@ -128,6 +128,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
     } else if(type == "WTRLVL") {
       dataRow.push('Time');
       dataRow.push('Metres');
+
+    } else if(type == "TEMP") {
+      dataRow.push('Time');
+      dataRow.push('Celsius');
     }
     data.push(dataRow);
 
