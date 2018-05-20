@@ -88,6 +88,9 @@ router.post('/removedevicedata', function(req, res) {
   });
 });
 	
+
+/* Channels */
+
 router.post('/renamechannel', function(req, res) {
   var deviceID = req.query.id;
   var newName = req.query.name;
@@ -149,12 +152,6 @@ router.post('/activechannel', function(req, res) {
 
   });
 });
-
-
-  /*var sql = "DELETE FROM data WHERE devicemac = '"+deviceMAC+"';";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-  });*/
 
 
 /* =====FUCNTIONS===== */

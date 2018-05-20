@@ -18,6 +18,16 @@ router.get('/', checkSignIn, function(req, res) {
   con.query(sql, function (err, device) {
     if (err) throw err;
 
+    if(device[0].type == 'AMP') {
+      device[0].lastreading = getReadableDate(device[0].lastreading);
+      res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device[0] });
+      return;
+    } else if(device[0].type == 'WTRLVL') {
+      device[0].lastreading = getReadableDate(device[0].lastreading);
+      res.render('device/wtrlvl', { title: 'AAH - Water Level', user: req.session.user, device: device[0] });
+      return;
+    }
+
     if(device.length > 0) {
       var startEndDate = getDateRange(req, timescale);
       var startDate = new Date(startEndDate[0]);
@@ -26,11 +36,6 @@ router.get('/', checkSignIn, function(req, res) {
       var sql = "SELECT * FROM data where devicemac = '"+device[0].mac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
       con.query(sql, function (err, data) {
         if (err) throw err;
-
-        if(device[0].type == 'AMP') {
-          renderAMP(req, res, device[0], data, timescale, startDate, endDate);
-          return;
-        }
 
         if(data.length > 0)
           var data = arrangeData(data, timescale, startDate, endDate);
@@ -147,8 +152,6 @@ function renderAMP(req, res, device, data, timescale, startDate, endDate){
     }
   }
 
-  device.lastreading = getReadableDate(device.lastreading);
-  res.render('device/amp', { title: 'AAH - Device', user: req.session.user, device: device, data: data, timescale: timescale, channels: channels });
 }
 
 function arrangeData(data, timescale, startDate, endDate) {
