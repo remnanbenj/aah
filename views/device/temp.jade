@@ -411,6 +411,7 @@ block content
           }
       };
 
+      console.log(data);
       var data = google.visualization.arrayToDataTable(data);
       google.visualization.events.addListener(chart, 'select', daySelectHandler);
       chart.draw(data, options);
