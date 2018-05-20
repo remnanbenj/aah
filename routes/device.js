@@ -150,6 +150,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       } else {
         for(var i = 0; i < results.length; i++){
+          dataRow = [];
           dataRow.push(new Date(results[i].receivedtime));
           dataRow.push(results[i].data);
           data.push(dataRow);
