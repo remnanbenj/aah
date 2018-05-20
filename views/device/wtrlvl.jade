@@ -241,25 +241,9 @@ block content
 
     // =====GRAPH=====
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(setupGraph);
     var chart;
-
-    function setupGraph(){
-      // Draw Graph
-      getData();
-
-      // Setup graph refresh loop
-      /*function refreshLoop() {
-        getData(0, 'none');
-        setTimeout(refreshLoop, 5000);
-      }
-      setTimeout(refreshLoop, 5000);*/
-    }
-
-    function refresh() {
-      getData();
-    }
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(getData);
 
     // Gets data based on whats selected and redraws the graph
     function getData(first, loader) {
@@ -377,20 +361,15 @@ block content
             gridlines: { count: 7, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 300
+                    max: 3
             },
-            format: '# cm' 
+            format: '# m' 
           }
       };
 
-      drawChart(data);
-
-      function drawChart(data) {
-        var data = google.visualization.arrayToDataTable(data);
-
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
-      }
+      var data = google.visualization.arrayToDataTable(data);
+      chart.draw(data, options);
+      $('.loader').css('display', 'none');
     }
 
     function drawHalfdayChart(data, startDate) {
@@ -430,20 +409,15 @@ block content
             gridlines: { count: 7, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 300
+                    max: 3
             },
-            format: '# cm' 
+            format: '# m' 
           }
       };
 
-      drawChart(data);
-
-      function drawChart(data) {
-        var data = google.visualization.arrayToDataTable(data);
-
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
-      }
+      var data = google.visualization.arrayToDataTable(data);
+      chart.draw(data, options);
+      $('.loader').css('display', 'none');
     }
 
     function drawDayChart(data, startDate, first) {
@@ -484,20 +458,25 @@ block content
             gridlines: { count: 7, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 300
+                    max: 3
             },
-            format: '# cm' 
+            format: '# m' 
           }
       };
 
-      drawChart(data);
+      var data = google.visualization.arrayToDataTable(data);
+      google.visualization.events.addListener(chart, 'select', daySelectHandler);
+      chart.draw(data, options);
+      $('.loader').css('display', 'none');
+    }
 
-      function drawChart(data) {
-        var data = google.visualization.arrayToDataTable(data);
+    function refresh() {
+      getData();
+    }
 
-        function selectHandler() {
-          var selectedItem = chart.getSelection()[0];
-          if (selectedItem) {
+    function daySelectHandler() {
+      var selectedItem = chart.getSelection()[0];
+      if (selectedItem) {
             $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
             $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
 
@@ -511,12 +490,6 @@ block content
             $("#ampmpicker").val(hoursSuffix);
 
             getData();
-          }
-        }
-        google.visualization.events.addListener(chart, 'select', selectHandler);
-
-        chart.draw(data, options);
-        $('.loader').css('display', 'none');
       }
     }
 
