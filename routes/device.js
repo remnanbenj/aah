@@ -19,14 +19,16 @@ router.get('/', checkSignIn, function(req, res) {
     if (err) throw err;
 
     if(device.length > 0) {
+      device[0].lastreading = getReadableDate(device[0].lastreading);
 
       if(device[0].type == 'AMP') {
-        device[0].lastreading = getReadableDate(device[0].lastreading);
         res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device[0] });
 
       } else if(device[0].type == 'WTRLVL') {
-        device[0].lastreading = getReadableDate(device[0].lastreading);
         res.render('device/wtrlvl', { title: 'AAH - Water Level', user: req.session.user, device: device[0] });
+
+      } else if(device[0].type == 'TEMP') {
+        res.render('device/temp', { title: 'AAH - Temperature', user: req.session.user, device: device[0] });
       }
 
     } else {
