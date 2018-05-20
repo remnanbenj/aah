@@ -40,7 +40,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var deviceMac = req.query.devicemac;
   var type = req.query.type;
   var timeScale = req.query.timescale;
-  if(req.query.channels) var channels = req.query.channels.split(',');
+  var channels = [9];
+  if(req.query.channels) channels = req.query.channels.split(',');
 
   // Set start and end date
   var startDate = new Date(req.query.startdate);
@@ -125,7 +126,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     } else if(type == "WTRLVL") {
       dataRow.push('Time');
-      dataRow.push('Centimetre');
+      dataRow.push('Metre');
     }
     data.push(dataRow);
 
@@ -152,7 +153,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         for(var i = 0; i < results.length; i++){
           dataRow = [];
           dataRow.push(new Date(results[i].receivedtime));
-          dataRow.push(results[i].data);
+          dataRow.push(results[i].data/100);
           data.push(dataRow);
         }
       }
