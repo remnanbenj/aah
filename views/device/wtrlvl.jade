@@ -462,32 +462,15 @@ block content
 
     function drawDayChart(data, startDate, first) {
 
-      //var kWh = 0;
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 24);
       endDate.setMinutes(0);
       endDate.setSeconds(0);
 
-      var currentDate = new Date();
-      var hourRatio = ((currentDate.getMinutes()*60) + currentDate.getSeconds()) / 3600;
-
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
-
-        // If this day and this hour then ratio the readings
-        if(getFormatedDateR(startDate) == getFormatedDateR(currentDate) && i == currentDate.getHours() + 1) {
-          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j]) * hourRatio) / 1000;
-        } else {
-          for(var j = 1; j < data[i].length; j++) data[i][j] = Math.round(Number(data[i][j])) / 1000;
-        }
-
-        // Record the readings kWh
-        //for(var j = 1; j < data[i].length; j++) kWh += data[i][j];
       }
-
-      // Display total kWh
-      //$('.kWh').html('Total: ' + (kWh).toFixed(2) + ' kWh');
 
       // Add colors to graph
       var colors = ['#000'];
@@ -515,9 +498,9 @@ block content
             gridlines: { count: 11, color:"#ccc" },
             viewWindow: {
                     min: 0,
-                    max: 10
+                    max: 1000
             },
-            format: '# kWh' 
+            format: '# cm' 
           }
       };
 
