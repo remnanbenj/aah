@@ -31,9 +31,11 @@ function getDeviceDatas(req, res, devices, index) {
   var startDate = new Date();
   var endDate = new Date();
 
+  if(startDate.getTimezoneOffset() != -720) startDate.setHours(startDate.getHours() + 4);
   startDate.setMinutes(0);
   startDate.setSeconds(0);
 
+  if(endDate.getTimezoneOffset() != -720) endDate.setHours(endDate.getHours() + 4);
   endDate.setMinutes(60);
   endDate.setSeconds(0);
 
@@ -45,13 +47,13 @@ function getDeviceDatas(req, res, devices, index) {
     if(results.length > 0) {
       if(devices[index].type == 'AMP') {
         for(var i = 0; i < results.length; i++){
-          if(startDate.getTimezoneOffset() != -720) results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() + 4);
+          //if(startDate.getTimezoneOffset() != -720) results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() - 4);
           data.push([getFormatedDate(new Date(results[i].receivedtime)), results[i].data.split(':')[0]]);
         }
 
       } else {
         for(var i = 0; i < results.length; i++){
-          if(startDate.getTimezoneOffset() != -720) results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() + 4);
+          //if(startDate.getTimezoneOffset() != -720) results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() - 4);
           data.push([getFormatedDate(new Date(results[i].receivedtime)), results[i].data]);
         }
       }
