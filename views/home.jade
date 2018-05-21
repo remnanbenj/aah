@@ -133,13 +133,10 @@ block content
   each device, index in devices
     script.
       var dataTogether = '#{device.data}'.split(',');
-      console.log(dataTogether);
-      console.log(dataTogether.length);
       var dataTemp = [];
+      if('#{device.type}' == "AMP") dataTemp.push(['Time', 'Kilowatts');
       for(var i = 0; i < dataTogether.length; i+=2){
-        console.log("I: " + i);
-        console.log(dataTogether[i]);
-        console.log(dataTogether[i+1]);
+        dataTemp.push([dataTogether[i], dataTogether[i+1]]);
       }
       devices.push({id: #{device.id}, type: '#{device.type}', data: dataTemp });
 
@@ -149,32 +146,9 @@ block content
     google.charts.setOnLoadCallback(drawCharts);
 
     function drawCharts(){
-      var data = [];
-      var testDate = new Date();
-      testDate.setSeconds(0);
-      var testDate2 = new Date(testDate);
-
-      data.push(['Time', 'Value']);
-      testDate.setMinutes(10);
-      testDate2 = new Date(testDate);
-      data.push([testDate2, 1]);
-      testDate.setMinutes(20);
-      testDate2 = new Date(testDate);
-      data.push([testDate2, 2]);
-      testDate.setMinutes(30);
-      testDate2 = new Date(testDate);
-      data.push([testDate2, 3]);
-      testDate.setMinutes(40);
-      testDate2 = new Date(testDate);
-      data.push([testDate2, 4]);
-      testDate.setMinutes(50);
-      testDate2 = new Date(testDate);
-      data.push([testDate2, 5]);
-
       for(var i = 0; i < devices.length; i++) {
-        drawHourChart(devices[i], data);
+        drawHourChart(devices[i], devices[i].data);
       }
-
     }
       
 
