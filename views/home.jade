@@ -133,8 +133,9 @@ block content
   each device, index in devices
     script.
       var dataTogether = '#{device.data}'.split(',');
+      console.log(dataTogether);
       var dataTemp = [];
-      for(var i = 0; i < #{device.data.length}; i+=1){
+      for(var i = 0; i < #{device.data.length}; i+=2){
         console.log(dataTogether[i]);
         console.log(dataTogether[i+1]);
       }
