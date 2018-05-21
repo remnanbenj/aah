@@ -29,12 +29,13 @@ block content
             - var timeoutMinutes = 5;
             - var currentDate = new Date();
             - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
+            - currentDate.setHours(currentDate.getHours() + 4);
             if device.lastreading >= currentDate
               .device-signal(style="background-image: url('/images/signal-green.png');")
-                span.tooltip(style="top: 0px; right: 20px; width: 200px;") #{currentDate}
+                span.tooltip(style="top: 0px; right: 20px; width: 200px;") Connected
             else
               .device-signal
-                span.tooltip(style="top: 0px; right: 20px; width: 200px;") #{currentDate}
+                span.tooltip(style="top: 0px; right: 20px; width: 200px;") Disconnected
 
           .device-content
               .graph(id="chart#{device.id}")
