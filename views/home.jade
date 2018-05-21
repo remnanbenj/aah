@@ -125,7 +125,6 @@ block content
         };
       }
 
-      console.log(data);
       var data = google.visualization.arrayToDataTable(data);
       var chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
       chart.draw(data, options);
