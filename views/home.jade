@@ -132,7 +132,13 @@ block content
 
   each device, index in devices
     script.
-      devices.push({id: #{device.id}, type: '#{device.type}', data: '#{device.data}'});
+      var dataTogether = '#{device.data}'.split(',');
+      var dataTemp = [];
+      for(var i = 0; i < #{device.data.length}; i+=1){
+        console.log(dataTogether[i]);
+        console.log(dataTogether[i+1]);
+      }
+      devices.push({id: #{device.id}, type: '#{device.type}', data: });
 
   script.
 
