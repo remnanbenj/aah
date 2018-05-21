@@ -43,7 +43,7 @@ block content
 
     var devices = [];
 
-    function drawHourChart(deviceID, data) {
+    function drawHourChart(device, data) {
 
       var startDate = new Date();
       startDate.setMinutes(0);
@@ -54,7 +54,9 @@ block content
       endDate.setSeconds(0);
 
       // Set Options
-      var options = {
+      var options;
+      if(device.type == "AMP") {
+        options = {
           legend: 'none',
           colors: ['#000'],
           chartArea: {left: 35, top: 10, 'width': '84%', 'height': '84%'},
@@ -73,16 +75,62 @@ block content
             },
             format: '#kW' 
           }
-      };
+        };
+
+      } else if(device.type == "TEMP") {
+        options = {
+          legend: 'none',
+          colors: ['#000'],
+          chartArea: {left: 35, top: 10, 'width': '84%', 'height': '84%'},
+          hAxis: { 
+            gridlines: { count: 5, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 6, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '#°C' 
+          }
+        };
+      }
+
+      } else if(device.type == "WTRLVL") {
+        options = {
+          legend: 'none',
+          colors: ['#000'],
+          chartArea: {left: 35, top: 10, 'width': '84%', 'height': '84%'},
+          hAxis: { 
+            gridlines: { count: 5, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 6, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '#m' 
+          }
+        };
+      }
 
       var data = google.visualization.arrayToDataTable(data);
-      var chart = new google.visualization.AreaChart(document.getElementById('chart' + deviceID));
+      var chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
       chart.draw(data, options);
     }
 
   each device, index in devices
     script.
-      devices.push({id: #{device.id}, data: '#{device.data}'});
+      devices.push({id: #{device.id}, type: #{device.type}, data: '#{device.data}'});
 
   script.
 
@@ -113,7 +161,7 @@ block content
       data.push([testDate2, 5]);
 
       for(var i = 0; i < devices.length; i++) {
-        drawHourChart(devices[i].id, data);
+        drawHourChart(devices[i], data);
       }
 
     }
