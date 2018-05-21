@@ -13,17 +13,17 @@ block content
 
             if device.type == 'AMP'
               .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
-                span.tooltip(style="top: 0px; left: 20px; width: 100px;") Power Monitor
+                span.tooltip(style="top: 0px; left: 20px; width: 120px;") Power Monitor
               .device-title #{device.name}
 
             else if device.type == 'TEMP'
               .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
-                span.tooltip(style="top: 0px; left: 20px; width: 100px;") Temperature Sensor
+                span.tooltip(style="top: 0px; left: 20px; width: 120px;") Temperature Sensor
               .device-title #{device.name}
 
             else if device.type == 'WTRLVL'
               .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
-                span.tooltip(style="top: 0px; left: 20px; width: 100px;") Water Level Sensor
+                span.tooltip(style="top: 0px; left: 20px; width: 120px;") Water Level Sensor
               .device-title #{device.name}
 
             - var timeoutMinutes = 5;
