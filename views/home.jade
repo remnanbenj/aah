@@ -134,7 +134,7 @@ block content
     script.
       var dataTogether = '#{device.data}'.split(',');
       var dataTemp = [];
-      if('#{device.type}' == "AMP") dataTemp.push(['Time', 'Kilowatts');
+      if('#{device.type}' == "AMP") dataTemp.push(['Time', 'Kilowatts']);
       for(var i = 0; i < dataTogether.length; i+=2){
         dataTemp.push([dataTogether[i], dataTogether[i+1]]);
       }
