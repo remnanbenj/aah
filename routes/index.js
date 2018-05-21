@@ -24,38 +24,44 @@ router.get('/home', checkSignIn, function(req, res) {
 });
 
 function getDeviceDatas(req, res, devices, index) {
-  // Get the next device mac
-  var deviceMAC = devices[index].mac;
 
   // Get the devices data
+
   var data = [];
-  var testDate = new Date();
-  testDate.setSeconds(0);
-  var testDate2 = new Date(testDate);
+  var startDate = new Date();
+  var endDate = new Date();
 
-  testDate.setMinutes(10);
-  testDate2 = new Date(testDate);
-  data.push([testDate2, 1]);
-  testDate.setMinutes(20);
-  testDate2 = new Date(testDate);
-  data.push([testDate2, 2]);
-  testDate.setMinutes(30);
-  testDate2 = new Date(testDate);
-  data.push([testDate2, 3]);
-  testDate.setMinutes(40);
-  testDate2 = new Date(testDate);
-  data.push([testDate2, 4]);
-  testDate.setMinutes(50);
-  testDate2 = new Date(testDate);
-  data.push([testDate2, 5]);
+  startDate.setMinutes(0);
+  startDate.setSeconds(0);
 
-  // Add data to device
-  devices[index].data = data;
+  endDate.setMinutes(60);
+  endDate.setSeconds(0);
 
-  // Recursion or end
-  index++;
-  if(index == devices.length) renderHome(req, res, devices);
-  else getDeviceDatas(req, res, devices, index)
+  var sql = "SELECT * FROM data where devicemac = '"+devices[index].mac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+  con.query(sql, function (err, results) {
+    if (err) throw err;
+
+    var data = [];
+    if(devices[index].type == 'AMP') {
+      for(var i = 0; i < results.length; i++){
+        data.push([results[i].receivedtime, results[i].data.split(',')[0]]);
+      }
+
+    } else {
+      for(var i = 0; i < results.length; i++){
+        data.push([results[i].receivedtime, results[i].data]);
+      }
+    }
+
+    // Add data to device
+    devices[index].data = data;
+
+    // Recursion or end
+    index++;
+    if(index == devices.length) renderHome(req, res, devices);
+    else getDeviceDatas(req, res, devices, index)
+    
+  });
 }
 
 function renderHome(req, res, devices) {
@@ -118,6 +124,17 @@ router.get('/logout', function(req, res) {
 
 
 /* =====FUCNTIONS===== */
+
+function getFormatedDate(date){
+  var dateString = "";
+  dateString += date.getFullYear() + "-";
+  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
+  dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+  dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+  dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
+  return dateString;
+}
 
 function getReadableDate(date){
   var dateString = "";
