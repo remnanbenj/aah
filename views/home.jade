@@ -31,10 +31,10 @@ block content
             - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
             if device.lastreading >= currentDate
               .device-signal(style="background-image: url('/images/signal-green.png');")
-                span.tooltip(style="top: 0px; right: 20px; width: 80px;") Connected
+                span.tooltip(style="top: 0px; right: 20px; width: 200px;") #{device.lastreading} :: #{currentDate}
             else
               .device-signal
-                span.tooltip(style="top: 0px; right: 20px; width: 90px;") Disconnected
+                span.tooltip(style="top: 0px; right: 20px; width: 200px;") #{device.lastreading} :: #{currentDate}
 
           .device-content
               .graph(id="chart#{device.id}")
