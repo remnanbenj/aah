@@ -15,6 +15,7 @@ block content
                   - var timeoutMinutes = 5;
                   - var currentDate = new Date();
                   - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
+                  - currentDate.setHours(currentDate.getHours() + 4);
                   if device.lastreading >= currentDate
                     .device-holder-item-signal(style="background-image: url('/images/signal-green.png');")
                   else
