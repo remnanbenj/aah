@@ -134,8 +134,10 @@ block content
     script.
       var dataTogether = '#{device.data}'.split(',');
       console.log(dataTogether);
+      console.log(dataTogether.length);
       var dataTemp = [];
-      for(var i = 0; i < #{device.data.length}; i+=2){
+      for(var i = 0; i < dataTogether.length; i+=2){
+        console.log("I: " + i);
         console.log(dataTogether[i]);
         console.log(dataTogether[i+1]);
       }
