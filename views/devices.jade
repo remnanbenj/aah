@@ -12,7 +12,7 @@ block content
                 .device-holder-item-mac #{device.mac}
                 .device-holder-item-buttons
 
-                  - var timeoutMinutes = 60;
+                  - var timeoutMinutes = 5;
                   - var currentDate = new Date();
                   - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
                   if device.lastreading >= currentDate
