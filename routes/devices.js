@@ -14,7 +14,7 @@ router.get('/', checkSignIn, function(req, res) {
   con.query(sql, function (err, userDevices) {
     if (err) throw err;
 
-    res.render('settings', { title: 'AAH - Settings', user: req.session.user, devices: userDevices });
+    res.render('devices', { title: 'AAH - Settings', user: req.session.user, devices: userDevices });
 
   });
 });

@@ -14,25 +14,53 @@ router.get('/', function(req, res) {
   else res.render('index', { title: 'AAH - Login' });
 });
 
-router.get('/test', function(req, res) {
-  res.render('test', { title: 'AAH - Test' });
-});
-
 router.get('/home', checkSignIn, function(req, res) {
-  var login = false;
-  if(req.query.login) login = true;
-
   var sql = "SELECT * FROM devices where userid = "+req.session.user.id+" order by lastreading desc;";
-  con.query(sql, function (err, result) {
+  con.query(sql, function (err, results) {
     if (err) throw err;
 
-    for(var i = 0; i < result.length; i++) {
-      result[i].lastreading = getReadableDate(result[i].lastreading);
-    }
-
-    res.render('home', { title: 'AAH - Home', user: req.session.user, login: login, devices: result });
+    getDeviceDatas(req, res, results, 0);
   });
 });
+
+function getDeviceDatas(req, res, devices, index) {
+  // Get the next device mac
+  var deviceMAC = devices[index].mac;
+
+  // Get the devices data
+  var data = [];
+  var testDate = new Date();
+  testDate.setSeconds(0);
+  var testDate2 = new Date(testDate);
+
+  testDate.setMinutes(10);
+  testDate2 = new Date(testDate);
+  data.push([testDate2, 1]);
+  testDate.setMinutes(20);
+  testDate2 = new Date(testDate);
+  data.push([testDate2, 2]);
+  testDate.setMinutes(30);
+  testDate2 = new Date(testDate);
+  data.push([testDate2, 3]);
+  testDate.setMinutes(40);
+  testDate2 = new Date(testDate);
+  data.push([testDate2, 4]);
+  testDate.setMinutes(50);
+  testDate2 = new Date(testDate);
+  data.push([testDate2, 5]);
+
+  // Add data to device
+  devices[index].data = data;
+
+  // Recursion or end
+  index++;
+  if(index == devices.length) renderHome(req, res, devices);
+  else getDeviceDatas(req, res, devices, index)
+}
+
+function renderHome(req, res, devices) {
+  res.render('home', { title: 'AAH - Dashboard', user: req.session.user, devices: devices });
+}
 
 
 // =====POSTS=====
@@ -95,7 +123,8 @@ function getReadableDate(date){
   var dateString = "";
   var hours = date.getHours();
   var hoursSuffix = "am";
-  if(hours >= 12) { hours -= 12; hoursSuffix = "pm"; }
+  if(hours == 12) { hoursSuffix = "PM"; }
+  else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
 
   dateString += String(hours).length == 1 ? "0" + hours + ":" : hours + ":";
   dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";

@@ -1,19 +1,7 @@
-.left-column, .right-column {
-  width: 96%;
-  margin: 0 auto;
-  overflow: auto;
-  min-height: 100px;
-}
-
-.left-title, .right-title {
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: white;
-}
-
 .device-holder {
   width: 94%;
-  height: calc(100vh - 240px);
+  max-width: 600px;
+  height: calc(100vh - 180px);
   margin: 0 auto;
   background: white;
   border: 1px solid #ccc;
@@ -133,6 +121,7 @@
 
 .device-buttons {
   width: 90%;
+  max-width: 590px;
   margin: 0 auto;
   background: white;
 }

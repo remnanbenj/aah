@@ -3,18 +3,129 @@ extends layout
 block content
   link(rel="stylesheet" href="/stylesheets/home.css")
   
-  .container(style="max-width: 400px;")
+  .container(style="max-width: 1200px;")
+
     each device, index in devices
-      .col-sm-12.col-lg-12(style="padding: 0px; margin: 0px; margin-bottom: 20px;")
-        .panel(onclick="window.location.assign('/device?id=#{device.id}');")
-          .panel-inner(style="overflow: auto;")
-            .panel-title #{device.name}
-            if device.type == 'VOLT'
-              .panel-lastreadingdatasymbol V
-            else if device.type == 'AMP'
-              .panel-lastreadingdatasymbol A
+      .col-lg-4.col-md-6.col-sm-6.col-xs-12(style="padding: 10px;")
+
+        .device-holder(onclick="window.location.assign('/device?id=#{device.id}');")
+          .div(style="overflow: hidden; position: relative; margin-top: 4px;")
+
+            if device.type == 'AMP'
+              .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                span.tooltip(style="top: 0px; left: 20px; width: 100px;") Power Monitor
+              .device-title #{device.name}
+
             else if device.type == 'TEMP'
-              .panel-lastreadingdatasymbol °C
-            .panel-lastreadingdata #{device.lastreadingdata.split(':')[0]}
-          .panel-inner(style="overflow: auto;")
-            .panel-lastreading #{device.lastreading}
+              .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                span.tooltip(style="top: 0px; left: 20px; width: 100px;") Temperature Sensor
+              .device-title #{device.name}
+
+            else if device.type == 'WTRLVL'
+              .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                span.tooltip(style="top: 0px; left: 20px; width: 100px;") Water Level Sensor
+              .device-title #{device.name}
+
+            - var currentDate = new Date();
+            if device.lastreading >= currentDate
+                .device-signal(style="background-image: url('/images/signal-green.png');")
+                  span.tooltip(style="top: 0px; right: 20px; width: 80px;") Connected
+            else
+                .device-signal
+                  span.tooltip(style="top: 0px; right: 20px; width: 90px;") Disconnected
+
+          .device-content
+              .graph(id="chart#{device.id}")
+
+
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
+  script.
+
+    var devices = [];
+
+    function drawHourChart(deviceID, data) {
+
+      var startDate = new Date();
+      startDate.setMinutes(0);
+      startDate.setSeconds(-1);
+
+      var endDate = new Date();
+      endDate.setMinutes(60);
+      endDate.setSeconds(0);
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          colors: ['#000'],
+          chartArea: {left: 35, top: 10, 'width': '84%', 'height': '84%'},
+          hAxis: { 
+            gridlines: { count: 5, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 6, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '#kW' 
+          }
+      };
+
+      var data = google.visualization.arrayToDataTable(data);
+      var chart = new google.visualization.AreaChart(document.getElementById('chart' + deviceID));
+      chart.draw(data, options);
+    }
+
+  each device, index in devices
+    script.
+      devices.push({id: #{device.id}, data: '#{device.data}'});
+
+  script.
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts(){
+      var data = [];
+      var testDate = new Date();
+      testDate.setSeconds(0);
+      var testDate2 = new Date(testDate);
+
+      data.push(['Time', 'Value']);
+      testDate.setMinutes(10);
+      testDate2 = new Date(testDate);
+      data.push([testDate2, 1]);
+      testDate.setMinutes(20);
+      testDate2 = new Date(testDate);
+      data.push([testDate2, 2]);
+      testDate.setMinutes(30);
+      testDate2 = new Date(testDate);
+      data.push([testDate2, 3]);
+      testDate.setMinutes(40);
+      testDate2 = new Date(testDate);
+      data.push([testDate2, 4]);
+      testDate.setMinutes(50);
+      testDate2 = new Date(testDate);
+      data.push([testDate2, 5]);
+
+      for(var i = 0; i < devices.length; i++) {
+        drawHourChart(devices[i].id, data);
+      }
+
+    }
+      
+
+
+
+
+
+
+
+
+
+
+

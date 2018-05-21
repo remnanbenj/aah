@@ -35,3 +35,76 @@
   float: right;
   font-size: 14px;
 }
+
+.device-holder {
+  width: 100%;
+  max-width: 340px;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px;
+  padding-top: 5px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.device-icon {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 18px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.device-title {
+  float: left;
+  font-size: 16px;
+  margin-left: 20px;
+}
+
+.device-signal {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 18px;
+  color: white;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/signal-red.png');
+}
+
+.device-content {
+  margin-top: 7px;
+  background: #00aaff;
+  height: 200px;
+}
+
+
+.tooltip {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    height: 100%;
+    padding-top: 3px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.device-signal:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.device-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
