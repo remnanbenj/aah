@@ -48,7 +48,7 @@ function getDeviceDatas(req, res, devices, index) {
       if(devices[index].type == 'AMP') {
         for(var i = 0; i < results.length; i++){
           //if(startDate.getTimezoneOffset() != -720) results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() - 4);
-          data.push([getFormatedDate(new Date(results[i].receivedtime)), results[i].data.split(':')[0]]);
+          data.push([getFormatedDate(new Date(results[i].receivedtime)), Number(results[i].data.split(':')[0]) * 230 / 1000]);
         }
 
       } else {
