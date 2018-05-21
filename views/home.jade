@@ -134,11 +134,13 @@ block content
     script.
       var dataTogether = '#{device.data}'.split(',');
       var dataTemp = [];
+
       if('#{device.type}' == "AMP") dataTemp.push(['Time', 'Kilowatts']);
       else if('#{device.type}' == "TEMP") dataTemp.push(['Time', 'Temperature']);
       else if('#{device.type}' == "WTRLVL") dataTemp.push(['Time', 'Metres']);
+
       for(var i = 0; i < dataTogether.length; i+=2){
-        dataTemp.push([new Date(dataTogether[i]), Number(dataTogether[i+1]]));
+        dataTemp.push([new Date(dataTogether[i]), Number(dataTogether[i+1])]);
       }
       devices.push({id: #{device.id}, type: '#{device.type}', data: dataTemp });
 
