@@ -62,7 +62,7 @@ block content
         options = {
           legend: 'none',
           colors: ['#000'],
-          chartArea: {left: 35, top: 10, 'width': '84%', 'height': '84%'},
+          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
           hAxis: { 
             gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
@@ -84,7 +84,7 @@ block content
         options = {
           legend: 'none',
           colors: ['#000'],
-          chartArea: {left: 35, top: 10, 'width': '84%', 'height': '84%'},
+          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
           hAxis: { 
             gridlines: { count: 5, color:"#ccc" },
             viewWindow: {
@@ -125,6 +125,7 @@ block content
         };
       }
 
+      console.log(data);
       var data = google.visualization.arrayToDataTable(data);
       var chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
       chart.draw(data, options);
