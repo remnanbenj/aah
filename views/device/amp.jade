@@ -72,11 +72,11 @@ block content
 
           .graph-button-holder(style="text-align: left;")
 
-              .main-button-alt(id="dayScale" style="margin-right: 5px;" onclick="changeTimeScale('day')") Day
+              .main-button-alt(id="dayScale" style="margin-right: 5px; margin-left: 50px;" onclick="changeTimeScale('day')") Day
 
               .main-button-alt(id="halfdayScale" style="margin-right: 5px;" onclick="changeTimeScale('halfday')") 12 Hours
 
-              .main-button-alt(id="hourScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px; margin-left: 50px;" onclick="changeTimeScale('hour')") Hour
+              .main-button-alt(id="hourScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
 
           .graph(id="chart")
@@ -87,7 +87,7 @@ block content
               .main-button-alt(style="padding-left: 8px; padding-right: 8px; padding-top: 6px;" onclick="moveLeft()")
                 .glyphicon.glyphicon-triangle-left
 
-              select.time-picker(type="text" id="timepicker" onchange="getData()" style="text-align: right;")
+              select.time-picker(type="text" id="timepicker" onchange="getData()" style="text-align: right; display: inline-block;")
                   option 1
                   option 2
                   option 3
@@ -101,7 +101,7 @@ block content
                   option 11
                   option 12
 
-              select.time-picker(type="text" id="ampmpicker" onchange="getData()")
+              select.time-picker(type="text" id="ampmpicker" onchange="getData()" style="display: inline-block;")
                   option AM
                   option PM
 
