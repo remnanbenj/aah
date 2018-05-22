@@ -53,10 +53,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var ampm = req.query.ampm;
 
     if(time == 12 && ampm == 'AM') time = 0;
-    if(ampm == 'AM') {
+    if(ampm == 'AM' || time == 12 && ampm == 'PM') {
       startDate.setHours(time);
       endDate.setHours(time);
-    } else if(time != 12) {
+    } else {
       startDate.setHours(time + 12);
       endDate.setHours(time + 12);
     }
@@ -71,10 +71,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var ampm = req.query.ampm;
 
     if(time == 12 && ampm == 'AM') time = 0;
-    if(ampm == 'AM') {
+    if(ampm == 'AM' || time == 12 && ampm == 'PM') {
       startDate.setHours(time);
       endDate.setHours(time);
-    } else if(time != 12) {
+    } else {
       startDate.setHours(time + 12);
       endDate.setHours(time + 12);
     }
