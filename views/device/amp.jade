@@ -126,6 +126,17 @@ block content
     var hAxisCount = 6;
     var format = '';
 
+    // Setup time
+    $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
+    var hours = new Date().getHours();
+    var hoursSuffix = "AM";
+    if(hours == 12) { hoursSuffix = "PM"; }
+    else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+    $("#timepicker").css('display', 'inline-block');
+    $("#ampmpicker").css('display', 'inline-block');
+    $("#timepicker").val(hours);
+    $("#ampmpicker").val(hoursSuffix);
+
 
   script(type="text/javascript").
 
