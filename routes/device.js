@@ -56,7 +56,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(ampm == 'AM') {
       startDate.setHours(time);
       endDate.setHours(time);
-    } else {
+    } else if(time != 12) {
       startDate.setHours(time + 12);
       endDate.setHours(time + 12);
     }
@@ -74,7 +74,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(ampm == 'AM') {
       startDate.setHours(time);
       endDate.setHours(time);
-    } else {
+    } else if(time != 12) {
       startDate.setHours(time + 12);
       endDate.setHours(time + 12);
     }
