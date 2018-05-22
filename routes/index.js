@@ -32,7 +32,7 @@ function getDeviceDatas(req, res, devices, index) {
   var endDate = new Date();
 
   if(startDate.getTimezoneOffset() != -720) startDate.setHours(startDate.getHours() + 4);
-  startDate.setMinutes(0);
+  startDate.setMinutes(-5);
   startDate.setSeconds(0);
 
   if(endDate.getTimezoneOffset() != -720) endDate.setHours(endDate.getHours() + 4);
