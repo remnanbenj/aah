@@ -48,6 +48,9 @@ block content
 
     function drawHourChart(device, data) {
 
+      var data = google.visualization.arrayToDataTable(data);
+      var chart;
+
       var startDate = new Date();
       startDate.setMinutes(0);
       startDate.setSeconds(-1);
@@ -59,9 +62,10 @@ block content
       // Set Options
       var options;
       if(device.type == "AMP") {
+        var channelColor = '#000';
         options = {
           legend: 'none',
-          colors: ['#0af'],
+          colors: [channelColor],
           chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
           hAxis: { 
             gridlines: { count: 5, color:"#ccc" },
@@ -79,6 +83,7 @@ block content
             format: '#kW' 
           }
         };
+        chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
 
       } else if(device.type == "TEMP") {
         options = {
@@ -101,6 +106,7 @@ block content
             format: '#°C' 
           }
         };
+        chart = new google.visualization.LineChart(document.getElementById('chart' + device.id));
 
       } else if(device.type == "WTRLVL") {
         options = {
@@ -123,10 +129,9 @@ block content
             format: '#m' 
           }
         };
+        chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
       }
 
-      var data = google.visualization.arrayToDataTable(data);
-      var chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
       chart.draw(data, options);
     }
 
