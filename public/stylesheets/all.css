@@ -136,6 +136,7 @@ input:focus {
   background: rgba(0, 0, 0, 0.5);
   z-index: 997;
   display: none;
+  overflow: auto;
 }
 
 .overlay-inner, .overlay-popup {

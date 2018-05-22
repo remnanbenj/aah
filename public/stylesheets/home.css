@@ -1,55 +1,13 @@
-.panel {
-  width: 340px;
-  margin: 0 auto;
-  padding: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  z-index: 1;
-  cursor: pointer;
-  color: #000;
-  overflow: auto;
-  background: #fff;
-}
-
-.panel:hover {
-  background: #0092DB;
-}
-
-.panel-title {
-  float: left;
-  text-align: left;
-  font-size: 16px;
-}
-
-.panel-lastreadingdata {
-  float: right;
-  font-size: 14px;
-}
-
-.panel-lastreadingdatasymbol {
-  float: right;
-  font-size: 14px;
-}
-
-.panel-lastreading {
-  float: right;
-  font-size: 14px;
-}
+/* =====Device===== */
 
 .device-holder {
-  width: 100%;
-  max-width: 340px;
+  width: 340px;
   background: #fff;
   border-radius: 4px;
-  cursor: pointer;
   padding: 10px;
   padding-top: 5px;
   position: relative;
   margin: 0 auto;
-}
-
-.device-holder:hover {
-  box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.7);
 }
 
 .device-icon {
@@ -67,13 +25,14 @@
   float: left;
   font-size: 16px;
   margin-left: 20px;
+  cursor: pointer;
 }
 
 .device-signal {
   position: absolute;
   top: 0px;
-  right: 0px;
-  bottom: 0px;
+  right: 28px;
+  bottom: 1px;
   width: 18px;
   color: white;
   background-size: contain;
@@ -82,12 +41,81 @@
   background-image: url('/images/signal-red.png');
 }
 
-.device-content {
-  margin-top: 7px;
+.device-settings {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 22px;
+  height: 22px;
   background: #00aaff;
-  height: 200px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/settings-icon.png');
 }
 
+.device-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 22px;
+  height: 22px;
+  background: #00aaff;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  padding-top: 3px;
+}
+
+.device-settings:hover, .device-close:hover {
+  background-color: #0092DB;
+}
+
+.device-content {
+  background: #00aaff;
+  height: 200px;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+
+/* =====Settings===== */
+
+.settings-input-label {
+  display: inline-block;
+  margin-top: 3px;
+  margin-right: 10px;
+  float: left;
+}
+
+.settings-input {
+  width: 30px;
+  height: 26px;
+  color: #000;
+  background: #fff;
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+}
+
+.settings-select {
+  height: 26px;
+  color: #000;
+  background: #fff;
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+}
+
+
+/* =====TOOLTIP===== */
 
 .tooltip {
     visibility: hidden;

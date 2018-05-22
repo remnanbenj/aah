@@ -8,41 +8,111 @@ block content
     each device, index in devices
       .col-lg-4.col-md-6.col-sm-6.col-xs-12(style="padding: 10px;")
 
-        .device-holder(onclick="window.location.assign('/device?id=#{device.id}');")
-          .div(style="overflow: hidden; position: relative; margin-top: 4px;")
+        .device-holder
+          .div(id="device#{device.id}" style="overflow: hidden; margin-top: 4px; height: 220px;")
+            .div(style="overflow: hidden; position: relative;")
 
-            if device.type == 'AMP'
-              .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
-                span.tooltip(style="top: 0px; left: 20px; width: 120px;") Power Monitor
-              .device-title #{device.name}
+              if device.type == 'AMP'
+                .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                  span.tooltip(style="top: 0px; left: 25px; width: 120px;") Power Monitor
+                .device-title(id="title#{device.id}" onclick="window.location.assign('/device?id=#{device.id}');") #{device.name}
 
-            else if device.type == 'TEMP'
-              .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
-                span.tooltip(style="top: 0px; left: 20px; width: 120px;") Temperature Sensor
-              .device-title #{device.name}
+              else if device.type == 'TEMP'
+                .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                  span.tooltip(style="top: 0px; left: 25px; width: 120px;") Temperature Sensor
+                .device-title #{device.name}
 
-            else if device.type == 'WTRLVL'
-              .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
-                span.tooltip(style="top: 0px; left: 20px; width: 120px;") Water Level Sensor
-              .device-title #{device.name}
+              else if device.type == 'WTRLVL'
+                .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                  span.tooltip(style="top: 0px; left: 25px; width: 120px;") Water Level Sensor
+                .device-title #{device.name}
 
-            - var timeoutMinutes = 5;
-            - var currentDate = new Date();
-            - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
-            - currentDate.setHours(currentDate.getHours() + 4);
-            if device.lastreading >= currentDate
-              .device-signal(style="background-image: url('/images/signal-green.png');")
-                span.tooltip(style="top: 0px; right: 20px; width: 80px;") Connected
-            else
-              .device-signal
-                span.tooltip(style="top: 0px; right: 20px; width: 90px;") Disconnected
+              - var timeoutMinutes = 5;
+              - var currentDate = new Date();
+              - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
+              - currentDate.setHours(currentDate.getHours() + 4);
+              if device.lastreading >= currentDate
+                .device-signal(style="background-image: url('/images/signal-green.png');")
+                  span.tooltip(style="top: 0px; right: 25px; width: 80px;") Connected
+              else
+                .device-signal
+                  span.tooltip(style="top: 0px; right: 25px; width: 90px;") Disconnected
 
-          .device-content
+              .device-settings(onclick="deviceSettings(#{device.id}, '#{device.type}')")
+
+            .device-content(id="content#{device.id}" onclick="window.location.assign('/device?id=#{device.id}');")
               .graph(id="chart#{device.id}")
+
+
+          .div(id="settings#{device.id}" style="overflow: hidden; height: 0px;")
+
+            .div(style="overflow: hidden; position: relative;")
+              .device-title Wigit Settings
+              .device-close(onclick="deviceMain(#{device.id}, '#{device.type}')")
+                .glyphicon.glyphicon-menu-down
+
+            .div(style="margin-top: 5px; height: 195px; overflow: auto;")
+
+              .col-xs-5(style="text-align: right; padding: 10px; margin-top: 10px;")
+                .settings-input-label Max Value: 
+                input.settings-input(type="text" value="10") 
+                br
+                .settings-input-label Min Value: 
+                input.settings-input(type="text" value="0") 
+
+              .col-xs-7(style="text-align: right; padding: 10px; margin-top: 10px;")
+                .settings-input-label Timescale: 
+                select.settings-select(type="text") 
+                  option Hour
+                  option Day
+
+                if device.type == 'AMP'
+                  br
+                  .settings-input-label Channel: 
+                  select.settings-select(type="text") 
+                    option Channel 1
+                    option Channel 2
+                    option Channel 3
+                    option Channel 4
+                    option Channel 5
+                    option Channel 6
+                    option Channel 7
+                    option Channel 8
+
+              
 
 
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
   script.
+
+    function deviceSettings(deviceID, deviceType){
+      //$('#device' + deviceID).css('height', '0px');
+      //$('#settings' + deviceID).css('height', 'auto');
+
+      $('#device' + deviceID).animate({height: "0px"}, 200);
+      $('#settings' + deviceID).animate({height: "220px"}, 200);
+    }
+
+    function deviceMain(deviceID, deviceType){
+      //$('#device' + deviceID).css('height', 'auto');
+      //$('#settings' + deviceID).css('height', '0px');
+
+      $('#device' + deviceID).animate({height: "220px"}, 200);
+      $('#settings' + deviceID).animate({height: "0px"}, 200);
+    }
+
+    $(".device-content, .device-title").hover(function(){
+      var contentID = $(this).attr('id');
+      contentID = contentID.replace('content', '');
+      contentID = contentID.replace('title', '');
+      $("#title"+contentID).css('color', '#0af');
+
+    }, function(){
+      var contentID = $(this).attr('id');
+      contentID = contentID.replace('content', '');
+      contentID = contentID.replace('title', '');
+      $("#title"+contentID).css('color', '#000');
+    });
 
     var devices = [];
 
@@ -98,10 +168,10 @@ block content
             }
           },
           vAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
+            gridlines: { count: 6, color:"#ccc" },
             viewWindow: {
                     min: -10,
-                    max: 30
+                    max: 40
             },
             format: '#°C' 
           }
