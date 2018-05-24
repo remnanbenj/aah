@@ -29,6 +29,9 @@ router.get('/', checkSignIn, function(req, res) {
 
       } else if(device[0].type == 'TEMP') {
         res.render('device/temp', { title: 'AAH - Temperature', user: req.session.user, device: device[0] });
+
+      } else if(device[0].type == 'VOLT') {
+        res.render('device/volt', { title: 'AAH - Voltmeter', user: req.session.user, device: device[0] });
       }
 
     } else {
@@ -132,6 +135,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
     } else if(type == "TEMP") {
       dataRow.push('Time');
       dataRow.push('Celsius');
+
+    } else if(type == "VOLT") {
+      dataRow.push('Time');
+      dataRow.push('Voltage');
     }
     data.push(dataRow);
 
