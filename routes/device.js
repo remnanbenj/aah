@@ -59,9 +59,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
   console.log("timezoneOffset: " + timezoneOffset);
 
-  console.log("Start1: " + getFormatedDate(startDate));
-  console.log("End1:   " + getFormatedDate(endDate));
-
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -80,14 +77,14 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(60);
     endDate.setSeconds(10);
 
-    console.log("Start2: " + getFormatedDate(startDate));
-    console.log("End2:   " + getFormatedDate(endDate));
+    console.log("Start1: " + getFormatedDate(startDate));
+    console.log("End1:   " + getFormatedDate(endDate));
 
     startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
 
-    console.log("Start3: " + getFormatedDate(startDate));
-    console.log("End3:   " + getFormatedDate(endDate));
+    console.log("Start2: " + getFormatedDate(startDate));
+    console.log("End2:   " + getFormatedDate(endDate));
 
   } else if(timeScale == 'halfday'){
     var time = Number(req.query.time);
