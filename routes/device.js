@@ -113,6 +113,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     // Reduce Data
     if(type == "AMP") {
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+    } else if(type == "TEMP") {
+      //results = reduceResults(results, timeScale, startDate, endDate);
     } else {
       results = reduceResults(results, timeScale, startDate, endDate);
     }
