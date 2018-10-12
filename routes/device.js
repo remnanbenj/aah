@@ -47,7 +47,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var deviceMac = req.query.devicemac;
   var type = req.query.type;
   var timeScale = req.query.timescale;
-  var timezoneOffset = req.query.timezoneoffset;
+  var timezoneOffset = Number(req.query.timezoneoffset);
 
   // Power monitor variables
   var channels = [9];
