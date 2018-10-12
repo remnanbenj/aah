@@ -83,8 +83,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     console.log("Start2: " + getFormatedDate(startDate));
     console.log("End2:   " + getFormatedDate(endDate));
 
-    startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
-    endDate.setMinutes(endDate.getMinutes() - timezoneOffset);
+    startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
+    endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
 
     console.log("Start3: " + getFormatedDate(startDate));
     console.log("End3:   " + getFormatedDate(endDate));
@@ -116,9 +116,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(0);
     endDate.setSeconds(0);
   }
-
-  console.log("Start: " + getFormatedDate(startDate));
-  console.log("End:   " + getFormatedDate(endDate));
 
 
   // Get data
