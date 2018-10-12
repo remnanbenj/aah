@@ -153,7 +153,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Setup Data
     if(results.length > 0) {
-      console.log(results[0].data);
+      console.log(results);
 
       if(type == "AMP") {
         for(var i = 0; i < results.length; i++){
