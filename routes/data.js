@@ -21,7 +21,8 @@ router.get('/reading', function(req, res) {
   // Aussie Time rearrange
   //receivedtime.setHours(receivedtime.getHours() + 4);
   //receivedtime = receivedtime.getFullYear() + "-" + (receivedtime.getMonth()+1) + "-" + receivedtime.getDate() + " " + receivedtime.getHours() + ":" + receivedtime.getMinutes() + ":" + receivedtime.getSeconds();
-  receivedtime.setUTCHours(0);
+  
+  receivedtime.setHours(receivedtime.getHours() + receivedtime.getTimezoneOffset());
 
   console.log("TimeA: " + receivedtime);
 
