@@ -57,7 +57,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
-  console.log("StartB: " + getFormatedDate(startDate));
+  console.log("timezoneOffset: " + timezoneOffset);
+
+  console.log("Start1: " + getFormatedDate(startDate));
+  console.log("End1:   " + getFormatedDate(endDate));
 
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
@@ -77,7 +80,14 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(60);
     endDate.setSeconds(10);
 
+    console.log("Start2: " + getFormatedDate(startDate));
+    console.log("End2:   " + getFormatedDate(endDate));
+
     startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
+    endDate.setMinutes(endDate.getMinutes() - timezoneOffset);
+
+    console.log("Start3: " + getFormatedDate(startDate));
+    console.log("End3:   " + getFormatedDate(endDate));
 
   } else if(timeScale == 'halfday'){
     var time = Number(req.query.time);
@@ -97,8 +107,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
     startDate.setSeconds(0);
     endDate.setMinutes(60);
     endDate.setSeconds(0);
-
-    startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
 
   } else if(timeScale == 'day'){
     startDate.setHours(0);
@@ -156,7 +164,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Setup Data
     if(results.length > 0) {
-      console.log(results);
+      //console.log(results);
 
       if(type == "AMP") {
         for(var i = 0; i < results.length; i++){
