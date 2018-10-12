@@ -56,6 +56,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
+  console.log("StartB: " + getFormatedDate(startDate));
+
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -118,13 +120,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
     } else {
       results = reduceResults(results, timeScale, startDate, endDate);
     }
-
-    // Offset time if AUS
-    /*if(startDate.getTimezoneOffset() != -720) {
-      for(var i = 0; i < results.length; i++) {
-        results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() - 4);
-      }
-    }*/
 
     // Setup Fields
     var data = [];
