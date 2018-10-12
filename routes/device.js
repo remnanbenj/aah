@@ -153,6 +153,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Setup Data
     if(results.length > 0) {
+      console.log(results[0].data);
 
       if(type == "AMP") {
         for(var i = 0; i < results.length; i++){
@@ -185,7 +186,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow.push(results[i].data.split(':')[0]);
           dataRow.push(results[i].data.split(':')[1]);
           data.push(dataRow);
-          console.log(results[i].data);
         }
 
       } else {
