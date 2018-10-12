@@ -77,14 +77,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(60);
     endDate.setSeconds(10);
 
-    console.log("Start1: " + getFormatedDate(startDate));
-    console.log("End1:   " + getFormatedDate(endDate));
-
     startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
-
-    console.log("Start2: " + getFormatedDate(startDate));
-    console.log("End2:   " + getFormatedDate(endDate));
 
   } else if(timeScale == 'halfday'){
     var time = Number(req.query.time);
@@ -114,6 +108,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
+  console.log("Start: " + getFormatedDate(startDate));
+  console.log("End:   " + getFormatedDate(endDate));
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
@@ -158,7 +154,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Setup Data
     if(results.length > 0) {
-      //console.log(results);
+      console.log(results);
 
       if(type == "AMP") {
         for(var i = 0; i < results.length; i++){
