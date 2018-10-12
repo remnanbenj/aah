@@ -208,6 +208,13 @@ router.get('/getdata', checkSignIn, function(req, res) {
         }
         data.push(dataRow);
 
+      } else if(type == "TEMP") {
+        dataRow = [];
+        dataRow.push(new Date());
+        dataRow.push('0');
+        dataRow.push('0');
+        data.push(dataRow);
+
       } else {
         dataRow = [];
         dataRow.push(new Date());
