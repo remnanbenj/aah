@@ -182,8 +182,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       } else if(type == "TEMP") {
         for(var i = 0; i < results.length; i++){
+          var tempDate = new Date(results[i].receivedtime);
+          tempDate.setMinutes(tempDate.getMinutes() + tempDate.getTimezoneOffset());
           dataRow = [];
-          dataRow.push(new Date(results[i].receivedtime));
+          dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
           dataRow.push(results[i].data.split(':')[1]);
           data.push(dataRow);
