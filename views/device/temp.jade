@@ -292,22 +292,6 @@ block content
             chart = new google.visualization.AreaChart(document.getElementById('chart'));
             drawHourChart(data, tempDate);
 
-          } else if(timescale == 'halfday') {
-            var time = Number($('#timepicker').val());
-            var ampm = $('#ampmpicker').val();
-
-            if(time == 12 && ampm == 'AM') time = 0;
-            if(time != 12 && ampm == 'PM') {
-              time += 12;
-            }
-            
-            var tempDate = new Date(startdate);
-            tempDate.setHours(time);
-            tempDate.setMinutes(0);
-            tempDate.setSeconds(0);
-            chart = new google.visualization.AreaChart(document.getElementById('chart'));
-            drawHalfdayChart(data, tempDate);
-
           } else if(timescale == 'day') {
             var tempDate = new Date(startdate);
             tempDate.setHours(0);
@@ -404,10 +388,10 @@ block content
             }
           },
           vAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
+            gridlines: { count: 10, color:"#ccc" },
             viewWindow: {
                     min: -10,
-                    max: 30
+                    max: 80
             },
             format: '# °C' 
           }
