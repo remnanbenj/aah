@@ -15,23 +15,24 @@ router.get('/', checkSignIn, function(req, res) {
   if(req.query.timescale) timescale = req.query.timescale;
 
   var sql = "SELECT * FROM devices where id = "+id+" and userid = "+req.session.user.id+";";
-  con.query(sql, function (err, device) {
+  con.query(sql, function (err, results) {
     if (err) throw err;
 
-    if(device.length > 0) {
-      device[0].lastreading = getReadableDate(device[0].lastreading);
+    if(results.length > 0) {
+      var device = results[0];
+      device.lastreading = getReadableDate(device.lastreading);
 
-      if(device[0].type == 'AMP') {
-        res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device[0] });
+      if(device.type == 'AMP') {
+        res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device });
 
-      } else if(device[0].type == 'WTRLVL') {
-        res.render('device/wtrlvl', { title: 'AAH - Water Level', user: req.session.user, device: device[0] });
+      } else if(device.type == 'WTRLVL') {
+        res.render('device/wtrlvl', { title: 'AAH - Water Level', user: req.session.user, device: device });
 
-      } else if(device[0].type == 'TEMP') {
-        res.render('device/temp', { title: 'AAH - Temperature', user: req.session.user, device: device[0] });
+      } else if(device.type == 'TEMP') {
+        res.render('device/temp', { title: 'AAH - Temperature', user: req.session.user, device: device });
 
-      } else if(device[0].type == 'VOLT') {
-        res.render('device/volt', { title: 'AAH - Voltmeter', user: req.session.user, device: device[0] });
+      } else if(device.type == 'VOLT') {
+        res.render('device/volt', { title: 'AAH - Voltmeter', user: req.session.user, device: device });
       }
 
     } else {
@@ -42,15 +43,19 @@ router.get('/', checkSignIn, function(req, res) {
 });
 
 router.get('/getdata', checkSignIn, function(req, res) {
+  // All devices variables
   var deviceMac = req.query.devicemac;
   var type = req.query.type;
   var timeScale = req.query.timescale;
+
+  // Power monitor variables
   var channels = [9];
   if(req.query.channels) channels = req.query.channels.split(',');
 
-  // Set start and end date
+  // Set start and end date (startdate comes in GMT format)
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
+
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -97,6 +102,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
+  console.log("Start: " + startDate);
+  console.log("End:   " + endDate);
+
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
   con.query(sql, function (err, results) {
@@ -110,11 +118,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
     }
 
     // Offset time if AUS
-    if(startDate.getTimezoneOffset() != -720) {
+    /*if(startDate.getTimezoneOffset() != -720) {
       for(var i = 0; i < results.length; i++) {
         results[i].receivedtime = (new Date(results[i].receivedtime)).setHours((new Date(results[i].receivedtime)).getHours() - 4);
       }
-    }
+    }*/
 
     // Setup Fields
     var data = [];
@@ -166,6 +174,15 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow = [];
           dataRow.push(new Date(results[i].receivedtime));
           dataRow.push(results[i].data/100);
+          data.push(dataRow);
+        }
+
+      } else if(type == "TEMP") {
+        for(var i = 0; i < results.length; i++){
+          dataRow = [];
+          dataRow.push(new Date(results[i].receivedtime));
+          dataRow.push(results[i].data.split(':')[0]);
+          dataRow.push(results[i].data.split(':')[1]);
           data.push(dataRow);
         }
 
