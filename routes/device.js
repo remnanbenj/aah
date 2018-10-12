@@ -102,8 +102,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
-  console.log("Start: " + startDate);
-  console.log("End:   " + endDate);
+  console.log("Start: " + getFormatedDate(startDate));
+  console.log("End:   " + getFormatedDate(endDate));
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
@@ -185,6 +185,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow.push(results[i].data.split(':')[0]);
           dataRow.push(results[i].data.split(':')[1]);
           data.push(dataRow);
+          console.log(results[i].data);
         }
 
       } else {
