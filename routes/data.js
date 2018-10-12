@@ -19,9 +19,11 @@ router.get('/reading', function(req, res) {
   console.log("Time: " + receivedtime);
 
   // Aussie Time rearrange
-  receivedtime.setHours(receivedtime.getHours() + 4);
-  receivedtime = receivedtime.getFullYear() + "-" + (receivedtime.getMonth()+1) + "-" + receivedtime.getDate() + " " + receivedtime.getHours() + ":" + receivedtime.getMinutes() + ":" + receivedtime.getSeconds();
-  
+  //receivedtime.setHours(receivedtime.getHours() + 4);
+  //receivedtime = receivedtime.getFullYear() + "-" + (receivedtime.getMonth()+1) + "-" + receivedtime.getDate() + " " + receivedtime.getHours() + ":" + receivedtime.getMinutes() + ":" + receivedtime.getSeconds();
+  receivedtime.setUTCHours(0);
+
+  console.log("TimeA: " + receivedtime);
 
   // Insert into data table async
   var sql = "insert into data (devicemac, data, receivedtime) values ('"+mac+"', '"+data+"', '"+receivedtime+"');";
