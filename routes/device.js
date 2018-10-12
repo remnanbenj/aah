@@ -47,12 +47,13 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var deviceMac = req.query.devicemac;
   var type = req.query.type;
   var timeScale = req.query.timescale;
+  var timezoneOffset = req.query.timezoneoffset;
 
   // Power monitor variables
   var channels = [9];
   if(req.query.channels) channels = req.query.channels.split(',');
 
-  // Set start and end date (startdate comes in GMT format)
+  // Set start and end date (startdate comes in NZT format)
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
@@ -76,6 +77,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(60);
     endDate.setSeconds(10);
 
+    startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
+
   } else if(timeScale == 'halfday'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -95,6 +98,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(60);
     endDate.setSeconds(0);
 
+    startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
+
   } else if(timeScale == 'day'){
     startDate.setHours(0);
     startDate.setMinutes(0);
@@ -106,6 +111,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
   console.log("Start: " + getFormatedDate(startDate));
   console.log("End:   " + getFormatedDate(endDate));
+
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
