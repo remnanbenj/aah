@@ -184,7 +184,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
           console.log(getFormatedDate(tempDate));
-          tempDate.setMinutes(tempDate.getMinutes() + tempDate.getTimezoneOffset());
+          tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
           console.log(getFormatedDate(tempDate));
           dataRow = [];
           dataRow.push(tempDate);
