@@ -27,7 +27,7 @@ router.get('/reading', function(req, res) {
   });
 
   // Check if mac exists in table
-  var sql = "select id, state from devices where mac = '"+mac+"';";
+  var sql = "select * from devices where mac = '"+mac+"';";
   con.query(sql, function (err, devices) {
     if (err) throw err;
 
@@ -53,8 +53,11 @@ router.get('/reading', function(req, res) {
       });
 
       // Send data to module
-      if(type=="TEMP") {
-        console.log(devices[0]);
+      if(type == "TEMP") {
+
+        var variables = devices[0].variables.split(',');
+        var data = data.split(':');
+        console.log(variables);
         console.log(data);
 
         if(devices[0].state == 1) { res.send("re:on"); }
