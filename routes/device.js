@@ -57,8 +57,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
-  //console.log("timezoneOffset: " + timezoneOffset);
-
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -154,7 +152,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     // Setup Data
     if(results.length > 0) {
-      console.log(results);
 
       if(type == "AMP") {
         for(var i = 0; i < results.length; i++){
@@ -183,9 +180,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
       } else if(type == "TEMP") {
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
-          console.log(getFormatedDate(tempDate));
           tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
-          console.log(getFormatedDate(tempDate));
           dataRow = [];
           dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
