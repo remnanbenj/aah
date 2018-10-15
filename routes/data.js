@@ -54,7 +54,7 @@ router.get('/reading', function(req, res) {
 
       // Send data to module
       if(type=="TEMP") {
-        console.log(devices[0].variables);
+        console.log(devices[0]);
         console.log(data);
 
         if(devices[0].state == 1) { res.send("re:on"); }
