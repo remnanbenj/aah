@@ -51,7 +51,10 @@ router.get('/reading', function(req, res) {
 
   });
 
-  res.send("re:success");
+  if(type="TEMP") {
+    res.send("re:on");
+
+  } else { res.send("re:success"); }
 });
 
 
