@@ -53,7 +53,7 @@ router.get('/reading', function(req, res) {
       });
 
       // Send data to module
-      if(type="TEMP") {
+      if(type=="TEMP") {
         console.log(devices[0].variables);
         console.log(data);
 
