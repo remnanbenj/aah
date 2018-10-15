@@ -56,6 +56,7 @@ router.get('/reading', function(req, res) {
       if(type == "TEMP") {
 
         var variables = devices[0].variables.split(',');
+        data = data.split(':');
         console.log(variables);
         console.log(data);
 
