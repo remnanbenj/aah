@@ -257,6 +257,11 @@ block content
             if(this.responseText == "Success") {
               toast('Device state changed', 2400);
               console.log(this.responseText);
+              if(newState == 1) {
+                $('.device-state-on').css('display', 'block');
+              } else {
+                $('.device-state-off').css('display', 'block');
+              }
 
             } else {
               console.log(this.responseText);
