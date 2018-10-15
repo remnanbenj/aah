@@ -54,10 +54,10 @@ router.get('/reading', function(req, res) {
 
       // Send data to module
       if(type="TEMP") {
-        if(devices[0].state == 1)
-          res.send("re:on");
-        else
-          res.send("re:off");
+        if(devices[0].state == 1) { res.send("re:on"); }
+        else if(devices[0].state == 0) { res.send("re:off"); }
+        else { res.send("re:success"); }
+
       } else { res.send("re:success"); }
 
     }
