@@ -150,7 +150,8 @@ select {
   background-color: #0092DB;
 } 
 
-.device-state {
+.device-state-off {
+  display: block;
   position: absolute;
   top: 0px;
   right: 50px;
@@ -167,8 +168,30 @@ select {
   background-image: url('/images/settings-icon.png');
 }
 
-.device-state:hover {
-  background-color: #0092DB;
+.device-state-off:hover {
+  background-color: #faa;
+} 
+
+.device-state-on {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  background: #0f0;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  cursor: pointer;
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/settings-icon.png');
+}
+
+.device-state-on:hover {
+  background-color: #afa;
 } 
 
 .channel-button {

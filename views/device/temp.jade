@@ -12,7 +12,8 @@ block content
         .device-name-container 
           .device-name #{device.name}
           .device-type Temperature Sensor
-        .device-state(onclick="")
+        .device-state-off(onclick="changeState(#{device.id}, 1)")
+        .device-state-on(onclick="changeState(#{device.id}, 0)")
         .device-settings(onclick="")
 
     .device-content
