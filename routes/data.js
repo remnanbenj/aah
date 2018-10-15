@@ -57,11 +57,8 @@ router.get('/reading', function(req, res) {
 
         var variables = devices[0].variables.split(',');
         data = data.split(':');
-        console.log(variables);
-        console.log(data);
-
-        if(devices[0].state == 1) { res.send("re:on"); }
-        else if(devices[0].state == 0) { res.send("re:off"); }
+        if(data[0] > variables[0]) { res.send("re:off"); }
+        else if(data[0] < variables[0] - variables[1]) { res.send("re:on"); }
         else { res.send("re:success"); }
 
       } else { res.send("re:success"); }
