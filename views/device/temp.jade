@@ -251,6 +251,7 @@ block content
             // Close dialog and edit device
             if(this.responseText == "Success") {
               toast('Device state changed', 2400);
+              console.log(this.responseText);
 
             } else {
               console.log(this.responseText);
@@ -299,7 +300,6 @@ block content
               data[i][j] = Number(data[i][j]);
             }
           }
-          console.log(data);
 
           // Redraw Chart
           if(timescale == 'hour') {
