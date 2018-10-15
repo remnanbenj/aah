@@ -259,8 +259,10 @@ block content
               console.log(this.responseText);
               if(newState == 1) {
                 $('.device-state-on').css('display', 'block');
+                $('.device-state-off').css('display', 'none');
               } else {
                 $('.device-state-off').css('display', 'block');
+                $('.device-state-on').css('display', 'none');
               }
 
             } else {
