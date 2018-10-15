@@ -39,6 +39,11 @@ router.get('/reading', function(req, res) {
         if (err) throw err;
       });
 
+      // Send data to module
+      if(type="TEMP") {
+        res.send("re:off");
+      } else { res.send("re:success"); }
+
     } else {
 
       // Else: Update lastreading of device async
@@ -47,14 +52,17 @@ router.get('/reading', function(req, res) {
         if (err) throw err;
       });
 
+      // Send data to module
+      if(type="TEMP") {
+        if(devices[0].state == 1)
+          res.send("re:on");
+        else
+          res.send("re:off");
+      } else { res.send("re:success"); }
+
     }
 
   });
-
-  if(type="TEMP") {
-    res.send("re:on");
-
-  } else { res.send("re:success"); }
 });
 
 
