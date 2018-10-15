@@ -238,7 +238,12 @@ block content
 
   script(type="text/javascript").
 
-    // =====GRAPH=====
+    // =====STATE=====
+    if(#{device.state} == 1) {
+      $('.device-state-on').css('display', 'block');
+    } else {
+      $('.device-state-off').css('display', 'block');
+    }
 
     function changeState(deviceID, newState) {
 
