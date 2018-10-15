@@ -87,6 +87,20 @@ router.post('/removedevicedata', function(req, res) {
     res.send('Success');
   });
 });
+
+
+/* State */
+
+router.post('/changestate', function(req, res) {
+  var deviceID = req.query.id;
+  var newState = req.query.newstate;
+
+  var sql = "UPDATE devices SET state = "+newState+" WHERE id = "+deviceID+";";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    res.send('Success');
+  });
+});
 	
 
 /* Channels */

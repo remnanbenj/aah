@@ -34,7 +34,7 @@ router.get('/reading', function(req, res) {
     if(devices.length == 0) {
 
       // If no mac exists: Add device to devices tables
-      var sql = "insert into devices (userid, type, mac, lastreading, lastreadingdata) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', '"+data+"');";
+      var sql = "insert into devices (userid, type, mac, lastreading, lastreadingdata, state) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', '"+data+"', "+0+");";
       con.query(sql, function (err) {
         if (err) throw err;
       });

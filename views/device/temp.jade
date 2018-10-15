@@ -12,6 +12,7 @@ block content
         .device-name-container 
           .device-name #{device.name}
           .device-type Temperature Sensor
+        .device-state(onclick="")
         .device-settings(onclick="")
 
     .device-content
@@ -235,6 +236,30 @@ block content
 
 
   script(type="text/javascript").
+
+    // =====GRAPH=====
+
+    function changeState(deviceID, newState) {
+
+      // Edit on server
+      var url = "/devices/changestate?id=" + deviceID + "&newState=" + newState;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Success") {
+              toast('Device state changed', 2400);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
 
     // =====GRAPH=====
 
