@@ -57,7 +57,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
-  console.log("timezoneOffset: " + timezoneOffset);
+  //console.log("timezoneOffset: " + timezoneOffset);
 
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
