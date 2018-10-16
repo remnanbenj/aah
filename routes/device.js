@@ -179,7 +179,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
       if(results.length > 0) { // If we have data, put it into an array
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
-          tempDate.setMinutes(tempDate.getMinutes() - offset);
+          tempDate.setMinutes(tempDate.getMinutes() + offset);
           dataRow = [];
           dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
