@@ -289,7 +289,7 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
 
   if(timeScale == 'day') {
 
-    var minutes = 60;
+    var minutes = 30;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
 
     for(var i = 0; i < diffMins / minutes; i++){
