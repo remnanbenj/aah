@@ -14,7 +14,7 @@ block content
           .device-type Temperature Sensor
         .device-state-off
         .device-state-on
-        .device-temp-settings(onclick="editTempDialog(#{device.id}, '#{device.mac}', '#{device.type}', '#{device.variables}')")
+        .device-temp-settings(onclick="editTempDialog(#{device.id}, '#{device.mac}', '#{device.type}', '#{}')")
         .device-settings(onclick="editDeviceDialog(#{device.id}, '#{device.mac}', '#{device.type}', '#{device.variables}')")
 
     .device-content
@@ -71,6 +71,47 @@ block content
     $("#datepicker").val(getFormatedDate(new Date()));
 
     var hAxisCount = 6;
+
+
+  script(type="text/javascript").
+
+    // =====SETTING DIALOGS=====
+  
+    function editTempDialog(){
+      var deviceId = '#{device.id}';
+      var deviceName = '#{device.name}';
+      var deviceMac = '#{device.mac}';
+      var deviceType = '#{device.type}';
+      var variables = '#{device.variables}'.split(',');
+
+      $(".overlay-inner-title").html('Edit Device Temperatures');
+      $(".overlay-inner-subtitle").html('');
+
+      var html = "";
+      html += '<span style="font-weight: 600;">Change Temperature</span>';
+      html += '<br>';
+      html += '<span>Max Temperature:</span>';
+      html += '<br>';
+      html += '<input id="deviceTempVar" value="'+variables[0]+'" type="number" class="new-device-input"/>';
+      html += '<br>';
+      html += '<br>';
+      html += '<span>Range:</span>';
+      html += '<br>';
+      html += '<input id="deviceRangeVar" value="'+variables[0]+'" type="number" class="new-device-input"/>';
+      html += '<br>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkServerEdit('+deviceId+')">Save</div>';
+      html += '<br>';
+
+      $('.overlay-inner-container').html('');
+      $('.overlay-inner-container').append(html);
+
+      $(".overlay").fadeIn();
+
+      // Set values for color selects
+      for(var i = 0 ; i < deviceLabels.length; i++) {
+        $('#channelColor'+(i+1)).val($('#channelColor'+(i+1)).data('color'));
+      }
+    }
 
 
   script(type="text/javascript").
