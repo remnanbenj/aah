@@ -96,15 +96,46 @@ block content
       html += '<br>';
       html += '<span>Range:</span>';
       html += '<br>';
-      html += '<input id="deviceRangeVar" value="'+variables[0]+'" type="number" class="new-device-input"/>';
+      html += '<input id="deviceRangeVar" value="'+variables[1]+'" type="number" class="new-device-input"/>';
       html += '<br>';
-      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkServerEdit('+deviceId+')">Save</div>';
+      html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkTempDialog('+deviceId+')">Save</div>';
       html += '<br>';
 
       $('.overlay-inner-container').html('');
       $('.overlay-inner-container').append(html);
 
       $(".overlay").fadeIn();
+    }
+
+    function checkTempDialog(id){
+      var newTemp = $("#deviceTempVar").val();
+      var newRange = $("#deviceRangeVar").val();
+      if(newTemp=="") { toast("Please enter a max temperature", 1200); return; }
+      if(newRange=="") { toast("Please enter a temperature range", 1200); return; }
+
+      // Check device info on server
+      console.log('TODO: Check device info on server');
+
+      // Edit on server
+      var url = "/devices/changewtrtemp?id=" + id + "&newtemp=" + newTemp + "&newrange=" + newRange;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+            // Close dialog and edit device
+            if(this.responseText == "Success") {
+              toast('Device Temperatures Changed', 2400);
+              $(".overlay").fadeOut();
+              //editDeviceOnPage(id, deviceName);
+
+            } else {
+              console.log(this.responseText);
+            }
+
+          }
+      };
+      xhttp.open("POST", url, true);
+      xhttp.send();
     }
 
 

@@ -101,6 +101,22 @@ router.post('/changestate', function(req, res) {
     res.send('Success');
   });
 });
+
+
+/* Water Temp */
+
+router.post('/changewtrtemp', function(req, res) {
+  var deviceID = req.query.id;
+  var newTemp = req.query.newtemp;
+  var newRange = req.query.newrange;
+  var newVars = req.query.newtemp + "," + req.query.newrange;
+
+  var sql = "UPDATE devices SET variables = '"+newVars+"' WHERE id = "+deviceID+";";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    res.send('Success');
+  });
+});
 	
 
 /* Channels */
