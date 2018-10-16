@@ -72,6 +72,8 @@ block content
 
     var hAxisCount = 6;
 
+    var device = { id:'#{device.id}', name:'#{device.name}', mac:'#{device.mac}', type:'#{device.type}', variables:'#{device.variables}'.split(',') };
+
 
   script(type="text/javascript").
 
@@ -82,7 +84,7 @@ block content
       var deviceName = '#{device.name}';
       var deviceMac = '#{device.mac}';
       var deviceType = '#{device.type}';
-      var variables = '#{device.variables}'.split(',');
+      var variables = device.variables;
 
       $(".overlay-inner-title").html('Edit Device Temperatures');
       $(".overlay-inner-subtitle").html('');
