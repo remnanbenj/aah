@@ -73,13 +73,22 @@ router.get('/getdata', checkSignIn, function(req, res) {
       endDate.setHours(time + 12);
     }
 
+    console.log("Start: " + getFormatedDate(startDate));
+    console.log("End:   " + getFormatedDate(endDate));
+
     startDate.setMinutes(0);
     startDate.setSeconds(-10);
     endDate.setMinutes(60);
     endDate.setSeconds(10);
 
+    console.log("Start: " + getFormatedDate(startDate));
+    console.log("End:   " + getFormatedDate(endDate));
+
     startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
+
+    console.log("Start: " + getFormatedDate(startDate));
+    console.log("End:   " + getFormatedDate(endDate));
 
   } else if(timeScale == 'halfday'){
     var time = Number(req.query.time);
