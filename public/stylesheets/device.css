@@ -198,10 +198,10 @@ select {
   display: none;
   position: absolute;
   top: 0px;
-  right: 50px;
+  right: 100px;
   width: 40px;
   height: 40px;
-  background: #00aaff;
+  background: #0f0;
   border-radius: 50%;
   padding-top: 3px;
   color: white;
@@ -209,11 +209,11 @@ select {
   background-size: 75%;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('/images/TEMP-icon-white.png');
+  background-image: url('/images/settings-icon.png');
 }
 
 .device-temp-settings:hover {
-  background-color: #0092DB;
+  background-color: #afa;
 } 
 
 .channel-button {
