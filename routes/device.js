@@ -106,16 +106,16 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
 
   } else if(timeScale == 'day'){
-    /*startDate.setHours(0);
+    startDate.setHours(0);
     startDate.setMinutes(0);
     startDate.setSeconds(0);
+    endDate.setHours(24);
     endDate.setMinutes(0);
-    endDate.setSeconds(0);*/
-    endDate.setHours(endDate.getHours() + 24);
+    endDate.setSeconds(0);
   }
 
   console.log("Start: " + getFormatedDate(startDate));
-  console.log("End:   " + getFormatedDate(endDate));
+  console.log("End:   " + getFormatedDate(startDate));
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
