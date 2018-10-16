@@ -419,6 +419,8 @@ block content
     }
 
     function drawHourChart(data, startDate) {
+      console.log(data);
+
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 1);
       endDate.setMinutes(0);
