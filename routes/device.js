@@ -322,6 +322,7 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
       dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
       dataPoint3 = (dataPoint3 / dataPointCount3);
+      if(dataPoint3 == 0) dataPoint3 = 'null';
 
       var tempStartDate = new Date(tStartDate);
       tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
@@ -339,8 +340,12 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
       dataPoint = 0;
       dataPoint2 = 0;
+      dataPoint3 = 0;
       dataPointCount = 0;
       dataPointCount2 = 0;
+      dataPointCount3 = 0;
+
+      // Get temperature data points
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
           if(Number(data[j].data.split(':')[0]) > 0) {
@@ -355,8 +360,21 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
         if(data[j].receivedtime > tEndDate) break;
       }
 
+      // Get power data point
+      for(var j = 0; j < pwrData.length; j++){
+        if(pwrData[j].receivedtime >= tStartDate && pwrData[j].receivedtime <= tEndDate){
+          if(Number(pwrData[j].data.split(':')[3]) > 0) {
+            dataPoint3 += Number(pwrData[j].data.split(':')[3]);
+            dataPointCount3++;
+          }
+        }
+        if(pwrData[j].receivedtime > tEndDate) break;
+      }
+
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
       dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
+      dataPoint3 = (dataPoint3 / dataPointCount3);
+      if(dataPoint3 == 0) dataPoint3 = 'null';
 
       var tempStartDate = new Date(tStartDate);
       tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: tempStartDate});
