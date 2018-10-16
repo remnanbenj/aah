@@ -282,6 +282,7 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
   var dataPoints = [];
   var dataPoints2 = [];
   var dataPointCount = 0;
+  var dataPointCount2 = 0;
 
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
@@ -296,17 +297,23 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
       dataPoint = 0;
       dataPoint2 = 0;
       dataPointCount = 0;
+      dataPointCount2 = 0;
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
-          dataPoint += Number(data[j].data.split(':')[0]);
-          dataPoint2 += Number(data[j].data.split(':')[1]);
-          dataPointCount++;
+          if(Number(data[j].data.split(':')[0]) > 0) {
+            dataPoint += Number(data[j].data.split(':')[0]);
+            dataPointCount++;
+          }
+          if(Number(data[j].data.split(':')[1]) > 0) {
+            dataPoint2 += Number(data[j].data.split(':')[1]);
+            dataPointCount2++;
+          }
         }
         if(data[j].receivedtime > tEndDate) break;
       }
 
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
-      dataPoint2 = (dataPoint2 / dataPointCount).toFixed(1);
+      dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
 
       tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: new Date(tStartDate)});
 
