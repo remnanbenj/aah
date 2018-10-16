@@ -162,7 +162,7 @@ select {
   padding-top: 3px;
   color: white;
   cursor: pointer;
-  background-size: 60%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('/images/power-icon-white.png');
@@ -184,7 +184,7 @@ select {
   padding-top: 3px;
   color: white;
   cursor: pointer;
-  background-size: 60%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('/images/power-icon-white.png');
