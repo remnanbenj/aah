@@ -208,9 +208,6 @@ function reduceResults(data, timeScale, startDate, endDate) {
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
 
-  console.log("FormatedTStartDate: " + getFormatedDate(tStartDate));
-  console.log("FormatdTEndDate:   " + getFormatedDate(tEndDate));
-
   var tData = [];
   var dataPoints = [];
   var dataPointCount = 0;
@@ -262,6 +259,9 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
 
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
+
+  console.log("FormatedTStartDate: " + getFormatedDate(tStartDate));
+  console.log("FormatdTEndDate:   " + getFormatedDate(tEndDate));
 
   if(timeScale == 'day') {
 
