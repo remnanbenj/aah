@@ -117,6 +117,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
   con.query(sql, function (err, results) {
     if (err) throw err;
 
+    console.log(results);
+
     // Setup Fields
     var data = [];
     var dataRow = [];
