@@ -43,20 +43,22 @@ router.get('/', checkSignIn, function(req, res) {
 });
 
 router.get('/getdata', checkSignIn, function(req, res) {
-  // All devices variables
+
+  // Device variables
   var deviceMac = req.query.devicemac;
-  var type = req.query.type;
+  var deviceType = req.query.devicetype;
+
+  // Power monitor variables
+  var channels = [9]; // channels we're requesting
+  if(req.query.channels) channels = req.query.channels.split(',');
+
+  // Date variables
+  var startDate = new Date(req.query.startdate);
+  var endDate = new Date(req.query.startdate);
   var timeScale = req.query.timescale;
   var timezoneOffset = Number(req.query.timezoneoffset);
 
-  // Power monitor variables
-  var channels = [9];
-  if(req.query.channels) channels = req.query.channels.split(',');
-
-  // Set start and end date (startdate comes in NZT format)
-  var startDate = new Date(req.query.startdate);
-  var endDate = new Date(req.query.startdate);
-
+  // Adjust date to be GMT time (and set time && ampm where required)
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -122,7 +124,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var dataRow = [];
 
     // Act on type
-    if(type == "AMP") {
+    if(deviceType == "AMP") {
+
       // Reduce and average out results
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
 
@@ -162,7 +165,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       res.send(data);
 
-    } else if(type == "TEMP") {
+    } else if(deviceType == "TEMP") {
 
       var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
       con.query(sql, function (err, results2) {

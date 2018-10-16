@@ -369,7 +369,7 @@ block content
       else if($('#halfdayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'halfday';
       else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
       var timezoneoffset = new Date().getTimezoneOffset();
-      var url = "/device/getdata?devicemac=" + devicemac + "&type=" + type + "&timescale=" + timescale + "&startdate=" + startdate + "&timezoneoffset=" + timezoneoffset;
+      var url = "/device/getdata?devicemac=" + devicemac + "&devicetype=" + type + "&timescale=" + timescale + "&startdate=" + startdate + "&timezoneoffset=" + timezoneoffset;
       if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
 
       // Get new data

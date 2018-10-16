@@ -394,7 +394,7 @@ block content
       if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') channels.push(6);
       if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') channels.push(7);
       if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') channels.push(8);
-      var url = "/device/getdata?devicemac=" + devicemac + "&type=" + type + "&timescale=" + timescale + "&timezoneoffset=" + timezoneoffset + "&startdate=" + startdate + "&channels=" + channels.toString();
+      var url = "/device/getdata?devicemac=" + devicemac + "&devicetype=" + type + "&timescale=" + timescale + "&timezoneoffset=" + timezoneoffset + "&startdate=" + startdate + "&channels=" + channels.toString();
       if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
 
       // Get new data

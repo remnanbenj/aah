@@ -15,70 +15,13 @@ router.get('/', function(req, res) {
 });
 
 router.get('/home', checkSignIn, function(req, res) {
+  // Get all devices
   var sql = "SELECT * FROM devices where userid = "+req.session.user.id+" order by lastreading desc;";
   con.query(sql, function (err, results) {
     if (err) throw err;
-
-    getDeviceDatas(req, res, results, 0);
+    res.render('home', { title: 'AAH - Dashboard', user: req.session.user, devices: results });
   });
 });
-
-function getDeviceDatas(req, res, devices, index) {
-
-  // Get the devices data
-
-  var data = [];
-  var startDate = new Date();
-  var endDate = new Date();
-
-  if(startDate.getTimezoneOffset() != -720) startDate.setHours(startDate.getHours() + 4);
-  startDate.setMinutes(-5);
-  startDate.setSeconds(0);
-
-  if(endDate.getTimezoneOffset() != -720) endDate.setHours(endDate.getHours() + 4);
-  endDate.setMinutes(60);
-  endDate.setSeconds(0);
-
-  var sql = "SELECT * FROM data where devicemac = '"+devices[index].mac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
-  con.query(sql, function (err, results) {
-    if (err) throw err;
-
-    var data = [];
-    if(results.length > 0) {
-      if(devices[index].type == 'AMP') {
-        for(var i = 0; i < results.length; i++){
-          data.push([getFormatedDate(new Date(results[i].receivedtime)), Number(results[i].data.split(':')[0]) * 230 / 1000]);
-        }
-
-      } else if(devices[index].type == 'WTRLVL') {
-        for(var i = 0; i < results.length; i++){
-          data.push([getFormatedDate(new Date(results[i].receivedtime)), Number(results[i].data) / 100]);
-        }
-
-      } else {
-        for(var i = 0; i < results.length; i++){
-          data.push([getFormatedDate(new Date(results[i].receivedtime)), Number(results[i].data)]);
-        }
-      }
-
-    } else {
-      data.push([getFormatedDate(new Date()), 0]);
-    }
-
-    // Add data to device
-    devices[index].data = data;
-
-    // Recursion or end
-    index++;
-    if(index == devices.length) renderHome(req, res, devices);
-    else getDeviceDatas(req, res, devices, index)
-    
-  });
-}
-
-function renderHome(req, res, devices) {
-  res.render('home', { title: 'AAH - Dashboard', user: req.session.user, devices: devices });
-}
 
 
 // =====POSTS=====
