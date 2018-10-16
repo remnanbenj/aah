@@ -57,11 +57,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
-  console.log("StartDate: " + req.query.startdate);
-
-  console.log("Start1: " + startDate);
-  console.log("End1:   " + endDate);
-
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -122,7 +117,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
   con.query(sql, function (err, results) {
     if (err) throw err;
 
-    //console.log(results);
+    console.log(results);
 
     // Setup Fields
     var data = [];
