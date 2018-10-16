@@ -437,7 +437,7 @@ block content
       var options = {
           legend: 'none',
           colors: colors,
-          chartArea: {left: 80, top: 10, 'width': '80%', 'height': '88%'},
+          chartArea: {left: 80, top: 10, 'width': '85%', 'height': '88%'},
           explorer: {
             axis: 'horizontal',
             keepInBounds: true,
@@ -449,8 +449,8 @@ block content
             2: {type: 'area', targetAxisIndex: 1}
           },
           vAxes: {
-            0: {title: 'Temperature (°C)'},
-            1: {title: 'Power (kW)'}
+            0: {title: 'Temperature (°C)', viewWindow: { min: -10, max: 80 }},
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 30 } }
           },
           hAxis: { 
             gridlines: { count: 7, color:"#ccc" },
@@ -461,10 +461,6 @@ block content
           },
           vAxis: { 
             gridlines: { count: 10, color:"#ccc" },
-            viewWindow: {
-                    min: -10,
-                    max: 80
-            },
             format: '# °C' 
           }
       };
