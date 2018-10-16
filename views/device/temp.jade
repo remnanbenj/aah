@@ -420,7 +420,6 @@ block content
     }
 
     function drawHourChart(data, startDate) {
-      console.log(data);
 
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 1);
@@ -465,6 +464,7 @@ block content
     }
 
     function drawDayChart(data, startDate, first) {
+      console.log(data);
 
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 24);
@@ -476,14 +476,10 @@ block content
         data[i][0] = new Date(data[i][0]);
       }
 
-      // Add colors to graph
-      var colors = ['#000', '#f00'];
-
       // Set Options
       var options = {
           legend: 'none',
           bar: {groupWidth: "80%"},
-          colors: colors,
           chartArea: {left: 80, right: 80, top: 10, bottom: 50},
           explorer: {
             axis: 'horizontal',

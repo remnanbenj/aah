@@ -121,7 +121,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(type == "AMP") {
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
     } else if(type == "TEMP") {
-      //results = reduceResults(results, timeScale, startDate, endDate);
+      results = reduceResults(results, timeScale, startDate, endDate);
     } else {
       results = reduceResults(results, timeScale, startDate, endDate);
     }
@@ -313,6 +313,9 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
     }
+
+  } else if(timeScale == 'hour') {
+    tData = data;
 
   } else {
     tData = data;
