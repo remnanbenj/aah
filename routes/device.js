@@ -106,12 +106,12 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
 
   } else if(timeScale == 'day'){
-    startDate.setHours(0);
+    /*startDate.setHours(0);
     startDate.setMinutes(0);
     startDate.setSeconds(0);
-    endDate.setHours(24);
     endDate.setMinutes(0);
-    endDate.setSeconds(0);
+    endDate.setSeconds(0);*/
+    endDate.setHours(endDate.getHours() + 24);
   }
 
   console.log("Start: " + startDate);
