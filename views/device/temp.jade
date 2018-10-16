@@ -383,6 +383,7 @@ block content
             data[i][0] = new Date(data[i][0]);
             for(var j = 1; j < data[i].length; j++) {
               data[i][j] = Number(data[i][j]);
+              if(data[i][j] < 0) data[i][j] = null;
             }
           }
 
