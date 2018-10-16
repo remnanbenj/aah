@@ -187,7 +187,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
           dataRow.push(results[i].data.split(':')[1]);
-          dataRow.push(null);
+          dataRow.push('null');
           data.push(dataRow);
         }
       } else { // If we have no data, give single, false data point
