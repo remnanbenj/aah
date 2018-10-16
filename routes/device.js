@@ -196,6 +196,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
       console.log("DEVICE TYPE NOT FOUND. RESULT COULD NOT BE DISPLAYED.");
     }
 
+    console.log(data);
+
     res.send(data);
   });
 
