@@ -154,7 +154,7 @@ select {
   display: none;
   position: absolute;
   top: 0px;
-  right: 50px;
+  right: 100px;
   width: 40px;
   height: 40px;
   background: #f00;
@@ -176,7 +176,7 @@ select {
   display: none;
   position: absolute;
   top: 0px;
-  right: 50px;
+  right: 100px;
   width: 40px;
   height: 40px;
   background: #0f0;
@@ -192,6 +192,28 @@ select {
 
 .device-state-on:hover {
   background-color: #afa;
+} 
+
+.device-temp-settings {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  background: #00aaff;
+  border-radius: 50%;
+  padding-top: 3px;
+  color: white;
+  cursor: pointer;
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/TEMP-icon-white.png');
+}
+
+.device-temp-settings:hover {
+  background-color: #0092DB;
 } 
 
 .channel-button {
