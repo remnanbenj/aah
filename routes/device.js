@@ -175,7 +175,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
       if(results.length > 0) { // If we have data, put it into an array
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
-          tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+          //tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
           dataRow = [];
           dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
@@ -260,9 +260,6 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
 
-  console.log("FormatedTStartDate: " + getFormatedDate(tStartDate));
-  console.log("FormatdTEndDate:   " + getFormatedDate(tEndDate));
-
   if(timeScale == 'day') {
 
     var minutes = 30;
@@ -293,7 +290,6 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
 
       var tempStartDate = new Date(tStartDate);
       tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: tempStartDate});
-      console.log("FormatedTempStartDate: " + getFormatedDate(tempStartDate));
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
