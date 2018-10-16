@@ -311,8 +311,10 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
       // Get power data point
       for(var j = 0; j < pwrData.length; j++){
         if(pwrData[j].receivedtime >= tStartDate && pwrData[j].receivedtime <= tEndDate){
-          dataPoint3 += Number(pwrData[j].data.split(':')[3]);
-          dataPointCount3++;
+          if(Number(pwrData[j].data.split(':')[3]) > 0) {
+            dataPoint3 += Number(pwrData[j].data.split(':')[3]);
+            dataPointCount3++;
+          }
         }
         if(pwrData[j].receivedtime > tEndDate) break;
       }
