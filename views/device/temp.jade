@@ -449,8 +449,8 @@ block content
             2: {type: 'area', targetAxisIndex: 1}
           },
           vAxes: {
-            0: {title: 'Temperature (°C)', viewWindow: { min: -10, max: 80 }},
-            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 30 } }
+            0: {title: 'Temperature (°C)', viewWindow: { min: -10, max: 70 }, gridlines: { count: 10, color:"#ccc" }, format: '# °C'},
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 20 }, gridlines: { count: 5, color:"#ccc" }, format: '# kW' }
           },
           hAxis: { 
             gridlines: { count: 7, color:"#ccc" },
@@ -458,10 +458,6 @@ block content
                     min: startDate,
                     max: endDate
             }
-          },
-          vAxis: { 
-            gridlines: { count: 10, color:"#ccc" },
-            format: '# °C' 
           }
       };
 
