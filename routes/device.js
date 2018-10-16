@@ -57,6 +57,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
+  console.log("Start1: " + startDate);
+  console.log("End1:   " + endDate);
+
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -109,15 +112,15 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
-  console.log("Start: " + getFormatedDate(startDate));
-  console.log("End:   " + getFormatedDate(endDate));
+  console.log("Start: " + startDate);
+  console.log("End:   " + endDate);
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
   con.query(sql, function (err, results) {
     if (err) throw err;
 
-    console.log(results);
+    //console.log(results);
 
     // Setup Fields
     var data = [];
@@ -182,7 +185,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
           dataRow.push(results[i].data.split(':')[1]);
-          dataRow.push(1);
+          dataRow.push(0);
           data.push(dataRow);
         }
       } else { // If we have no data, give single, false data point
@@ -198,7 +201,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
       console.log("DEVICE TYPE NOT FOUND. RESULT COULD NOT BE DISPLAYED.");
     }
 
-    console.log(data);
+    //console.log(data);
 
     res.send(data);
   });
