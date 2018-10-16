@@ -144,8 +144,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     } else if(type == "TEMP") {
       dataRow.push('Time');
-      dataRow.push('Celsius1');
-      dataRow.push('Celsius2');
+      dataRow.push('Temperature 1');
+      dataRow.push('Temperature 2');
+      dataRow.push('Power');
 
     } else if(type == "VOLT") {
       dataRow.push('Time');
