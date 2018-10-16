@@ -109,14 +109,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
-  console.log("Start: " + getFormatedDate(startDate));
-  console.log("End:   " + getFormatedDate(endDate));
+  console.log("FormatedStartDate: " + getFormatedDate(startDate));
+  console.log("FormatdEndDate:   " + getFormatedDate(endDate));
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
-  
-  console.log(sql);
-
   con.query(sql, function (err, results) {
     if (err) throw err;
 
