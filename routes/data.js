@@ -35,9 +35,7 @@ router.get('/reading', function(req, res) {
 
       // If no mac exists: Add device to devices tables
       var sql = "insert into devices (userid, type, mac, lastreading, lastreadingdata, state) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', '"+data+"', "+0+");";
-      con.query(sql, function (err) {
-        if (err) throw err;
-      });
+      con.query(sql, function (err) { if (err) throw err; });
 
       // Send data to module
       if(type="TEMP") {
@@ -48,18 +46,25 @@ router.get('/reading', function(req, res) {
 
       // Else: Update lastreading of device async
       var sql = "update devices set lastreading = '"+receivedtime+"', lastreadingdata = '"+data+"' where mac = '"+mac+"';";
-      con.query(sql, function (err) {
-        if (err) throw err;
-      });
+      con.query(sql, function (err) { if (err) throw err; });
+
 
       // Send data to module
       if(type == "TEMP") {
 
         var variables = devices[0].variables.split(',');
         data = data.split(':');
-        if(data[0] > variables[0]) { res.send("re:off"); }
-        else if(data[0] < variables[0] - variables[1]) { res.send("re:on"); }
-        else { res.send("re:success"); }
+        if(data[0] > variables[0]) { 
+          var sql = "update devices set state = 0 where mac = '"+mac+"';";
+          con.query(sql, function (err) { if (err) throw err; });
+          res.send("re:off"); 
+
+        } else if(data[0] < variables[0] - variables[1]) { 
+          var sql = "update devices set state = 1 where mac = '"+mac+"';";
+          con.query(sql, function (err) { if (err) throw err; });
+          res.send("re:on"); 
+
+        } else { res.send("re:success"); }
 
       } else { res.send("re:success"); }
 
