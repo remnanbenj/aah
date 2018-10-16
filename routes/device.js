@@ -112,9 +112,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
   }
 
-  console.log("FormatedStartDate: " + getFormatedDate(startDate));
-  console.log("FormatdEndDate:   " + getFormatedDate(endDate));
-
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
   con.query(sql, function (err, results) {
@@ -207,6 +204,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
           data.push(dataRow);
         }
 
+        console.log(data);
         res.send(data);
       });
 
