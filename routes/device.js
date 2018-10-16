@@ -194,7 +194,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
             dataRow.push(tempDate);
             dataRow.push(results[i].data.split(':')[0]);
             dataRow.push(results[i].data.split(':')[1]);
-            dataRow.push(results[i].data.split(':')[2]);
+            dataRow.push(results[i].data.split(':')[2]*230/1000);
             data.push(dataRow);
           }
         } else { // If we have no data, give single, false data point
@@ -319,7 +319,7 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
       dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
-      dataPoint3 = (dataPoint3 / dataPointCount3).toFixed(1);
+      dataPoint3 = (dataPoint3 / dataPointCount3);
 
       var tempStartDate = new Date(tStartDate);
       tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
