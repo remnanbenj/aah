@@ -161,15 +161,10 @@ select {
   border-radius: 50%;
   padding-top: 3px;
   color: white;
-  cursor: pointer;
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('/images/power-icon-white.png');
-}
-
-.device-state-off:hover {
-  background-color: #d00;
 } 
 
 .device-state-on {
@@ -183,16 +178,11 @@ select {
   border-radius: 50%;
   padding-top: 3px;
   color: white;
-  cursor: pointer;
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('/images/power-icon-white.png');
 }
-
-.device-state-on:hover {
-  background-color: #0d0;
-} 
 
 .device-temp-settings {
   position: absolute;

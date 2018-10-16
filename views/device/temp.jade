@@ -12,8 +12,8 @@ block content
         .device-name-container 
           .device-name #{device.name}
           .device-type Temperature Sensor
-        .device-state-off(onclick="changeState(#{device.id}, 1)")
-        .device-state-on(onclick="changeState(#{device.id}, 0)")
+        .device-state-off
+        .device-state-on
         .device-temp-settings(onclick="editTempDialog(#{device.id}, '#{device.mac}', '#{device.type}', '#{device.variables}')")
         .device-settings(onclick="editDeviceDialog(#{device.id}, '#{device.mac}', '#{device.type}', '#{device.variables}')")
 
