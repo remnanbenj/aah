@@ -165,7 +165,7 @@ select {
   background-size: 75%;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('/images/settings-icon.png');
+  background-image: url('/images/power-icon-white.png');
 }
 
 .device-state-off:hover {
@@ -187,7 +187,7 @@ select {
   background-size: 75%;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('/images/settings-icon.png');
+  background-image: url('/images/power-icon-white.png');
 }
 
 .device-state-on:hover {
