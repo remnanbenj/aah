@@ -71,9 +71,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
     }
 
     startDate.setMinutes(0);
-    startDate.setSeconds(-10);
+    startDate.setSeconds(0);
     endDate.setMinutes(60);
-    endDate.setSeconds(10);
+    endDate.setSeconds(0);
 
     startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
