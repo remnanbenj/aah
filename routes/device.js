@@ -191,7 +191,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
             dataRow.push(tempDate);
             dataRow.push(results[i].data.split(':')[0]);
             dataRow.push(results[i].data.split(':')[1]);
-            if(results[i].data.split(':')[2] == NaN) dataRow.push('null');
+            if(results[i].data.split(':')[2] == 'NaN') dataRow.push(results[i].data.split(':')[2]);
             else dataRow.push(results[i].data.split(':')[2]*230/1000);
             data.push(dataRow);
           }
@@ -384,8 +384,8 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
     tData = data;
   }
 
-  console.log("tData: ");
-  console.log(tData);
+  //console.log("tData: ");
+  //console.log(tData);
 
   return tData;
 }
