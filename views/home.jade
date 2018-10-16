@@ -182,89 +182,78 @@ block content
       chart.draw(data, options);
     }
 
-  each device, index in devices
-    script.
-      var dataTogether = '#{device.data}'.split(',');
-      var dataTemp = [];
-
-      if('#{device.type}' == "AMP") dataTemp.push(['Time', 'Kilowatts']);
-      else if('#{device.type}' == "TEMP") dataTemp.push(['Time', 'Temperature']);
-
-      for(var i = 0; i < dataTogether.length; i+=2){
-        dataTemp.push([new Date(dataTogether[i]), Number(dataTogether[i+1])]);
-      }
-      devices.push({id: #{device.id}, type: '#{device.type}', data: dataTemp });
-
-
-      // ====Get Data====
-
-      // Set up variables
-      var timezoneoffset = new Date().getTimezoneOffset();
-
-      // Gets data based on whats selected and redraws the chart
-      function getData(chart, deviceMac, deviceType, startDate, timeScale, timezoneOffset, time, ampm) {
-
-        // Build url to get new data from server
-        var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&startdate=" + startDate + "&timescale=" + timeScale + "&timezoneoffset=" + timezoneOffset;
-        if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + time + "&ampm=" + ampm; }
-
-        // Get new data
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if(this.readyState == 4 && this.status == 200) {
-
-            // Format data
-            var data = JSON.parse(this.responseText)
-            for(var i = 1; i < data.length; i++) {
-              data[i][0] = new Date(data[i][0]);
-              for(var j = 1; j < data[i].length; j++) {
-                data[i][j] = Number(data[i][j]);
-                if(data[i][j] < 0) data[i][j] = null;
-              }
-            }
-
-            // Redraw Chart
-            if(timescale == 'hour') {
-              var time = Number($('#timepicker').val());
-              var ampm = $('#ampmpicker').val();
-
-              if(time == 12 && ampm == 'AM') time = 0;
-              if(time != 12 && ampm == 'PM') {
-                time += 12;
-              }
-            
-              var tempDate = new Date(startdate);
-              tempDate.setHours(time);
-              tempDate.setMinutes(0);
-              tempDate.setSeconds(0);
-              chart = new google.visualization.AreaChart(document.getElementById('chart'));
-              drawHourChart(data, tempDate);
-
-            } else if(timescale == 'day') {
-              var tempDate = new Date(startdate);
-              tempDate.setHours(0);
-              tempDate.setMinutes(0);
-              tempDate.setSeconds(0);
-              chart = new google.visualization.AreaChart(document.getElementById('chart'));
-              drawDayChart(data, tempDate);
-            }
-
-          }
-        };
-        xhttp.open("GET", url, true);
-        xhttp.send();
-      }
 
   script.
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
+    // ====Get Data====
 
-    function drawCharts(){
-      for(var i = 0; i < devices.length; i++) {
-        drawHourChart(devices[i], devices[i].data);
-      }
+    // Gets data based on whats selected and redraws the chart
+    function getData(chart, deviceMac, deviceType, startDate, timeScale, timezoneOffset, time, ampm) {
+
+      // Build url to get new data from server
+      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&startdate=" + startDate + "&timescale=" + timeScale + "&timezoneoffset=" + timezoneOffset;
+      if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + time + "&ampm=" + ampm; }
+
+      // Get new data
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+
+          // Format data
+          var data = JSON.parse(this.responseText)
+          for(var i = 1; i < data.length; i++) {
+            data[i][0] = new Date(data[i][0]);
+            for(var j = 1; j < data[i].length; j++) {
+              data[i][j] = Number(data[i][j]);
+              if(data[i][j] < 0) data[i][j] = null;
+            }
+          }
+
+          // Redraw Chart
+          if(timeScale == 'hour') {
+            var time = Number($('#timepicker').val());
+            var ampm = $('#ampmpicker').val();
+
+            if(time == 12 && ampm == 'AM') time = 0;
+            if(time != 12 && ampm == 'PM') time += 12;
+            
+            var tempDate = new Date(startdate);
+            tempDate.setHours(time);
+            tempDate.setMinutes(0);
+            tempDate.setSeconds(0);
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
+            //drawHourChart(data, tempDate);
+
+          }
+
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
     }
+
+
+  each device, index in devices
+
+    script.
+
+      // ====Get data for each device====
+
+      var deviceMac = '#{device.mac}';
+      var deviceType = '#{device.type}';
+      var startDate = new Date();
+      var timeScale = 'hour';
+      var timezoneOffset = new Date().getTimezoneOffset();
+
+      console.log("deviceMac " + deviceMac);
+      console.log("deviceType " + deviceType);
+      console.log("startDate " + startDate);
+      console.log("timeScale " + timeScale);
+      console.log("timezoneOffset " + timezoneOffset);
+
+      //var time = new Date().getTimezoneOffset();
+      //var ampm = new Date().getTimezoneOffset();
+      //getData(chart, deviceMac, deviceType, startDate, timeScale, timezoneOffset, time, ampm);
       
 
 
