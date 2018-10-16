@@ -18,6 +18,8 @@ router.get('/reading', function(req, res) {
 
   // GMT Time
   receivedtime.setMinutes(receivedtime.getMinutes() + receivedtime.getTimezoneOffset());
+
+  // Format date
   receivedtime = receivedtime.getFullYear() + "-" + (receivedtime.getMonth()+1) + "-" + receivedtime.getDate() + " " + receivedtime.getHours() + ":" + receivedtime.getMinutes() + ":" + receivedtime.getSeconds();
 
   // Insert into data table async
