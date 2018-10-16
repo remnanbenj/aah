@@ -162,7 +162,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     } else if(type == "TEMP") {
       // Reduce and average out results
-      //results = reduceTempResults(results, timeScale, startDate, endDate);
+      results = reduceTempResults(results, timeScale, startDate, endDate);
 
       // Setup title row
       dataRow.push('Time');
