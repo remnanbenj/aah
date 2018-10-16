@@ -57,6 +57,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
+  console.log("Start: " + getFormatedDate(startDate));
+  console.log("End:   " + getFormatedDate(endDate));
+
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
