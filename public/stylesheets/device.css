@@ -197,7 +197,7 @@ select {
 .device-temp-settings {
   position: absolute;
   top: 0px;
-  right: 100px;
+  right: 50px;
   width: 40px;
   height: 40px;
   background: #0f0;
