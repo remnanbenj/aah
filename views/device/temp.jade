@@ -437,19 +437,19 @@ block content
       var options = {
           legend: 'none',
           colors: colors,
-          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
+          chartArea: {left: 80, top: 10, 'width': '80%', 'height': '88%'},
           explorer: {
             axis: 'horizontal',
             keepInBounds: true,
             maxZoomOut: 1.0
           },
           series: {
-            0: {targetAxisIndex: 0},
-            1: {targetAxisIndex: 1}
+            0: {type: 'area', targetAxisIndex: 0},
+            1: {type: 'line', targetAxisIndex: 1}
           },
           vAxes: {
-            0: {title: 'Temps (Celsius)'},
-            1: {title: 'Daylight'}
+            0: {title: 'Temperature (°C)'},
+            1: {title: 'Power (kW)'}
           },
           hAxis: { 
             gridlines: { count: 7, color:"#ccc" },
