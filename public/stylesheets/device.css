@@ -169,7 +169,7 @@ select {
 }
 
 .device-state-off:hover {
-  background-color: #faa;
+  background-color: #d00;
 } 
 
 .device-state-on {
@@ -191,7 +191,7 @@ select {
 }
 
 .device-state-on:hover {
-  background-color: #afa;
+  background-color: #0d0;
 } 
 
 .device-temp-settings {
@@ -205,7 +205,7 @@ select {
   padding-top: 3px;
   color: white;
   cursor: pointer;
-  background-size: 50%;
+  background-size: 30%;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('/images/TEMP-icon-white.png');
