@@ -204,7 +204,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
           data.push(dataRow);
         }
 
-        console.log(data);
         res.send(data);
       });
 
