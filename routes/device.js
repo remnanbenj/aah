@@ -109,8 +109,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setSeconds(0);
   }
 
-  console.log("Start: " + getFormatedDate(startDate));
-  console.log("End:   " + getFormatedDate(endDate));
+  //console.log("Start: " + getFormatedDate(startDate));
+  //console.log("End:   " + getFormatedDate(endDate));
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
@@ -158,13 +158,13 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       if(type == "AMP") {
         for(var i = 0; i < results.length; i++){
+          var tempDate = new Date(results[i].receivedtime);
+          tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
           var readings = results[i].data.split(':');
           dataRow = [];
-          dataRow.push(new Date(results[i].receivedtime));
+          dataRow.push(tempDate);
           for(var j = 0; j < channels.length; j++){
-            if(timeScale == 'hour')
-              dataRow.push(readings[channels[j]-1]*230);
-            if(timeScale == 'halfday')
+            if(timeScale == 'hour' || timeScale == 'halfday')
               dataRow.push(readings[channels[j]-1]*230);
             if(timeScale == 'day')
               dataRow.push(readings[j]*230);
