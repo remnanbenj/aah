@@ -303,7 +303,39 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
     }
 
   } else if(timeScale == 'hour') {
-    tData = data;
+
+    var minutes = 1;
+    tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+
+    for(var i = 0; i < diffMins / minutes; i++){
+
+      dataPoint = 0;
+      dataPoint2 = 0;
+      dataPointCount = 0;
+      dataPointCount2 = 0;
+      for(var j = 0; j < data.length; j++){
+        if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
+          if(Number(data[j].data.split(':')[0]) > 0) {
+            dataPoint += Number(data[j].data.split(':')[0]);
+            dataPointCount++;
+          }
+          if(Number(data[j].data.split(':')[1]) > 0) {
+            dataPoint2 += Number(data[j].data.split(':')[1]);
+            dataPointCount2++;
+          }
+        }
+        if(data[j].receivedtime > tEndDate) break;
+      }
+
+      dataPoint = (dataPoint / dataPointCount).toFixed(1);
+      dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
+
+      var tempStartDate = new Date(tStartDate);
+      tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: tempStartDate});
+
+      tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
+      tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
+    }
 
   } else {
     tData = data;
