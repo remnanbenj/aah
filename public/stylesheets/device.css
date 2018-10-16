@@ -194,11 +194,10 @@ select {
   background-color: #afa;
 } 
 
-.device-state-on2 {
-  display: none;
+.device-temp-settings {
   position: absolute;
   top: 0px;
-  right: 50px;
+  right: 100px;
   width: 40px;
   height: 40px;
   background: #0f0;
@@ -209,10 +208,10 @@ select {
   background-size: 75%;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('/images/settings-icon.png');
+  background-image: url('/images/TEMP-icon-white.png');
 }
 
-.device-state-on2:hover {
+.device-temp-settings:hover {
   background-color: #afa;
 } 
 
