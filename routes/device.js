@@ -107,6 +107,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
     endDate.setHours(24);
     endDate.setMinutes(0);
     endDate.setSeconds(0);
+
+    startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
+    endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
   }
 
   console.log("FormatedStartDate: " + getFormatedDate(startDate));
@@ -306,8 +309,8 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
     tData = data;
   }
 
-  console.log("tData: ");
-  console.log(tData);
+  //console.log("tData: ");
+  //console.log(tData);
 
   return tData;
 }
