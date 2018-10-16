@@ -163,49 +163,59 @@ router.get('/getdata', checkSignIn, function(req, res) {
         data.push(dataRow);
       }
 
+      res.send(data);
+
     } else if(type == "TEMP") {
-      // Reduce and average out results
-      results = reduceTempResults(results, timeScale, startDate, endDate);
 
-      // Setup title row
-      dataRow.push('Time');
-      dataRow.push('Temperature 1');
-      dataRow.push('Temperature 2');
-      dataRow.push('Power');
-      data.push(dataRow);
+      var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+      con.query(sql, function (err, results2) {
+        if (err) throw err;
 
-      // Offset
-      var temp2Date = new Date();
-      var offset = timezoneOffset - temp2Date.getTimezoneOffset();
+        // Reduce and average out results
+        results = reduceTempResults(results, timeScale, startDate, endDate, results2);
 
-      // Setup data
-      if(results.length > 0) { // If we have data, put it into an array
-        for(var i = 0; i < results.length; i++){
-          var tempDate = new Date(results[i].receivedtime);
-          tempDate.setMinutes(tempDate.getMinutes() + offset);
+        // Setup title row
+        dataRow.push('Time');
+        dataRow.push('Temperature 1');
+        dataRow.push('Temperature 2');
+        dataRow.push('Power');
+        data.push(dataRow);
+ 
+        // Offset
+        var temp2Date = new Date();
+        var offset = timezoneOffset - temp2Date.getTimezoneOffset();
+
+        // Setup data
+        if(results.length > 0) { // If we have data, put it into an array
+          for(var i = 0; i < results.length; i++){
+            var tempDate = new Date(results[i].receivedtime);
+            tempDate.setMinutes(tempDate.getMinutes() + offset);
+            dataRow = [];
+            dataRow.push(tempDate);
+            dataRow.push(results[i].data.split(':')[0]);
+            dataRow.push(results[i].data.split(':')[1]);
+            dataRow.push(results[i].data.split(':')[2]);
+            data.push(dataRow);
+          }
+        } else { // If we have no data, give single, false data point
           dataRow = [];
-          dataRow.push(tempDate);
-          dataRow.push(results[i].data.split(':')[0]);
-          dataRow.push(results[i].data.split(':')[1]);
-          dataRow.push('null');
+          dataRow.push(new Date());
+          dataRow.push(0);
+          dataRow.push(0);
+          dataRow.push(0);
           data.push(dataRow);
         }
-      } else { // If we have no data, give single, false data point
-        dataRow = [];
-        dataRow.push(new Date());
-        dataRow.push(0);
-        dataRow.push(0);
-        dataRow.push('null');
-        data.push(dataRow);
-      }
+
+        res.send(data);
+      });
 
     } else {
       console.log("DEVICE TYPE NOT FOUND. RESULT COULD NOT BE DISPLAYED.");
+      res.send(data);
     }
 
     //console.log(data);
 
-    res.send(data);
   });
 
 });
@@ -254,15 +264,17 @@ function reduceResults(data, timeScale, startDate, endDate) {
   return tData;
 }
 
-function reduceTempResults(data, timeScale, startDate, endDate) {
+function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
   var tData = [];
   var dataPoints = [];
   var dataPoints2 = [];
+  var dataPoints3 = [];
   var dataPointCount = 0;
   var dataPointCount2 = 0;
+  var dataPointCount3 = 0;
 
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
@@ -276,8 +288,12 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
 
       dataPoint = 0;
       dataPoint2 = 0;
+      dataPoint3 = 0;
       dataPointCount = 0;
       dataPointCount2 = 0;
+      dataPointCount3 = 0;
+
+      // Get temperature data points
       for(var j = 0; j < data.length; j++){
         if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
           if(Number(data[j].data.split(':')[0]) > 0) {
@@ -292,11 +308,20 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
         if(data[j].receivedtime > tEndDate) break;
       }
 
+      // Get power data point
+      for(var j = 0; j < data.length; j++){
+        if(data[j].receivedtime >= tStartDate && data[j].receivedtime <= tEndDate){
+          if(channels.indexOf('4') != -1) { dataPoint3 += Number(data[j].data.split(':')[3]); dataPointCount3++; }
+        }
+        if(data[j].receivedtime > tEndDate) break;
+      }
+
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
       dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
+      dataPoint3 = (dataPoint3 / dataPointCount3).toFixed(1);
 
       var tempStartDate = new Date(tStartDate);
-      tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: tempStartDate});
+      tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
