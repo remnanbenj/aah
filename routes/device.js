@@ -121,7 +121,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(type == "AMP") {
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
     } else if(type == "TEMP") {
-      results = reduceResults(results, timeScale, startDate, endDate);
+      results = reduceTempResults(results, timeScale, startDate, endDate);
     } else {
       results = reduceResults(results, timeScale, startDate, endDate);
     }
