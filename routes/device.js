@@ -57,6 +57,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
+  console.log("StartDate: " + req.query.startdate);
+
   console.log("Start1: " + startDate);
   console.log("End1:   " + endDate);
 
