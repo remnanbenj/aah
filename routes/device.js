@@ -191,8 +191,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
             dataRow.push(tempDate);
             dataRow.push(results[i].data.split(':')[0]);
             dataRow.push(results[i].data.split(':')[1]);
-            if(results[i].data.split(':')[2] != 0) dataRow.push(results[i].data.split(':')[2]*230/1000);
-            else dataRow.push('null');
+            if(results[i].data.split(':')[2] == 0) dataRow.push('null');
+            else dataRow.push(results[i].data.split(':')[2]*230/1000);
             data.push(dataRow);
           }
         } else { // If we have no data, give single, false data point
