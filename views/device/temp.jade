@@ -428,7 +428,7 @@ block content
 
       // Set proper dates
       for(var i = 1; i < data.length; i++) {
-        var tempDate = new Date(data[i][0])
+        var tempDate = new Date(data[i][0]);
         tempDate.setMintues(tempDate.getMintues() - tempDate.getTimezoneOffset());
         data[i][0] = tempDate;
       }
