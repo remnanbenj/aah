@@ -188,7 +188,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow = [];
           dataRow.push(tempDate);
           dataRow.push(results[i].data.split(':')[0]);
-          dataRow.push(results[i].data.split(':')[1]);
+          if(results[i].data.split(':')[1] < 0) dataRow.push(null);
+          else dataRow.push(results[i].data.split(':')[1]);
           dataRow.push(3);
           data.push(dataRow);
         }
