@@ -173,7 +173,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       // Offset
       var temp2Date = new Date();
-      var offset = timezoneOffset + temp2Date.getTimezoneOffset();
+      var offset = timezoneOffset - temp2Date.getTimezoneOffset();
       console.log("Offset: " + offset);
       console.log("timezoneOffset: " + timezoneOffset);
       console.log("getTimezoneOffset: " + temp2Date.getTimezoneOffset());
