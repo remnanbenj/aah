@@ -117,47 +117,26 @@ router.get('/getdata', checkSignIn, function(req, res) {
   con.query(sql, function (err, results) {
     if (err) throw err;
 
-    // Reduce Data
-    if(type == "AMP") {
-      results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
-    } else if(type == "TEMP") {
-      results = reduceTempResults(results, timeScale, startDate, endDate);
-    } else {
-      results = reduceResults(results, timeScale, startDate, endDate);
-    }
-
     // Setup Fields
     var data = [];
     var dataRow = [];
 
+    // Act on type
     if(type == "AMP") {
+      // Reduce and average out results
+      results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+
+      // Setup title row
       dataRow.push('Time');
       for(var i = 0; i < channels.length; i++){
         if(timeScale == 'hour') dataRow.push('KiloWatts');
         else if(timeScale == 'halfday') dataRow.push('KiloWatts');
         else if(timeScale == 'day') dataRow.push('KiloWatt Hours');
       }
+      data.push(dataRow);
 
-    } else if(type == "WTRLVL") {
-      dataRow.push('Time');
-      dataRow.push('Metres');
-
-    } else if(type == "TEMP") {
-      dataRow.push('Time');
-      dataRow.push('Temperature 1');
-      dataRow.push('Temperature 2');
-      dataRow.push('Power');
-
-    } else if(type == "VOLT") {
-      dataRow.push('Time');
-      dataRow.push('Voltage');
-    }
-    data.push(dataRow);
-
-    // Setup Data
-    if(results.length > 0) {
-
-      if(type == "AMP") {
+      // Setup data
+      if(results.length > 0) { // If we have data, put it into an array
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
           tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
@@ -172,16 +151,28 @@ router.get('/getdata', checkSignIn, function(req, res) {
           }
           data.push(dataRow);
         }
-
-      } else if(type == "WTRLVL") {
-        for(var i = 0; i < results.length; i++){
-          dataRow = [];
-          dataRow.push(new Date(results[i].receivedtime));
-          dataRow.push(results[i].data/100);
-          data.push(dataRow);
+      } else { // If we have no data, give single, false data point
+        dataRow = [];
+        dataRow.push(new Date());
+        for(var j = 0; j < channels.length; j++){
+          dataRow.push('0');
         }
+        data.push(dataRow);
+      }
 
-      } else if(type == "TEMP") {
+    } else if(type == "TEMP") {
+      // Reduce and average out results
+      results = reduceTempResults(results, timeScale, startDate, endDate);
+
+      // Setup title row
+      dataRow.push('Time');
+      dataRow.push('Temperature 1');
+      dataRow.push('Temperature 2');
+      dataRow.push('Power');
+      data.push(dataRow);
+
+      // Setup data
+      if(results.length > 0) { // If we have data, put it into an array
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
           tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
@@ -192,38 +183,17 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow.push(1);
           data.push(dataRow);
         }
-
-      } else {
-        for(var i = 0; i < results.length; i++){
-          dataRow = [];
-          dataRow.push(new Date(results[i].receivedtime));
-          dataRow.push(results[i].data);
-          data.push(dataRow);
-        }
+      } else { // If we have no data, give single, false data point
+        dataRow = [];
+        dataRow.push(new Date());
+        dataRow.push(0);
+        dataRow.push(0);
+        dataRow.push(0);
+        data.push(dataRow);
       }
 
     } else {
-      if(type == "AMP") {
-        dataRow = [];
-        dataRow.push(new Date());
-        for(var j = 0; j < channels.length; j++){
-          dataRow.push('0');
-        }
-        data.push(dataRow);
-
-      } else if(type == "TEMP") {
-        dataRow = [];
-        dataRow.push(new Date());
-        dataRow.push('0');
-        dataRow.push('0');
-        data.push(dataRow);
-
-      } else {
-        dataRow = [];
-        dataRow.push(new Date());
-        dataRow.push('0');
-        data.push(dataRow);
-      }
+      console.log("DEVICE TYPE NOT FOUND. RESULT COULD NOT BE DISPLAYED.");
     }
 
     res.send(data);
