@@ -200,19 +200,19 @@ select {
   right: 50px;
   width: 40px;
   height: 40px;
-  background: #0f0;
+  background: #00aaff;
   border-radius: 50%;
   padding-top: 3px;
   color: white;
   cursor: pointer;
-  background-size: 75%;
+  background-size: 50%;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('/images/TEMP-icon-white.png');
 }
 
 .device-temp-settings:hover {
-  background-color: #afa;
+  background-color: #0092DB;
 } 
 
 .channel-button {
