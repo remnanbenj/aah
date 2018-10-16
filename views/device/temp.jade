@@ -122,7 +122,9 @@ block content
             if(this.responseText == "Success") {
               toast('Device Temperatures Changed', 2400);
               $(".overlay").fadeOut();
-              //editDeviceOnPage(id, deviceName);
+
+              device.variables[0] = newTemp;
+              device.variables[1] = newRange;
 
             } else {
               console.log(this.responseText);
