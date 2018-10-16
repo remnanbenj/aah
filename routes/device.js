@@ -291,7 +291,9 @@ function reduceTempResults(data, timeScale, startDate, endDate) {
       dataPoint = (dataPoint / dataPointCount).toFixed(1);
       dataPoint2 = (dataPoint2 / dataPointCount2).toFixed(1);
 
-      tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: new Date(tStartDate)});
+      var tempStartDate = new Date(tStartDate);
+      tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: tempStartDate});
+      console.log("FormatedTempStartDate: " + getFormatedDate(tempStartDate));
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
