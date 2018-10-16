@@ -92,11 +92,11 @@ block content
       html += '<br>';
       html += '<span>Max Temperature:</span>';
       html += '<br>';
-      html += '<input id="deviceTempVar" value="'+variables[0]+'" type="number" class="new-device-input"/>';
+      html += '<input id="deviceTempVar" value="'+variables[0]+'" type="number" step=".5" class="new-device-input"/>';
       html += '<br>';
       html += '<span>Range:</span>';
       html += '<br>';
-      html += '<input id="deviceRangeVar" value="'+variables[1]+'" type="number" class="new-device-input"/>';
+      html += '<input id="deviceRangeVar" value="'+variables[1]+'" type="number" step=".5" class="new-device-input"/>';
       html += '<br>';
       html += '<div class="overlay-button" style="margin-right: 10px;" onclick="checkTempDialog('+deviceId+')">Save</div>';
       html += '<br>';
