@@ -443,6 +443,14 @@ block content
             keepInBounds: true,
             maxZoomOut: 1.0
           },
+          series: {
+            0: {targetAxisIndex: 0},
+            1: {targetAxisIndex: 1}
+          },
+          vAxes: {,
+            0: {title: 'Temps (Celsius)'},
+            1: {title: 'Daylight'}
+          }
           hAxis: { 
             gridlines: { count: 7, color:"#ccc" },
             viewWindow: {
@@ -456,13 +464,7 @@ block content
                     min: -10,
                     max: 80
             },
-            format: '# °C' ,
-            0: {title: 'Temps (Celsius)'},
-            1: {title: 'Daylight'}
-          },
-          series: {
-            0: {targetAxisIndex: 0},
-            1: {targetAxisIndex: 1}
+            format: '# °C' 
           }
       };
 
