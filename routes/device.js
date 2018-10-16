@@ -114,10 +114,11 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+  
+  console.log(sql);
+
   con.query(sql, function (err, results) {
     if (err) throw err;
-
-    console.log(results);
 
     // Setup Fields
     var data = [];
