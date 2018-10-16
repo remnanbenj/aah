@@ -195,7 +195,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         dataRow.push(new Date());
         dataRow.push(0);
         dataRow.push(0);
-        dataRow.push(0);
+        dataRow.push('null');
         data.push(dataRow);
       }
 
