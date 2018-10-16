@@ -57,9 +57,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var startDate = new Date(req.query.startdate);
   var endDate = new Date(req.query.startdate);
 
-  console.log("Start: " + getFormatedDate(startDate));
-  console.log("End:   " + getFormatedDate(endDate));
-
   if(timeScale == 'hour'){
     var time = Number(req.query.time);
     var ampm = req.query.ampm;
@@ -73,22 +70,13 @@ router.get('/getdata', checkSignIn, function(req, res) {
       endDate.setHours(time + 12);
     }
 
-    console.log("Start: " + getFormatedDate(startDate));
-    console.log("End:   " + getFormatedDate(endDate));
-
     startDate.setMinutes(0);
     startDate.setSeconds(-10);
     endDate.setMinutes(60);
     endDate.setSeconds(10);
 
-    console.log("Start: " + getFormatedDate(startDate));
-    console.log("End:   " + getFormatedDate(endDate));
-
     startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
     endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
-
-    console.log("Start: " + getFormatedDate(startDate));
-    console.log("End:   " + getFormatedDate(endDate));
 
   } else if(timeScale == 'halfday'){
     var time = Number(req.query.time);
@@ -108,6 +96,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
     startDate.setSeconds(0);
     endDate.setMinutes(60);
     endDate.setSeconds(0);
+
+    startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
+    endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
 
   } else if(timeScale == 'day'){
     startDate.setHours(0);

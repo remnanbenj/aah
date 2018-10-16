@@ -384,6 +384,7 @@ block content
       if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'hour';
       else if($('#halfdayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'halfday';
       else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timescale = 'day';
+      var timezoneoffset = new Date().getTimezoneOffset();
       var channels = [];
       if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') channels.push(1);
       if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') channels.push(2);
@@ -393,7 +394,7 @@ block content
       if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') channels.push(6);
       if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') channels.push(7);
       if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') channels.push(8);
-      var url = "/device/getdata?devicemac=" + devicemac + "&type=" + type + "&timescale=" + timescale + "&startdate=" + startdate + "&channels=" + channels.toString();
+      var url = "/device/getdata?devicemac=" + devicemac + "&type=" + type + "&timescale=" + timescale + "&timezoneoffset=" + timezoneoffset + "&startdate=" + startdate + "&channels=" + channels.toString();
       if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
 
       // Get new data
