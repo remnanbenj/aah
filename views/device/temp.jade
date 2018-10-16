@@ -464,7 +464,6 @@ block content
     }
 
     function drawDayChart(data, startDate, first) {
-      console.log(data);
 
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 24);
@@ -475,6 +474,8 @@ block content
       for(var i = 1; i < data.length; i++) {
         data[i][0] = new Date(data[i][0]);
       }
+
+      console.log(data);
 
       // Set Options
       var options = {
