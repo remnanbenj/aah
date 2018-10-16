@@ -94,7 +94,6 @@ block content
       html += '<br>';
       html += '<input id="deviceTempVar" value="'+variables[0]+'" type="number" class="new-device-input"/>';
       html += '<br>';
-      html += '<br>';
       html += '<span>Range:</span>';
       html += '<br>';
       html += '<input id="deviceRangeVar" value="'+variables[0]+'" type="number" class="new-device-input"/>';
@@ -106,11 +105,6 @@ block content
       $('.overlay-inner-container').append(html);
 
       $(".overlay").fadeIn();
-
-      // Set values for color selects
-      for(var i = 0 ; i < deviceLabels.length; i++) {
-        $('#channelColor'+(i+1)).val($('#channelColor'+(i+1)).data('color'));
-      }
     }
 
 
