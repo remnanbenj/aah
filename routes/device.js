@@ -377,7 +377,7 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
       if(dataPoint3 == 0) dataPoint3 = 'null';
 
       var tempStartDate = new Date(tStartDate);
-      tData.push({data: dataPoint + ":" + dataPoint2, receivedtime: tempStartDate});
+      tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
