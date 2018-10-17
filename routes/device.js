@@ -53,6 +53,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
   var deviceType = req.query.devicetype;
 
   // Date variables
+  var timeOffset = req.query.timeoffset;
   var timeScale = req.query.timescale;
   var startDate = req.query.startdate;
   var endDate = req.query.enddate;
@@ -86,7 +87,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
       if(results.length > 0) { // If we have data, put it into an array
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
-          //tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+          tempDate.setMinutes(tempDate.getMinutes() + 300);
           var readings = results[i].data.split(':');
           dataRow = [];
           dataRow.push(tempDate);
@@ -129,7 +130,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         if(results.length > 0) { // If we have data, put it into an array
           for(var i = 0; i < results.length; i++){
             var tempDate = new Date(results[i].receivedtime);
-            //tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+            tempDate.setMinutes(tempDate.getMinutes() + 300);
             dataRow = [];
             dataRow.push(tempDate);
             dataRow.push(results[i].data.split(':')[0]);
