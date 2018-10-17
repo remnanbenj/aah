@@ -118,6 +118,8 @@ block content
 
     // =====HEADER=====
 
+    var device = { id:'#{device.id}', name:'#{device.name}', mac:'#{device.mac}', type:'#{device.type}', variables:'#{device.variables}'.split(',') };
+
     var deviceLabels = '#{device.labels}'.split(',');
 
     $("#datepicker").datepicker({dateFormat: 'dd-mm-yy'});
