@@ -320,16 +320,19 @@ block content
           }
         };
       } else if(deviceType == "AMP") {
+        var ticks = [];
+        var tick1 = new Date(startDate);
+        var tick2 = new Date(startDate); tick2.setMinutes(tick1.getMinutes() + 30);
+        var tick3 = new Date(endDate);
+        ticks.push(tick1);
+        ticks.push(tick2);
+        ticks.push(tick3);
         options = {
           legend: 'none',
           colors: ['#000'],
           chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
           hAxis: { 
-            gridlines: { count: 4, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
+            ticks: ticks
           },
           vAxis: { 
             gridlines: { count: 6, color:"#ccc" },
