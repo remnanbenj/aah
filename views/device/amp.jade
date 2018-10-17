@@ -139,6 +139,29 @@ block content
     $("#ampmpicker").val(hoursSuffix);
 
 
+  script.
+
+    // ====Util====
+
+    function getFormatedDate(date) {
+      var dateString = "";
+      dateString += date.getFullYear() + "-";
+      dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+      dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
+      dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+      dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+      dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
+      return dateString;
+    }
+
+    function getReadableDate(date) {
+        var dateString = "";
+        dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+        dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + " " : date.getMinutes();
+        return dateString;
+    }
+
+
   script(type="text/javascript").
 
     // =====NAVIGATION=====
@@ -769,13 +792,6 @@ block content
     }
 
   script(type="text/javascript").
-
-    function getReadableDate(date){
-        var dateString = "";
-        dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
-        dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + " " : date.getMinutes();
-        return dateString;
-    }
 
     // EDIT DEVICE
 
