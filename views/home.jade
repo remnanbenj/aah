@@ -266,7 +266,7 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            drawHourChart(chart, options, startDate, data);
+            drawHourChart(chart, options, startDate, data, deviceType);
           }
 
         }
@@ -275,12 +275,9 @@ block content
       xhttp.send();
     }
 
-    function drawHourChart(chart, options, startDate, data) {
-      console.log(options);
-      console.log(startDate);
-      console.log(data);
+    function drawHourChart(chart, options, startDate, data, deviceType) {
 
-      /*// Get endDate one hour after startDate
+      // Get endDate one hour after startDate
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 1);
       endDate.setMinutes(0);
@@ -295,10 +292,54 @@ block content
 
       console.log(data);
 
+      if(deviceType == "TEMP") {
+        options = {
+          legend: 'none',
+          colors: ['#0af'],
+          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
+          hAxis: { 
+            gridlines: { count: 5, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 80
+            },
+            format: '#°C' 
+          }
+        };
+      } else if(deviceType == "AMP") {
+        options = {
+          legend: 'none',
+          colors: ['#000'],
+          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
+          hAxis: { 
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 6, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 20
+            },
+            format: '#kW' 
+          }
+        };
+      }
+
       var data = google.visualization.arrayToDataTable(data);
       chart.draw(data, options);
-      $('.loader').css('display', 'none');*/
-    }
+      $('.loader').css('display', 'none');
+    } 
 
 
   script.
