@@ -372,30 +372,6 @@ block content
         };
       }
 
-
-          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
-          explorer: {
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomOut: 1.0
-          },
-          hAxis: { 
-            format: format,
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 11, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 10
-            },
-            format: '# kW' 
-          }
-
       var dataF = google.visualization.arrayToDataTable(data);
       chart.draw(dataF, options);
       $('.loader').css('display', 'none');
