@@ -423,7 +423,7 @@ block content
           console.log(data);
 
           // Redraw Chart
-          if(timescale == 'hour') {
+          if(timeScale == 'hour') {
             var time = Number($('#timepicker').val());
             var ampm = $('#ampmpicker').val();
 
@@ -439,7 +439,7 @@ block content
             chart = new google.visualization.AreaChart(document.getElementById('chart'));
             drawHourChart(data, tempDate);
 
-          } else if(timescale == 'halfday') {
+          } else if(timeScale == 'halfday') {
             var time = Number($('#timepicker').val());
             var ampm = $('#ampmpicker').val();
 
@@ -455,7 +455,7 @@ block content
             chart = new google.visualization.AreaChart(document.getElementById('chart'));
             drawHalfdayChart(data, tempDate);
 
-          } else if(timescale == 'day') {
+          } else if(timeScale == 'day') {
             var tempDate = new Date(startdate);
             tempDate.setHours(0);
             tempDate.setMinutes(0);
