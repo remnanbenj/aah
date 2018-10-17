@@ -387,11 +387,11 @@ block content
       var endDate = new Date(startDate);
       endDate.setMinutes(endDate.getMinutes() + 60);
       var timeOffset = startDate.getTimezoneOffset();
-      getData(chart, options, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate)
+      getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate)
     }
 
     // Gets data from server then redraws the chart
-    function getData(chart, options, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
+    function getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
 
       // Set dates to GMT
       var GMTStartDate = new Date(startDate);
@@ -422,7 +422,7 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            drawHourChart(chart, options, startDate, data, deviceType);
+            drawHourChart(chart, startDate, data, deviceType);
           }
 
         }
@@ -431,7 +431,7 @@ block content
       xhttp.send();
     }
 
-    function drawHourChart(chart, options, startDate, endDate, data, deviceType) {
+    function drawHourChart(chart, startDate, endDate, data, deviceType) {
 
       // Set proper data dates from server
       for(var i = 1; i < data.length; i++) {
