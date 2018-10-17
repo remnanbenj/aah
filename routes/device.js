@@ -272,7 +272,8 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
       dataPoint3 = (dataPoint3 / dataPointCount3);
 
       var tempStartDate = new Date(tStartDate);
-      tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
+      if(!isNaN(dataPoint) && !isNaN(dataPoint2) && !isNaN(dataPoint3))
+        tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
