@@ -507,7 +507,7 @@ block content
         tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
         data[i][0] = tempDate;
 
-        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j])/1000;
+        for(var j = 1; j < data[i].length; j++) data[i][j] = Number(data[i][j]);
       }
 
       // Get readings left & Display total kWh
