@@ -238,11 +238,10 @@ block content
     // ====Get Data====
 
     // Gets data based on whats selected and redraws the chart
-    function getData(chart, deviceID, deviceMac, deviceType, startDate, timeScale, timezoneOffset, options) {
+    function getData(chart, deviceID, deviceMac, deviceType, timeScale, startDate, endDate, options) {
 
       // Build url to get new data from server
-      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&startdate=" + startDate + "&timescale=" + timeScale + "&timezoneoffset=" + timezoneOffset;
-      if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + time + "&ampm=" + ampm; }
+      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&startdate=" + startDate + "&enddate=" + endDate;
 
       // Get new data
       var xhttp = new XMLHttpRequest();
@@ -328,22 +327,19 @@ block content
 
       var deviceMac = '#{device.mac}';
       var deviceType = '#{device.type}';
+
       var timeScale = 'hour';
+
       var startDate = new Date();
-      if(timeScale == 'day') startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      var timezoneOffset = new Date().getTimezoneOffset();
+      startDate.setMinutes(new Date().getTimezoneOffset());
 
-      console.log("deviceType " + deviceType);
-      console.log("timezoneOffset " + timezoneOffset);
+      var endDate = new Date(startDate);
+      endDate.setMinutes(endDate.getMinutes() + 60);
 
-      console.log("startDate " + getFormatedDate(startDate));
-      startDate.setMinutes(timezoneOffset);
-      console.log("startDate2 " + getFormatedDate(startDate));
-
-      //if(deviceType == "TEMP") getData(chart, deviceMac, deviceType, startDate, timeScale, wtrTempOptions);
-      //else if(deviceType == "AMP") getData(chart, deviceMac, deviceType, startDate, timeScale, ampOptions);
+      if(deviceType == "TEMP") getData(chart, deviceMac, deviceType, timeScale, getFormatedDate(startDate), getFormatedDate(endDate), wtrTempOptions);
+      else if(deviceType == "AMP") getData(chart, deviceMac, deviceType, timeScale, getFormatedDate(startDate), getFormatedDate(endDate), ampOptions);
       
 
 

@@ -44,78 +44,21 @@ router.get('/', checkSignIn, function(req, res) {
 
 router.get('/getdata', checkSignIn, function(req, res) {
 
-  // Device variables
-  var deviceMac = req.query.devicemac;
-  var deviceType = req.query.devicetype;
-
   // Power monitor variables
   var channels = [9]; // channels we're requesting
   if(req.query.channels) channels = req.query.channels.split(',');
 
+  // Device variables
+  var deviceMac = req.query.devicemac;
+  var deviceType = req.query.devicetype;
+
   // Date variables
-  var startDate = new Date(req.query.startdate);
-  var endDate = new Date(req.query.startdate);
   var timeScale = req.query.timescale;
-  var timezoneOffset = Number(req.query.timezoneoffset);
-
-  // Adjust date to be GMT time (and set time && ampm where required)
-  if(timeScale == 'hour'){
-    var time = Number(req.query.time);
-    var ampm = req.query.ampm;
-
-    if(time == 12 && ampm == 'AM') time = 0;
-    if(ampm == 'AM' || time == 12 && ampm == 'PM') {
-      startDate.setHours(time);
-      endDate.setHours(time);
-    } else {
-      startDate.setHours(time + 12);
-      endDate.setHours(time + 12);
-    }
-
-    startDate.setMinutes(0);
-    startDate.setSeconds(0);
-    endDate.setMinutes(60);
-    endDate.setSeconds(0);
-
-    startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
-    endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
-
-  } else if(timeScale == 'halfday'){
-    var time = Number(req.query.time);
-    var ampm = req.query.ampm;
-
-    if(time == 12 && ampm == 'AM') time = 0;
-    if(ampm == 'AM' || time == 12 && ampm == 'PM') {
-      startDate.setHours(time);
-      endDate.setHours(time);
-    } else {
-      startDate.setHours(time + 12);
-      endDate.setHours(time + 12);
-    }
-
-    startDate.setHours(startDate.getHours() - 12);
-    startDate.setMinutes(0);
-    startDate.setSeconds(0);
-    endDate.setMinutes(60);
-    endDate.setSeconds(0);
-
-    startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
-    endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
-
-  } else if(timeScale == 'day'){
-    startDate.setHours(0);
-    startDate.setMinutes(0);
-    startDate.setSeconds(0);
-    endDate.setHours(24);
-    endDate.setMinutes(0);
-    endDate.setSeconds(0);
-
-    startDate.setMinutes(startDate.getMinutes() + timezoneOffset);
-    endDate.setMinutes(endDate.getMinutes() + timezoneOffset);
-  }
+  var startDate = req.query.startdate;
+  var endDate = req.query.enddate;
 
   // Get data
-  var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+  var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+startDate+"' and receivedtime < '"+endDate+"';";
   con.query(sql, function (err, results) {
     if (err) throw err;
 
