@@ -69,17 +69,20 @@ block content
 
     var device = { id:'#{device.id}', name:'#{device.name}', mac:'#{device.mac}', type:'#{device.type}', variables:'#{device.variables}'.split(',') };
 
-
-    // Setup date and time
+    // Setup date
     $("#datepicker").datepicker({dateFormat: 'dd-mm-yy'});
     $("#datepicker").val(getFormatedDate(new Date()));
+
+    // Setup scale
     $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
 
+    // Get current hour and ampm
     var hours = new Date().getHours();
     var hoursSuffix = "AM";
     if(hours == 12) { hoursSuffix = "PM"; }
     else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
 
+    // Setup time
     $("#timepicker").css('display', 'inline-block');
     $("#ampmpicker").css('display', 'inline-block');
     $("#timepicker").val(hours);
@@ -158,9 +161,8 @@ block content
 
     // Changes the timescale
     function changeTimeScale(timescale) {
-      // Change timescale
+      // Reset buttons
       $('#hourScale').css('background-color', '#00AAFF'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
-      $('#halfdayScale').css('background-color', '#00AAFF'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
       $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
 
       if(timescale == 'hour') { 
@@ -170,6 +172,7 @@ block content
         var hoursSuffix = "AM";
         if(hours == 12) { hoursSuffix = "PM"; }
         else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+
         $("#timepicker").css('display', 'inline-block');
         $("#ampmpicker").css('display', 'inline-block');
         $("#timepicker").val(hours);
@@ -391,7 +394,12 @@ block content
       var chart = new google.visualization.AreaChart(document.getElementById('chart'));
       var deviceMac = device.mac;
       var deviceType = device.type;
+
       var timeScale = 'hour';
+      if(document.getElementById('dayScale').style.backgroundColor == "#0092DB") timeScale = 'day';
+      console.log(document.getElementById('hourScale').style.backgroundColor);
+      console.log(document.getElementById('dayScale').style.backgroundColor);
+
       var startDate = new Date();
       startDate.setMinutes(0);
       startDate.setSeconds(0);
