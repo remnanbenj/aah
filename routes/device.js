@@ -120,9 +120,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         if (err) throw err;
 
         // Reduce and average out results
-        console.log("HERE");
         results = reduceTempResults(results, timeScale, startDate, endDate, results2);
-        console.log("HERE2");
 
         // Setup title row
         dataRow.push('Time');
@@ -154,7 +152,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
           data.push(dataRow);
         }
 
-        console.log("HERE3");
         res.send(data);
       });
 
