@@ -339,14 +339,6 @@ block content
       } else if(deviceType == "AMP") {
         // Add colors to graph
         var colors = [];
-        if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
-        if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
-        if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
-        if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
-        if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
-        if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
-        if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
-        if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));
         if(colors.length < 1) colors.push('#000');
 
         options = {
