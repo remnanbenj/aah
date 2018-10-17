@@ -407,7 +407,6 @@ block content
       var timeScale = '';
       if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'hour';
       else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'day';
-      var timeOffset = startDate.getTimezoneOffset();
 
       // Get dates
       var startDate = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
@@ -416,6 +415,7 @@ block content
       console.log(getFormatedDate(startDate));
       var endDate = new Date(startDate);
       endDate.setMinutes(endDate.getMinutes() + 60);
+      var timeOffset = startDate.getTimezoneOffset();
 
       // Set dates to GMT
       var GMTStartDate = new Date(startDate);
