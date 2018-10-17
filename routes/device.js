@@ -59,6 +59,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
   // Get data
   var sql = "SELECT * FROM data where devicemac = '"+deviceMac+"' and receivedtime > '"+startDate+"' and receivedtime < '"+endDate+"';";
+  console.log(sql);
   con.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -106,7 +107,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
         data.push(dataRow);
       }
 
-      console.log(data);
       res.send(data);
 
     } else if(deviceType == "TEMP") {
@@ -124,17 +124,12 @@ router.get('/getdata', checkSignIn, function(req, res) {
         dataRow.push('Temperature 2');
         dataRow.push('Power');
         data.push(dataRow);
- 
-        // Offset
-        //var temp2Date = new Date();
-        //var offset = timezoneOffset - temp2Date.getTimezoneOffset();
 
         // Setup data
         if(results.length > 0) { // If we have data, put it into an array
           for(var i = 0; i < results.length; i++){
             var tempDate = new Date(results[i].receivedtime);
-            //tempDate.setMinutes(tempDate.getMinutes() + offset);
-            tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+            tempDate.setMinutes(tempDate.getMinutes() + tempDate.getTimezoneOffset());
             dataRow = [];
             dataRow.push(tempDate);
             dataRow.push(results[i].data.split(':')[0]);
@@ -152,7 +147,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
           data.push(dataRow);
         }
 
-        console.log(data);
         res.send(data);
       });
 
