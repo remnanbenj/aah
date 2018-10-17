@@ -23,9 +23,9 @@ block content
 
           .graph-button-holder(style="text-align: left;")
 
-              .main-button-alt(id="dayScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px; margin-left: 50px;" onclick="changeTimeScale('day')") Day
+              .main-button-alt(id="dayScale" style="margin-right: 5px; margin-left: 50px;" onclick="changeTimeScale('day')") Day
 
-              .main-button-alt(id="hourScale" style="margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
+              .main-button-alt(id="hourScale" style="background: #0092DB; cursor: default; font-weight: 600; margin-right: 5px;" onclick="changeTimeScale('hour')") Hour
 
 
           .graph(id="chart")
@@ -67,12 +67,23 @@ block content
 
     // =====HEADER=====
 
+    var device = { id:'#{device.id}', name:'#{device.name}', mac:'#{device.mac}', type:'#{device.type}', variables:'#{device.variables}'.split(',') };
+
+
+    // Setup date and time
     $("#datepicker").datepicker({dateFormat: 'dd-mm-yy'});
     $("#datepicker").val(getFormatedDate(new Date()));
+    $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
 
-    var hAxisCount = 6;
+    var hours = new Date().getHours();
+    var hoursSuffix = "AM";
+    if(hours == 12) { hoursSuffix = "PM"; }
+    else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
 
-    var device = { id:'#{device.id}', name:'#{device.name}', mac:'#{device.mac}', type:'#{device.type}', variables:'#{device.variables}'.split(',') };
+    $("#timepicker").css('display', 'inline-block');
+    $("#ampmpicker").css('display', 'inline-block');
+    $("#timepicker").val(hours);
+    $("#ampmpicker").val(hoursSuffix);
 
 
   script(type="text/javascript").
