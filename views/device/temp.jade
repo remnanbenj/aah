@@ -369,10 +369,12 @@ block content
       if(timeScale == 'day') startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      console.log(getFormatedDate(startDate));
       var endDate = new Date(startDate);
-      endDate.setMinutes(endDate.getMinutes() + 60);
+      if(timeScale == 'hour') endDate.setMinutes(endDate.getMinutes() + 60);
+      if(timeScale == 'day') endDate.setHours(24);
       var timeOffset = startDate.getTimezoneOffset();
+      console.log(getFormatedDate(startDate));
+      console.log(getFormatedDate(endDate));
 
       // Set dates to GMT
       var GMTStartDate = new Date(startDate);

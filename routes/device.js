@@ -43,6 +43,7 @@ router.get('/', checkSignIn, function(req, res) {
 });
 
 router.get('/getdata', checkSignIn, function(req, res) {
+  console.log("HERE");
 
   // Power monitor variables
   var channels = [9]; // channels we're requesting
