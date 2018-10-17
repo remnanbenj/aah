@@ -309,15 +309,15 @@ block content
       if(deviceType == "TEMP") {
         options = {
           legend: 'none',
-          chartArea: {left: 35, right: 35, top: 10, bottom: 50},
+          chartArea: {left: 35, right: 35, top: 10, bottom: 10},
           series: {
             0: {color: '#000', type: 'line', targetAxisIndex: 0},
             1: {color: '#f00', type: 'line', targetAxisIndex: 0},
             2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
           },
           vAxes: {
-            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,20,40,60,80], format: '# °C' },
-            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,2,4,6,8], format: '# kW' }
+            0: {viewWindow: { min: 0, max: 80 }, ticks: [0,20,40,60,80], format: '# °C' },
+            1: {viewWindow: { min: 0, max: 8 }, ticks: [0,2,4,6,8], format: '# kW' }
           },
           hAxis: { 
             ticks: ticks,
