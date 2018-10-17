@@ -366,8 +366,10 @@ block content
       startDate.setDate($('#datepicker').val().split('-')[0]);
       startDate.setHours($('#timepicker').val());
       if($('#ampmpicker').val() == 'PM') startDate.setHours(startDate.getHours() + 12);
+      if(timeScale == 'day') startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
+      console.log(getFormatedDate(startDate));
       var endDate = new Date(startDate);
       endDate.setMinutes(endDate.getMinutes() + 60);
       var timeOffset = startDate.getTimezoneOffset();
