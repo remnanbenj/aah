@@ -76,7 +76,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(deviceType == "AMP") {
 
       // Reduce and average out results
-      //results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+      results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
 
       // Setup title row
       dataRow.push('Time');
@@ -121,7 +121,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         if (err) throw err;
 
         // Reduce and average out results
-        //results = reduceTempResults(results, timeScale, startDate, endDate, results2);
+        results = reduceTempResults(results, timeScale, startDate, endDate, results2);
 
         // Setup title row
         dataRow.push('Time');
