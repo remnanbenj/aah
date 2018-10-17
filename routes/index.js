@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 
 router.get('/home', checkSignIn, function(req, res) {
   // Get all devices
-  var sql = "SELECT * FROM devices where userid = "+req.session.user.id+" order by lastreading desc;";
+  var sql = "SELECT * FROM devices where userid = "+req.session.user.id+";";
   con.query(sql, function (err, results) {
     if (err) throw err;
     res.render('home', { title: 'AAH - Dashboard', user: req.session.user, devices: results });
