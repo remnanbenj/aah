@@ -337,10 +337,22 @@ block content
           }
         };
       } else if(deviceType == "AMP") {
+        // Add colors to graph
+        var colors = [];
+        if($('#channel1').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel1').data('color'));
+        if($('#channel2').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel2').data('color'));
+        if($('#channel3').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel3').data('color'));
+        if($('#channel4').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel4').data('color'));
+        if($('#channel5').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel5').data('color'));
+        if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel6').data('color'));
+        if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel7').data('color'));
+        if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') colors.push('#' + $('#channel8').data('color'));\
+        if(colors.length < 1) colors.push('#000');
+
         options = {
           legend: 'none',
-          colors: ['#000'],
-          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
+          colors: colors,
+          chartArea: {left: 30, right: 30, top: 10, bottom: 20},
           hAxis: { 
             ticks: ticks,
             gridlines: { count: 4, color:"#ccc" },
@@ -350,7 +362,7 @@ block content
             }
           },
           vAxis: { 
-            gridlines: { count: 6, color:"#ccc" },
+            gridlines: { count: 4, color:"#ccc" },
             viewWindow: {
                     min: 0,
                     max: 20
@@ -359,6 +371,30 @@ block content
           }
         };
       }
+
+
+          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          hAxis: { 
+            format: format,
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 11, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 10
+            },
+            format: '# kW' 
+          }
 
       var dataF = google.visualization.arrayToDataTable(data);
       chart.draw(dataF, options);
