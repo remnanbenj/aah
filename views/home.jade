@@ -332,7 +332,12 @@ block content
           colors: ['#000'],
           chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
           hAxis: { 
-            ticks: ticks
+            ticks: ticks,
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
           },
           vAxis: { 
             gridlines: { count: 6, color:"#ccc" },
