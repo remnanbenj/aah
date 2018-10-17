@@ -332,8 +332,11 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
     tData = data;
   }
 
-  //console.log("tData: ");
-  //console.log(tData);
+  console.log("Data: ");
+  console.log(data);
+
+  console.log("tData: ");
+  console.log(tData);
 
   return tData;
 }
