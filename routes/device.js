@@ -94,15 +94,15 @@ router.get('/getdata', checkSignIn, function(req, res) {
           var readings = results[i].data.split(':');
           dataRow = [];
           dataRow.push(tempDate);
-          console.log("ROW:"+i);
           for(var j = 0; j < channels.length; j++){
             if(timeScale == 'hour' || timeScale == 'halfday')
               dataRow.push(readings[channels[j]-1]*230);
             if(timeScale == 'day')
               dataRow.push(readings[j]*230);
-            console.log("CHANNEL:"+readings[j]);
+              console.log(readings[j]*230);
           }
           data.push(dataRow);
+          console.log(dataRow);
         }
       } else { // If we have no data, give single, false data point
         dataRow = [];
