@@ -116,7 +116,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         if (err) throw err;
 
         // Reduce and average out results
-        results = reduceTempResults(results, timeScale, startDate, endDate, results2);
+        //results = reduceTempResults(results, timeScale, startDate, endDate, results2);
 
         // Setup title row
         dataRow.push('Time');
@@ -134,8 +134,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
             dataRow.push(tempDate);
             dataRow.push(results[i].data.split(':')[0]);
             dataRow.push(results[i].data.split(':')[1]);
-            if(results[i].data.split(':')[2] == 'NaN') dataRow.push(results[i].data.split(':')[2]);
-            else dataRow.push(results[i].data.split(':')[2]*230/1000);
+            dataRow.push(0);
+            //if(results[i].data.split(':')[2] == 'NaN') dataRow.push(results[i].data.split(':')[2]);
+            //else dataRow.push(results[i].data.split(':')[2]*230/1000);
             data.push(dataRow);
           }
         } else { // If we have no data, give single, false data point
