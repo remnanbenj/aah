@@ -238,7 +238,7 @@ block content
     // ====Get Data====
 
     // Gets data based on whats selected and redraws the chart
-    function getData(chart, deviceID, deviceMac, deviceType, startDate, timeScale, timezoneOffset, time, ampm, options) {
+    function getData(chart, deviceID, deviceMac, deviceType, startDate, timeScale, timezoneOffset, options) {
 
       // Build url to get new data from server
       var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&startdate=" + startDate + "&timescale=" + timeScale + "&timezoneoffset=" + timezoneOffset;
@@ -304,6 +304,22 @@ block content
     }
 
 
+  script.
+
+    // ====Util====
+
+    function getFormatedDate(date){
+      var dateString = "";
+      dateString += date.getFullYear() + "-";
+      dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+      dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
+      dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+      dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+      dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
+      return dateString;
+    }
+
+
   each device, index in devices
 
     script.
@@ -312,20 +328,22 @@ block content
 
       var deviceMac = '#{device.mac}';
       var deviceType = '#{device.type}';
-      var startDate = new Date();
       var timeScale = 'hour';
+      var startDate = new Date();
+      if(timeScale == 'day') startDate.setHours(0);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
       var timezoneOffset = new Date().getTimezoneOffset();
 
-      console.log("deviceMac " + deviceMac);
       console.log("deviceType " + deviceType);
-      console.log("startDate " + startDate);
-      console.log("timeScale " + timeScale);
       console.log("timezoneOffset " + timezoneOffset);
 
-      //var time = new Date().getTimezoneOffset();
-      //var ampm = new Date().getTimezoneOffset();
-      //if(deviceType=="TEMP") getData(chart, deviceMac, deviceType, startDate, timeScale, timezoneOffset, time, ampm, wtrTempOptions);
-      //else if(deviceType=="AMP") getData(chart, deviceMac, deviceType, startDate, timeScale, timezoneOffset, time, ampm, ampOptions);
+      console.log("startDate " + getFormatedDate(startDate));
+      startDate.setMinutes(timezoneOffset);
+      console.log("startDate2 " + getFormatedDate(startDate));
+
+      //if(deviceType == "TEMP") getData(chart, deviceMac, deviceType, startDate, timeScale, wtrTempOptions);
+      //else if(deviceType == "AMP") getData(chart, deviceMac, deviceType, startDate, timeScale, ampOptions);
       
 
 
