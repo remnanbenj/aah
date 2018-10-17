@@ -249,6 +249,8 @@ block content
       // Build url to get new data from server
       var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
 
+      var channels = []; channels.push(1);
+
       // Get new data
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
@@ -336,8 +338,8 @@ block content
         };
       }
 
-      var data = google.visualization.arrayToDataTable(data);
-      chart.draw(data, options);
+      var dataF = google.visualization.arrayToDataTable(data);
+      chart.draw(dataF, options);
       $('.loader').css('display', 'none');
     } 
 
