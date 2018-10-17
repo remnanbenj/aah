@@ -238,10 +238,16 @@ block content
     // ====Get Data====
 
     // Gets data based on whats selected and redraws the chart
-    function getData(chart, deviceID, deviceMac, deviceType, timeScale, startDate, endDate, options) {
+    function getData(chart, options, deviceMac, deviceType, timeScale, startDate, endDate) {
+
+      // Set dates to GMT
+      var GMTStartDate = new Date(startDate);
+      var GMTEndDate = new Date(endDate);
+      GMTStartDate.setMinutes(GMTStartDate.getTimezoneOffset());
+      GMTEndDate.setMinutes(GMTEndDate.getTimezoneOffset());
 
       // Build url to get new data from server
-      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&startdate=" + startDate + "&enddate=" + endDate;
+      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
 
       // Get new data
       var xhttp = new XMLHttpRequest();
@@ -260,18 +266,7 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            var time = Number($('#timepicker').val());
-            var ampm = $('#ampmpicker').val();
-
-            if(time == 12 && ampm == 'AM') time = 0;
-            if(time != 12 && ampm == 'PM') time += 12;
-            
-            startDate = new Date(startDate);
-            startDate.setHours(time);
-            startDate.setMinutes(0);
-            startDate.setSeconds(0);
-            chart = new google.visualization.AreaChart(document.getElementById('chart' + deviceID));
-            drawHourChart(chart, data, startDate, options);
+            drawHourChart(chart, options, startDate, data);
           }
 
         }
@@ -280,9 +275,12 @@ block content
       xhttp.send();
     }
 
-    function drawHourChart(chart, data, startDate, options) {
+    function drawHourChart(chart, options, startDate, data) {
+      console.log(options);
+      console.log(startDate);
+      console.log(data);
 
-      // Get endDate one hour after startDate
+      /*// Get endDate one hour after startDate
       var endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 1);
       endDate.setMinutes(0);
@@ -299,7 +297,7 @@ block content
 
       var data = google.visualization.arrayToDataTable(data);
       chart.draw(data, options);
-      $('.loader').css('display', 'none');
+      $('.loader').css('display', 'none');*/
     }
 
 
@@ -324,6 +322,7 @@ block content
     script.
 
       // ====Get data for each device====
+      var chart = new google.visualization.AreaChart(document.getElementById('chart'));
 
       var deviceMac = '#{device.mac}';
       var deviceType = '#{device.type}';
@@ -333,13 +332,12 @@ block content
       var startDate = new Date();
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      startDate.setMinutes(new Date().getTimezoneOffset());
 
       var endDate = new Date(startDate);
       endDate.setMinutes(endDate.getMinutes() + 60);
 
-      if(deviceType == "TEMP") getData(chart, deviceMac, deviceType, timeScale, getFormatedDate(startDate), getFormatedDate(endDate), wtrTempOptions);
-      else if(deviceType == "AMP") getData(chart, deviceMac, deviceType, timeScale, getFormatedDate(startDate), getFormatedDate(endDate), ampOptions);
+      if(deviceType == "TEMP") getData(chart, wtrTempOptions, deviceMac, deviceType, timeScale, startDate, endDate);
+      else if(deviceType == "AMP") getData(chart, ampOptions, deviceMac, deviceType, timeScale, startDate, endDate);
       
 
 
