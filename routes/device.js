@@ -140,8 +140,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
             dataRow.push(results[i].data.split(':')[1]);
             if(results[i].data.split(':')[2] == 'NaN') dataRow.push(results[i].data.split(':')[2]);
             else dataRow.push(results[i].data.split(':')[2]*230/1000);
-            console.log(dataRow);
-            data.push(dataRow);
+            if(dataRow[1] != 'NaN' || dataRow[2] != 'NaN' || dataRow[3] != 'NaN')
+              data.push(dataRow);
           }
         } else { // If we have no data, give single, false data point
           dataRow = [];
