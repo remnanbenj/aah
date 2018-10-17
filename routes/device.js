@@ -110,7 +110,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     } else if(deviceType == "TEMP") {
 
-      var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+getFormatedDate(startDate)+"' and receivedtime < '"+getFormatedDate(endDate)+"';";
+      var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+startDate+"' and receivedtime < '"+endDate+"';";
       con.query(sql, function (err, results2) {
         if (err) throw err;
 
