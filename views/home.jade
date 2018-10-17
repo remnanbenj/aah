@@ -235,6 +235,10 @@ block content
 
   script.
 
+    // ====Draw Charts====
+
+    google.charts.load('current', {'packages':['corechart']});
+
     // ====Get Data====
 
     // Gets data based on whats selected and redraws the chart
@@ -364,22 +368,25 @@ block content
 
     script.
       // ====Get data for each device====
-      var chart = 'chart'; //new google.visualization.LineChart(document.getElementById('chart#{device.id}'));
 
-      var deviceMac = '#{device.mac}';
-      var deviceType = '#{device.type}';
+      google.charts.setOnLoadCallback(function(){
+        var chart = new google.visualization.AreaChart(document.getElementById('chart#{device.id}'));
 
-      var timeScale = 'hour';
+        var deviceMac = '#{device.mac}';
+        var deviceType = '#{device.type}';
 
-      var startDate = new Date();
-      startDate.setMinutes(0);
-      startDate.setSeconds(0);
+        var timeScale = 'hour';
 
-      var endDate = new Date(startDate);
-      endDate.setMinutes(endDate.getMinutes() + 60);
+        var startDate = new Date();
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
 
-      if(deviceType == "TEMP") getData(chart, wtrTempOptions, deviceMac, deviceType, timeScale, startDate, endDate);
-      else if(deviceType == "AMP") getData(chart, ampOptions, deviceMac, deviceType, timeScale, startDate, endDate);
+        var endDate = new Date(startDate);
+        endDate.setMinutes(endDate.getMinutes() + 60);
+
+        if(deviceType == "TEMP") getData(chart, wtrTempOptions, deviceMac, deviceType, timeScale, startDate, endDate);
+        else if(deviceType == "AMP") getData(chart, ampOptions, deviceMac, deviceType, timeScale, startDate, endDate);
+      });
       
 
 
