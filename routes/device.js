@@ -70,7 +70,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
     var tmpDte = new Date();
     var offset = timeOffset - tmpDte.getTimezoneOffset();
-    console.log(offset);
 
     // Act on type
     if(deviceType == "AMP") {
@@ -141,6 +140,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
             dataRow.push(results[i].data.split(':')[1]);
             if(results[i].data.split(':')[2] == 'NaN') dataRow.push(results[i].data.split(':')[2]);
             else dataRow.push(results[i].data.split(':')[2]*230/1000);
+            console.log(dataRow);
             data.push(dataRow);
           }
         } else { // If we have no data, give single, false data point
@@ -272,8 +272,7 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
       dataPoint3 = (dataPoint3 / dataPointCount3);
 
       var tempStartDate = new Date(tStartDate);
-      if(dataPoint != 'NaN' || dataPoint2 != 'NaN' || dataPoint3 != 'NaN')
-        tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
+      tData.push({data: dataPoint + ":" + dataPoint2 + ":" + dataPoint3, receivedtime: tempStartDate});
 
       tStartDate.setMinutes(tStartDate.getMinutes() + minutes);
       tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
