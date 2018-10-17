@@ -74,6 +74,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     // Act on type
     if(deviceType == "AMP") {
 
+      console.log(results);
       // Reduce and average out results
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
 
@@ -338,6 +339,8 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
 function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
 
+  var startDate = new Date(startDate);
+  var endDate = new Date(endDate);
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
   var tData = [];
