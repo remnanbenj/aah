@@ -376,32 +376,6 @@ block content
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(googleLoaded);
 
-    var options = {
-          legend: 'none',
-          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
-          explorer: {
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomOut: 1.0
-          },
-          series: {
-            0: {color: '#000', type: 'line', targetAxisIndex: 0},
-            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
-            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
-          },
-          vAxes: {
-            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
-            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
-          },
-          hAxis: { 
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          }
-    };
-
     function googleLoaded(){
       var chart = new google.visualization.AreaChart(document.getElementById('chart'));
       var deviceMac = device.mac;
@@ -456,5 +430,47 @@ block content
       xhttp.open("GET", url, true);
       xhttp.send();
     }
+
+    function drawHourChart(chart, options, startDate, endDate, data, deviceType) {
+
+      // Set proper data dates from server
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      console.log(data);
+
+      var options = {
+          legend: 'none',
+          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+          },
+          hAxis: { 
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          }
+      };
+
+      var dataF = google.visualization.arrayToDataTable(data);
+      chart.draw(dataF, options);
+      $('.loader').css('display', 'none');
+    } 
 
 
