@@ -95,7 +95,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
           dataRow.push(tempDate);
           for(var j = 0; j < channels.length; j++){
             if(timeScale == 'hour' || timeScale == 'halfday')
-              dataRow.push(readings[channels[j]-1]*230);
+              dataRow.push(readings[channels[j]-1]*230/1000);
             if(timeScale == 'day')
               dataRow.push(readings[j]*230);
             console.log(readings[channels[j]-1]);
