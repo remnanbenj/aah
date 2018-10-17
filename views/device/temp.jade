@@ -411,7 +411,7 @@ block content
       // Get dates
       var startDate = new Date();
       startDate.setFullYear($('#datepicker').val().split('-')[2]);
-      startDate.setMonth($('#datepicker').val().split('-')[1]);
+      startDate.setMonth($('#datepicker').val().split('-')[1]-1);
       startDate.setDate($('#datepicker').val().split('-')[0]);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
