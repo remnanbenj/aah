@@ -76,7 +76,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       // Reduce and average out results
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
-      console.log(results);
 
       // Setup title row
       dataRow.push('Time');
@@ -111,6 +110,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
         }
         data.push(dataRow);
       }
+      console.log(data);
 
       res.send(data);
 
