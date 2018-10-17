@@ -243,6 +243,8 @@ block content
 
     // Gets data based on whats selected and redraws the chart
     function getData(chart, options, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
+      // Loader
+      $('.loader').css('display', 'block');
 
       // Set dates to GMT
       var GMTStartDate = new Date(startDate);

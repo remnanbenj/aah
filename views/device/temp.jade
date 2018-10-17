@@ -392,6 +392,8 @@ block content
 
     // Gets data from server then redraws the chart
     function getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
+      // Loader
+      $('.loader').css('display', 'block');
 
       // Set dates to GMT
       var GMTStartDate = new Date(startDate);
@@ -472,5 +474,48 @@ block content
       chart.draw(dataF, options);
       $('.loader').css('display', 'none');
     } 
+
+    function drawDayChart(chart, startDate, endDate, data, deviceType) {
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      console.log(data);
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+          },
+          hAxis: { 
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          }
+      };
+
+      var dataF = google.visualization.arrayToDataTable(data);
+      chart.draw(dataF, options);
+      $('.loader').css('display', 'none');
+    }
 
 
