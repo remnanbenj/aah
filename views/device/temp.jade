@@ -393,27 +393,29 @@ block content
 
     function googleLoaded(){
       chart = new google.visualization.AreaChart(document.getElementById('chart'));
-
-      var startDate = new Date();
-      startDate.setMinutes(0);
-      startDate.setSeconds(0);
-      var endDate = new Date(startDate);
-      endDate.setMinutes(endDate.getMinutes() + 60);
-      getData(chart, startDate, endDate);
+      getData();
     }
 
     // Gets data from server then redraws the chart
-    function getData(chart, startDate, endDate) {
+    function getData() {
       // Loader
       $('.loader').css('display', 'block');
 
-      // Build url to get new data from server
+      // Device and data info
       var deviceMac = device.mac;
       var deviceType = device.type;
       var timeScale = '';
       if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'hour';
       else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'day';
       var timeOffset = startDate.getTimezoneOffset();
+
+      // Get dates
+      var startDate = new Date($('#datepicker').val().split('-')[2] + '-' + $('#datepicker').val().split('-')[1] + '-' + $('#datepicker').val().split('-')[0]);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      console.log(getFormatedDate(startDate));
+      var endDate = new Date(startDate);
+      endDate.setMinutes(endDate.getMinutes() + 60);
 
       // Set dates to GMT
       var GMTStartDate = new Date(startDate);
