@@ -84,6 +84,7 @@ block content
 
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
   script.
+    google.load("visualization", "1", {packages:["corechart"]});
 
     function deviceSettings(deviceID, deviceType){
       $('#device' + deviceID).animate({height: "0px"}, 200);
@@ -320,7 +321,6 @@ block content
   each device, index in devices
 
     script.
-
       // ====Get data for each device====
       var chart = new google.visualization.LineChart(document.getElementById('chart#{device.id}'));
 
