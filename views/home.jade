@@ -180,7 +180,7 @@ block content
     // ====Setup Chart Options====
 
     var wtrTempOptions = {
-          legend: 'none',
+          /*legend: 'none',
           chartArea: {left: 80, right: 80, top: 10, bottom: 50},
           explorer: {
             axis: 'horizontal',
@@ -202,11 +202,11 @@ block content
                     min: startDate,
                     max: endDate
             }
-          }
+          }*/
     };
 
     var ampOptions = {
-          legend: 'none',
+          /*legend: 'none',
           colors: colors,
           chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
           explorer: {
@@ -229,7 +229,7 @@ block content
                     max: 10
             },
             format: '# kW' 
-          }
+          }*/
     };
 
 
@@ -322,7 +322,7 @@ block content
     script.
 
       // ====Get data for each device====
-      var chart = new google.visualization.AreaChart(document.getElementById('chart'));
+      var chart = new google.visualization.AreaChart(document.getElementById('chart#{device.id}'));
 
       var deviceMac = '#{device.mac}';
       var deviceType = '#{device.type}';
