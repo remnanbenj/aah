@@ -213,6 +213,8 @@ function reduceResults(data, timeScale, startDate, endDate) {
 
 function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
+  var startDate = new Date(startDate);
+  var endDate = new Date(endDate);
   var tStartDate = new Date(startDate);
   var tEndDate = new Date(startDate);
   var tData = [];
@@ -331,12 +333,6 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
   } else {
     tData = data;
   }
-
-  console.log("Data: ");
-  console.log(data);
-
-  console.log("tData: ");
-  console.log(tData);
 
   return tData;
 }
