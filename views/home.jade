@@ -254,6 +254,7 @@ block content
       var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
 
       var channels = []; channels.push(1);
+      url += "&channels=" + channels.toString();
 
       // Get new data
       var xhttp = new XMLHttpRequest();

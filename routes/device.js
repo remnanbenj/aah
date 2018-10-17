@@ -47,7 +47,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
   // Power monitor variables
   var channels = [9]; // channels we're requesting
   if(req.query.channels) channels = req.query.channels.split(',');
-  console.log("channels: " + channels);
 
   // Device variables
   var deviceMac = req.query.devicemac;
