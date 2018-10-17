@@ -298,13 +298,22 @@ block content
 
       console.log(data);
 
+      var ticks = [];
+      var tick1 = new Date(startDate);
+      var tick2 = new Date(startDate); tick2.setMinutes(tick1.getMinutes() + 30);
+      var tick3 = new Date(endDate);
+      ticks.push(tick1);
+      ticks.push(tick2);
+      ticks.push(tick3);
+
       if(deviceType == "TEMP") {
         options = {
           legend: 'none',
           colors: ['#0af'],
           chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
           hAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
+            ticks: ticks,
+            gridlines: { count: 4, color:"#ccc" },
             viewWindow: {
                     min: startDate,
                     max: endDate
@@ -320,13 +329,6 @@ block content
           }
         };
       } else if(deviceType == "AMP") {
-        var ticks = [];
-        var tick1 = new Date(startDate);
-        var tick2 = new Date(startDate); tick2.setMinutes(tick1.getMinutes() + 30);
-        var tick3 = new Date(endDate);
-        ticks.push(tick1);
-        ticks.push(tick2);
-        ticks.push(tick3);
         options = {
           legend: 'none',
           colors: ['#000'],
