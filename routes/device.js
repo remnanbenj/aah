@@ -68,6 +68,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
     var data = [];
     var dataRow = [];
 
+    var tmpDte = new Date();
+    var offset = timeOffset - tmpDte.getTimezoneOffset();
+    console.log(offset);
+
     // Act on type
     if(deviceType == "AMP") {
 
@@ -82,10 +86,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
         else if(timeScale == 'day') dataRow.push('KiloWatt Hours');
       }
       data.push(dataRow);
-
-      var tmpDte = new Date();
-      var offset = timeOffset - tmpDte.getTimezoneOffset();
-      console.log(offset);
 
       // Setup data
       if(results.length > 0) { // If we have data, put it into an array
