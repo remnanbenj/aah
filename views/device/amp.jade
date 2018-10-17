@@ -448,7 +448,7 @@ block content
               time += 12;
             }
             
-            var tempDate = new Date(startdate);
+            var tempDate = new Date(startDate);
             tempDate.setHours(time);
             tempDate.setMinutes(0);
             tempDate.setSeconds(0);
@@ -456,7 +456,7 @@ block content
             drawHalfdayChart(data, tempDate);
 
           } else if(timeScale == 'day') {
-            var tempDate = new Date(startdate);
+            var tempDate = new Date(startDate);
             tempDate.setHours(0);
             tempDate.setMinutes(0);
             tempDate.setSeconds(0);
