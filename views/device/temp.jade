@@ -400,6 +400,8 @@ block content
           // Redraw Chart
           if(timeScale == 'hour') {
             drawHourChart(chart, startDate, endDate, data, deviceType);
+          } else if(timeScale == 'day') {
+            drawDayChart(chart, startDate, endDate, data, deviceType);
           }
 
         }
