@@ -363,12 +363,6 @@ block content
       // Loader
       $('.loader').css('display', 'block');
 
-      // Build url for new data
-      var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timescale + "&timezoneoffset=" + timezoneoffset + "&startdate=" + startdate + "&channels=" + channels.toString();
-      if(timescale == 'hour' || timescale == 'halfday') { url += "&time=" + $('#timepicker').val(); url += "&ampm=" + $('#ampmpicker').val(); }
-
-
-
       // Device and data info
       var deviceMac = device.mac;
       var deviceType = device.type;
