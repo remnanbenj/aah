@@ -94,11 +94,13 @@ router.get('/getdata', checkSignIn, function(req, res) {
           var readings = results[i].data.split(':');
           dataRow = [];
           dataRow.push(tempDate);
+          console.log("ROW:"+i);
           for(var j = 0; j < channels.length; j++){
             if(timeScale == 'hour' || timeScale == 'halfday')
               dataRow.push(readings[channels[j]-1]*230);
             if(timeScale == 'day')
               dataRow.push(readings[j]*230);
+            console.log("CHANNEL:"+readings[j]);
           }
           data.push(dataRow);
         }
@@ -110,7 +112,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
         }
         data.push(dataRow);
       }
-      console.log(data);
 
       res.send(data);
 
