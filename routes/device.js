@@ -401,7 +401,7 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
 
   } else if(timeScale == 'halfday') {
 
-    var minutes = 1;
+    var minutes = 10;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
 
     for(var i = 0; i < diffMins / minutes; i++){
