@@ -363,7 +363,7 @@ block content
       startDate.setMonth($('#datepicker').val().split('-')[1]-1);
       startDate.setDate($('#datepicker').val().split('-')[0]);
       startDate.setHours($('#timepicker').val());
-      if($('#ampmpicker').val() == 'PM') startDate.setHours(startDate.getHours() + 12);
+      if($('#ampmpicker').val() == 'PM' && $('#timepicker').val() != 12) startDate.setHours(startDate.getHours() + 12);
       if(timeScale == 'day') startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
