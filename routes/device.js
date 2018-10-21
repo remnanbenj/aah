@@ -345,6 +345,9 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
   var dataPoints = [];
   var dataPointCount = 0;
 
+  console.log(startDate);
+  console.log(endDate);
+
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
 
