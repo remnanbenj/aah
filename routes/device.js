@@ -337,6 +337,9 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
 function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
 
+  console.log(startDate);
+  console.log(endDate);
+
   var startDate = new Date(startDate);
   var endDate = new Date(endDate);
   var tStartDate = new Date(startDate);
