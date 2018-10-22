@@ -31,19 +31,15 @@ router.get('/', checkSignIn, function(req, res) {
     if (err) throw err;
 
     if(results.length > 0) {
+      var device = results[0];
 
       // Display based on device
       if(device.type == 'AMP') {
         res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device });
 
-      } else if(device.type == 'WTRLVL') {
-        res.render('device/wtrlvl', { title: 'AAH - Water Level', user: req.session.user, device: device });
-
       } else if(device.type == 'TEMP') {
         res.render('device/temp', { title: 'AAH - Temperature', user: req.session.user, device: device });
 
-      } else if(device.type == 'VOLT') {
-        res.render('device/volt', { title: 'AAH - Voltmeter', user: req.session.user, device: device });
       }
 
     } else {
