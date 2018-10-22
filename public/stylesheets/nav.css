@@ -3,11 +3,11 @@
 .topnav {
   position: relative;
   height: 65px;
-  background: #bababa;
-  color: #fff;
+  background: #eee;
+  color: #777;
   margin-left: 10px;
   margin-right: 10px;
-  box-shadow: 2px 2px 4px #555	;
+  box-shadow: 2px 2px 4px #555;
 }
 
 .topnav-logo {
@@ -17,7 +17,7 @@
   margin-top: 8px;
   margin-left: 5px;
 
-  background-image: url('/images/logo-white.png');
+  background-image: url('/images/logo-grey.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -27,27 +27,37 @@
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
   height: 30px;
   display: inline-block;
   float: left;
   margin-top: 17px;
   margin-left: 15px;
   cursor: pointer;
-  border-bottom: 1px solid #bababa;
+  border-bottom: 1px solid #eee;
 }
 
 .topnav-button:hover {
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #777;
 }
 
 .topnav-seperator {
   height: 30px;
   width: 1px;
-  background: white;
+  background: #777;
   float: left;
   margin-top: 18px;
-  margin-left: 40px;
-  margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.unavailable {
+  color: #bbb;
+  cursor: default;
+}
+
+.unavailable:hover {
+  border-bottom: 1px solid #eee;
 }
 

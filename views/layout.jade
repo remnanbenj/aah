@@ -88,14 +88,15 @@ html
     .topnav
       .topnav-logo
       .topnav-button(id="home-button" onclick="window.location.assign('/home');") Dashboard
-      .topnav-button(id="controls-button" style="color: #999;") Control
+      .topnav-button.unavailable(id="controls-button") Control
       .topnav-button(id="settings-button" onclick="window.location.assign('/devices');") My Devices
       .topnav-seperator
-      .topnav-button(id="shop-button" style="color: #999;" onclick="/*window.location.assign('/shop');*/") Products
-      .topnav-button(id="guide-button" style="color: #999;") Guides
-      .topnav-button(id="help-button" style="color: #999;") Help
+      .topnav-button.unavailable(id="shop-button" onclick="/*window.location.assign('/shop');*/") Products
+      .topnav-button.unavailable(id="guide-button") Guides
+      .topnav-button.unavailable(id="help-button") Help
+
       .topnav-button(id="logout-button" style="float: right; margin-right: 20px; margin-left: 0px;" onclick="logout()") Logout
-      .topnav-button(id="account-button" style="float: right; margin-right: 20px; margin-left: 0px; color: #999;")  My Account
+      .topnav-button.unavailable(id="account-button" style="float: right; margin-right: 20px; margin-left: 0px;")  My Account
 
 
     .page
@@ -117,13 +118,13 @@ html
       // Nav page setup
       var page = window.location.pathname.split('/')[1];
       if(page == 'home') {
-        $("#home-button").css('border-bottom', '1px solid #fff');
+        $("#home-button").css('border-bottom', '1px solid #777');
       } else if(page == 'controls') {
-        $("#controls-button").css('border-bottom', '1px solid #fff');
+        $("#controls-button").css('border-bottom', '1px solid #777');
       } else if(page == 'devices') {
-        $("#settings-button").css('border-bottom', '1px solid #fff');
+        $("#settings-button").css('border-bottom', '1px solid #777');
       } else if(page == 'shop') {
-        $("#shop-button").css('border-bottom', '1px solid #fff');
+        $("#shop-button").css('border-bottom', '1px solid #777');
       }
 
       function logout(){
