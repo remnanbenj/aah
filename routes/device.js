@@ -1,3 +1,15 @@
+// ====Summary====
+//
+// /device/
+// - Sends device page based on device type 
+//
+// /device/getdata
+// - Get data for a device based on time, timescale and type
+// - Setup data for google chart
+//
+// reduceResults() *multiple versions based on type
+// - Reduces results to more managable averages based on timescale
+
 // Express fields
 var express = require('express');
 var router = express.Router();
@@ -19,9 +31,8 @@ router.get('/', checkSignIn, function(req, res) {
     if (err) throw err;
 
     if(results.length > 0) {
-      var device = results[0];
-      device.lastreading = getReadableDate(device.lastreading);
 
+      // Display based on device
       if(device.type == 'AMP') {
         res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device });
 
@@ -45,7 +56,7 @@ router.get('/', checkSignIn, function(req, res) {
 router.get('/getdata', checkSignIn, function(req, res) {
 
   // Power monitor variables
-  var channels = [9]; // channels we're requesting
+  var channels = []; // channels we're requesting
   if(req.query.channels) channels = req.query.channels.split(',');
 
   // Device variables
@@ -66,27 +77,25 @@ router.get('/getdata', checkSignIn, function(req, res) {
     // Setup Fields
     var data = [];
     var dataRow = [];
+    var offset = timeOffset - new Date().getTimezoneOffset(); // offset data received time
 
-    var tmpDte = new Date();
-    var offset = timeOffset - tmpDte.getTimezoneOffset();
+    // Based on type: Reduce results, put results into a google chart ready array with adjusted timezone, send array to client
 
-    // Act on type
+    // ====Power Monitor====
     if(deviceType == "AMP") {
 
       // Reduce and average out results
       results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
 
-      // Setup title row
+      // Setup data
       dataRow.push('Time');
-      for(var i = 0; i < channels.length; i++){
-        if(timeScale == 'hour') dataRow.push('KiloWatts');
-        else if(timeScale == 'halfday') dataRow.push('KiloWatts');
+      for(var i = 0; i < channels.length; i++){ // For each channel add a column title
+        if(timeScale == 'hour' || timeScale == 'halfday') dataRow.push('KiloWatts');
         else if(timeScale == 'day') dataRow.push('KiloWatt Hours');
       }
       data.push(dataRow);
 
-      // Setup data
-      if(results.length > 0) { // If we have data, put it into an array
+      if(results.length > 0) { // If we have data, put it into the data array
         for(var i = 0; i < results.length; i++){
           var tempDate = new Date(results[i].receivedtime);
           tempDate.setMinutes(tempDate.getMinutes() + offset);
@@ -112,6 +121,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
       res.send(data);
 
+    // ====Water Heater====
     } else if(deviceType == "TEMP") {
 
       var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+startDate+"' and receivedtime < '"+endDate+"';";
@@ -121,14 +131,13 @@ router.get('/getdata', checkSignIn, function(req, res) {
         // Reduce and average out results
         results = reduceTempResults(results, timeScale, startDate, endDate, results2);
 
-        // Setup title row
+        // Setup data
         dataRow.push('Time');
         dataRow.push('Temperature 1');
         dataRow.push('Temperature 2');
         dataRow.push('Power');
         data.push(dataRow);
 
-        // Setup data
         if(results.length > 0) { // If we have data, put it into an array
           for(var i = 0; i < results.length; i++){
             var tempDate = new Date(results[i].receivedtime);
@@ -153,13 +162,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
         res.send(data);
       });
-
-    } else {
-      console.log("DEVICE TYPE NOT FOUND. RESULT COULD NOT BE DISPLAYED.");
-      res.send(data);
     }
-
-    //console.log(data);
 
   });
 
@@ -211,9 +214,6 @@ function reduceResults(data, timeScale, startDate, endDate) {
 
 function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
 
-  console.log(startDate);
-  console.log(endDate);
-
   var startDate = new Date(startDate);
   var endDate = new Date(endDate);
   var tStartDate = new Date(startDate);
@@ -225,9 +225,6 @@ function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
   var dataPointCount = 0;
   var dataPointCount2 = 0;
   var dataPointCount3 = 0;
-
-  console.log(startDate);
-  console.log(endDate);
 
   var diffMs = (endDate - startDate);
   var diffMins = diffMs / 60000;
@@ -464,51 +461,12 @@ function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
 }
 
 
-
 // =====POSTS=====
 
 
-/* =====FUCNTIONS===== */
+// =====FUCNTIONS=====
 
-function getReadableDate(date){
-  var dateString = "";
-  var hours = date.getHours();
-  var hoursSuffix = "am";
-  if(hours == 12) { hoursSuffix = "PM"; }
-  else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
-
-  dateString += String(hours).length == 1 ? "0" + hours + ":" : hours + ":";
-  dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
-  dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() + hoursSuffix + " - " : date.getSeconds() + hoursSuffix + " - ";
-  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "/" : date.getDate() + "/";
-  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) : (date.getMonth()+1);
-  return dateString;
-}
-
-function getTwelveHourTime(time) {
-  // Check correct time format and split into components
-  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-
-  if (time.length > 1) { // If time format correct
-    time = time.slice (1);  // Remove full string match value
-    time[5] = +time[0] 
-    time[0] = +time[0] % 12 || 12; // Adjust hours
-  }
-  return time.join (''); // return adjusted time or original string
-}
-
-function getFormatedDate(date){
-  var dateString = "";
-  dateString += date.getFullYear() + "-";
-  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
-  dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
-  dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
-  dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
-  return dateString;
-}
-
-/* Checks to see if person has signed in */
+// Checks to see if person has signed in
 function checkSignIn(req, res, next){
   if(req.session.user){
     next(); // If session exists go to page
@@ -518,11 +476,11 @@ function checkSignIn(req, res, next){
     next(err);
   }
 }
-
-/* Reroute menu to login page */
 router.use('/', function(err, req, res, next) {
   res.redirect('/');
 });
-
+router.use('/getdata', function(err, req, res, next) {
+  res.redirect('/');
+});
 
 module.exports = router;

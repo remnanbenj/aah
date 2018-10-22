@@ -1,0 +1,296 @@
+TODO:
+ Needed
+  - 
+
+ Not Needed 
+  - water temp no data, no display
+  - Power monitor halfday timescale
+  - Setup charts before data comes in 
+  - 12AM weird data
+  - Amp channels moved from labels to varaibles
+  - remove state, labels and lastreadingdata from devices table
+  - devices.js: Check connected line 46
+  - change TEMP -> WTRHTR and AMP -> PWRMTR
+
+
+ADDING A DEVICE
+
+- make a page for the new device in /views/device/ to display data
+
+- routes/device.js
+ - /device
+  - Link to the new page based on type
+ - /device/getdata
+  - (OPTIONAL) Get specific variables to find data
+  - Reduce results, put results into a google chart ready array with adjusted timezone, send array to client
+  - (OPTIONAL) Make unique reduce results
+
+- routes/data.js
+ - /data/reading
+  - (OPTIONAL) Send data to device
+ - addDevice()
+  - Setup variables and insert device into table
+
+- routes/devices.js
+ - (OPTIONAL) Add specific device settings changers
+
+- views/devices.jade
+ - (OPTIONAL) Add specific device settings
+
+- views/home.jade
+ - Add mini widget
+ - Add widget settings
+ - Add widget options
+
+
+DEVICES
+
+Power Monitor - PWRMTR
+ Data
+  Example: '0:0:0:0:0:0:0:0'
+  Description: 8 Channels
+
+ Variables
+  [0] ChannelLabel1: "Channel 1:000000:1" 
+  [1] ChannelLabel2: "Channel 2:FF0000:1" 
+  [2] ChannelLabel3: "Channel 3:F2A100:1" 
+  [3] ChannelLabel4: "Channel 4:00C400:1" 
+  [4] ChannelLabel5: "Channel 5:00AAFF:1" 
+  [5] ChannelLabel6: "Channel 6:5162FF:1" 
+  [6] ChannelLabel7: "Channel 7:9B00EF:1" 
+  [7] ChannelLabel8: "Channel 8:ED00C5:1" 
+  Description: Name : Color : Active
+
+Water Heater - WTRHTR
+ Data: '0:0:0'
+ Description: Bottom Temp : Top Temp : Kilowatts
+ [0] MaxTemp(°C): 55
+ [1] TempRange(°C): 2 
+ [2] SelectedTemp(bottom(0) or top(1)): 0
+
+Water Level - WTRLVL
+
+Temperature Sensor - TMPSNR
+
+
+UTILITY
+
+// Displays HH:MM:SS - dd/mm (NOT TESTED)
+function getReadableDate(date){
+  var dateString = "";
+  var hours = date.getHours();
+  var hoursSuffix = "am";
+  if(hours == 12) { hoursSuffix = "PM"; }
+  else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+
+  dateString += String(hours).length == 1 ? "0" + hours + ":" : hours + ":";
+  dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+  dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() + hoursSuffix + " - " : date.getSeconds() + hoursSuffix + " - ";
+  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "/" : date.getDate() + "/";
+  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) : (date.getMonth()+1);
+  return dateString;
+}
+
+// Displays yyyy-mm-dd HH:MM:SS
+function getFormatedDate(date){
+  var dateString = "";
+  dateString += date.getFullYear() + "-";
+  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
+  dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+  dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+  dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
+  return dateString;
+}
+
+// Changes 24 hour time to 12 hour time (NOT TESTED)
+function getTwelveHourTime(time) {
+  // Check correct time format and split into components
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) { // If time format correct
+    time = time.slice (1);  // Remove full string match value
+    time[5] = +time[0] 
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join (''); // return adjusted time or original string
+}
+
+
+OTHER
+
+// Gets data based on whats selected and redraws the graph
+    function getData(first, loader) {
+      // Start loading graph if user clicked something
+      if(loader != 'none')
+        $('.loader').css('display', 'block');
+
+      // Build url for new data
+
+      // Get new data
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+
+          // Format data
+          var data = JSON.parse(this.responseText)
+          for(var i = 1; i < data.length; i++) {
+            data[i][0] = new Date(data[i][0]);
+            for(var j = 1; j < data[i].length; j++) {
+              data[i][j] = Number(data[i][j]);
+              if(data[i][j] < 0) data[i][j] = null;
+            }
+          }
+
+          // Redraw Chart
+          if(timescale == 'hour') {
+            var time = Number($('#timepicker').val());
+            var ampm = $('#ampmpicker').val();
+
+            if(time == 12 && ampm == 'AM') time = 0;
+            if(time != 12 && ampm == 'PM') {
+              time += 12;
+            }
+            
+            var tempDate = new Date(startdate);
+            tempDate.setHours(time);
+            tempDate.setMinutes(0);
+            tempDate.setSeconds(0);
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
+            drawHourChart(data, tempDate);
+
+          } else if(timescale == 'day') {
+            var tempDate = new Date(startdate);
+            tempDate.setHours(0);
+            tempDate.setMinutes(0);
+            tempDate.setSeconds(0);
+            
+            drawDayChart(data, tempDate);
+          }
+
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+
+    function drawHourChart(data, startDate) {
+
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 1);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      console.log(data);
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+          },
+          hAxis: { 
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          }
+      };
+
+      var data = google.visualization.arrayToDataTable(data);
+      chart.draw(data, options);
+      $('.loader').css('display', 'none');
+    }
+
+    function drawDayChart(data, startDate, first) {
+
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 24);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      console.log(data);
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+          },
+          hAxis: { 
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          }
+      };
+
+      var data = google.visualization.arrayToDataTable(data);
+      google.visualization.events.addListener(chart, 'select', daySelectHandler);
+      chart.draw(data, options);
+      $('.loader').css('display', 'none');
+    }
+
+    function daySelectHandler() {
+      var selectedItem = chart.getSelection()[0];
+      if (selectedItem) {
+            $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
+            $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
+
+            var hours = data.getValue(selectedItem.row, 0).getHours();
+            var hoursSuffix = "AM";
+            if(hours == 12) { hoursSuffix = "PM"; }
+            else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+            $("#timepicker").css('display', 'inline-block');
+            $("#ampmpicker").css('display', 'inline-block');
+            $("#timepicker").val(hours);
+            $("#ampmpicker").val(hoursSuffix);
+
+            getData();
+      }
+    }
+
+    function refresh() {
+      getData();
+    }

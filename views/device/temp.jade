@@ -289,7 +289,7 @@ block content
             // Close dialog and edit device
             if(this.responseText == "Success") {
               toast('Device state changed', 2400);
-              console.log(this.responseText);
+
               if(newState == 1) {
                 $('.device-state-on').css('display', 'block');
                 $('.device-state-off').css('display', 'none');

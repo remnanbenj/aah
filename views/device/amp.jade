@@ -425,10 +425,8 @@ block content
       if($('#channel6').css('background-color') != 'rgb(187, 187, 187)') channels.push(6);
       if($('#channel7').css('background-color') != 'rgb(187, 187, 187)') channels.push(7);
       if($('#channel8').css('background-color') != 'rgb(187, 187, 187)') channels.push(8);
-      console.log(channels);
 
       var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate) + "&channels=" + channels.toString();
-
 
       // Get new data
       var xhttp = new XMLHttpRequest();
@@ -443,7 +441,6 @@ block content
               data[i][j] = Number(data[i][j]);
             }
           }
-          console.log(data);
 
           // Redraw Chart
           if(timeScale == 'hour') {

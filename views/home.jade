@@ -108,130 +108,6 @@ block content
       $("#title"+contentID).css('color', '#000');
     });
 
-    function drawHourChart(device, data) {
-
-      var data = google.visualization.arrayToDataTable(data);
-      var chart;
-
-      var startDate = new Date();
-      startDate.setMinutes(0);
-      startDate.setSeconds(-1);
-
-      var endDate = new Date();
-      endDate.setMinutes(60);
-      endDate.setSeconds(0);
-
-      // Set Options
-      var options;
-      if(device.type == "AMP") {
-        var channelColor = '#000';
-        options = {
-          legend: 'none',
-          colors: [channelColor],
-          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
-          hAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 6, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 10
-            },
-            format: '#kW' 
-          }
-        };
-        chart = new google.visualization.AreaChart(document.getElementById('chart' + device.id));
-
-      } else if(device.type == "TEMP") {
-        options = {
-          legend: 'none',
-          colors: ['#0af'],
-          chartArea: {left: 35, top: 10, 'width': '82%', 'height': '84%'},
-          hAxis: { 
-            gridlines: { count: 5, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 6, color:"#ccc" },
-            viewWindow: {
-                    min: -10,
-                    max: 40
-            },
-            format: '#°C' 
-          }
-        };
-        chart = new google.visualization.LineChart(document.getElementById('chart' + device.id));
-      }
-
-      chart.draw(data, options);
-    }
-
-
-  script.
-
-    // ====Setup Chart Options====
-
-    var wtrTempOptions = {
-          /*legend: 'none',
-          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
-          explorer: {
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomOut: 1.0
-          },
-          series: {
-            0: {color: '#000', type: 'line', targetAxisIndex: 0},
-            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
-            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
-          },
-          vAxes: {
-            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,20,40,60,80], format: '# °C' },
-            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,2,4,6,8], format: '# kW' }
-          },
-          hAxis: { 
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          }*/
-    };
-
-    var ampOptions = {
-          /*legend: 'none',
-          colors: colors,
-          chartArea: {left: 60, top: 10, 'width': '90%', 'height': '88%'},
-          explorer: {
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomOut: 1.0
-          },
-          hAxis: { 
-            format: format,
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          },
-          vAxis: { 
-            gridlines: { count: 11, color:"#ccc" },
-            viewWindow: {
-                    min: 0,
-                    max: 10
-            },
-            format: '# kW' 
-          }*/
-    };
-
 
   script.
 
@@ -242,7 +118,7 @@ block content
     // ====Get Data====
 
     // Gets data based on whats selected and redraws the chart
-    function getData(chart, options, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
+    function getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
       // Loader
       $('.loader').css('display', 'block');
 
@@ -275,7 +151,7 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            drawHourChart(chart, options, startDate, data, deviceType);
+            drawHourChart(chart, startDate, data, deviceType);
           }
 
         }
@@ -284,7 +160,7 @@ block content
       xhttp.send();
     }
 
-    function drawHourChart(chart, options, startDate, data, deviceType) {
+    function drawHourChart(chart, startDate, data, deviceType) {
 
       // Get endDate one hour after startDate
       var endDate = new Date(startDate);
@@ -299,8 +175,6 @@ block content
         data[i][0] = tempDate;
       }
 
-      console.log(data);
-
       var ticks = [];
       var tick1 = new Date(startDate);
       var tick2 = new Date(startDate); tick2.setMinutes(tick1.getMinutes() + 30);
@@ -309,6 +183,7 @@ block content
       ticks.push(tick2);
       ticks.push(tick3);
 
+      var options;
       if(deviceType == "TEMP") {
         options = {
           legend: 'none',
@@ -411,8 +286,7 @@ block content
         var endDate = new Date(startDate);
         endDate.setMinutes(endDate.getMinutes() + 60);
 
-        if(deviceType == "TEMP") getData(chart, wtrTempOptions, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate);
-        else if(deviceType == "AMP") getData(chart, ampOptions, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate);
+        getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate);
       });
       
 
