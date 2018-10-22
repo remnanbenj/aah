@@ -3,8 +3,10 @@ TODO:
   - 
 
  Not Needed 
-  - mini widget isConnected
-  - mini widget settings
+  - mini widget
+   - add loader
+   - add settings
+   - update isConnected
   - water temp no data, no display
   - Power monitor halfday timescale
   - Setup charts before data comes in
