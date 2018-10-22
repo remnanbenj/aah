@@ -3,14 +3,17 @@ TODO:
   - 
 
  Not Needed 
+  - mini widget isConnected
+  - mini widget settings
   - water temp no data, no display
   - Power monitor halfday timescale
-  - Setup charts before data comes in 
+  - Setup charts before data comes in
   - 12AM weird data
   - Amp channels moved from labels to varaibles
   - remove state, labels and lastreadingdata from devices table
   - devices.js: Check connected line 46
   - change TEMP -> WTRHTR and AMP -> PWRMTR
+  - after renaming device and then opening settings device name suggestion not changed (PWRMTR)
 
 
 ADDING A DEVICE
