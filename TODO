@@ -1,21 +1,37 @@
 TODO:
- Needed
-  - Change water temp arduino code from TEMP -> WTRHTR
+  Needed
+    - Change water temp arduino code from TEMP -> WTRHTR
 
- Not Needed 
-  - mini widget
-   - add loader
-   - add settings
-   - update isConnected
-  - water temp no data, no display
-  - Power monitor halfday timescale
-  - Setup charts before data comes in
-  - 12AM weird data
-  - Amp channels moved from labels to varaibles
-  - remove state, labels and lastreadingdata from devices table
-  - devices.js: Check connected line 46
-  - change TEMP -> WTRHTR and AMP -> PWRMTR
-  - after renaming device and then opening settings device name suggestion not changed (PWRMTR)
+    - Water Temp Page
+      - Timescale hover not working after clicked
+      - Loading animation
+      - Water heater settings (move from JS to html)
+      - Update modal settings to new theme
+      - Add legend
+      - Add week month
+
+    - Power Monitor Page
+      - Update to new theme
+
+    - Home Page
+      - Update to new theme
+      - Add new widgets
+        - add loader
+        - add settings
+        - update isConnected
+
+    - Devices Page
+      - Update to new theme
+
+    - Login Page
+      - Update to new theme
+
+  Not Needed 
+    - Amp channels moved from labels to varaibles
+    - remove state, labels and lastreadingdata from devices table
+    - devices.js: Check connected line 80
+    - change TEMP -> WTRHTR and AMP -> PWRMTR
+    - after renaming device and then opening settings device name suggestion not changed (PWRMTR)
 
 
 ADDING A DEVICE

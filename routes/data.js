@@ -91,10 +91,6 @@ function addDevice(type, mac, receivedtime){
     var sql = "insert into devices (userid, type, mac, lastreading, variables) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', '55,2,0');";
     con.query(sql, function (err) { if (err) throw err; });
     res.send("re:off");
-
-  // ===FAILED====
-  } else { 
-    console.log("ERROR: Failed to add device. Could not find device type.");
   }
 
 }

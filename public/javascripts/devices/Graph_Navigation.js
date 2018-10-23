@@ -5,12 +5,12 @@
 // Change the timescale
 function changeTimeScale(timescale) {
   // Reset buttons
-  $('#hourScale').css('background-color', '#777'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
-  $('#dayScale').css('background-color', '#777'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
+  $('#hourScale').css('background-color', '#777');
+  $('#dayScale').css('background-color', '#777');
 
   if(timescale == 'hour') { 
     setupHourChart();
-    $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
+    $('#hourScale').css('background-color', '#0092DB'); 
 
     var hours = new Date().getHours();
     var hoursSuffix = "AM";
@@ -24,7 +24,7 @@ function changeTimeScale(timescale) {
 
   } else if(timescale == 'day') { 
     setupDayChart();
-    $('#dayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); 
+    $('#dayScale').css('background-color', '#0092DB'); 
 
     $(".graph-navigation-time-holder").css('height', '0px');
   }
