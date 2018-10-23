@@ -92,7 +92,7 @@ block content
     function googleLoaded(){
       chart = new google.visualization.AreaChart(document.getElementById('chart'));
       setupChart()
-      //getData();
+      getData();
     }
 
     function setupChart(){
@@ -162,9 +162,10 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            //
+            // options: options.colors, options.vAxis.format
             drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
+            // options: options.colors, options.vAxis.format
             drawChart(startDate, endDate, data, getDayTicks(startDate));
           }
 
