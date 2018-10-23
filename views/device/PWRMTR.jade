@@ -162,6 +162,7 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
+            //
             drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
             drawChart(startDate, endDate, data, getDayTicks(startDate));
@@ -175,18 +176,11 @@ block content
 
     var options = {
       legend: 'none',
+      bar: {groupWidth: "80%"},
+      colors: ['#000'],
       backgroundColor: { fill:'transparent' },
       chartArea: {left: 70, right: 70, top: 20, bottom: 40},
-      series: {
-        0: {color: '#000', type: 'line', targetAxisIndex: 0},
-        1: {color: '#f00', type: 'line', targetAxisIndex: 0},
-        2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
-      },
-      vAxes: {
-        0: {viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
-        1: {viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
-      },
-      hAxis: { 
+      hAxis: {
         textStyle: { fontSize: 14 },
         gridlines: { count: 7, color:"#ccc" },
         ticks: [],
@@ -197,7 +191,12 @@ block content
       },
       vAxis: { 
         textStyle: { fontSize: 14 },
-        gridlines: { count: 7, color:"#ccc" }
+        gridlines: { count: 11, color:"#ccc" },
+        viewWindow: {
+          min: 0,
+          max: 10
+        },
+        format: '# kWh' 
       }
     };
 
