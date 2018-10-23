@@ -11,20 +11,20 @@ TODO:
       - Add week month
 
     - Power Monitor Page
-      - Update to new theme
-      - cant contain : in channel name
+      - Cant contain ':' in channel name
+      - Add channels
+      - Check day calculations
+      - Power Monitor Icon
 
     - Home Page
       - Update to new theme
-      - Add new widgets
-        - add loader
-        - add settings
-        - update isConnected
+      - Notifications
+        - See all notifications
+      - News
+        - See all news
+      - Devices
 
     - Devices Page
-      - Update to new theme
-
-    - Login Page
       - Update to new theme
 
   Not Needed 

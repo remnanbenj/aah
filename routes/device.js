@@ -126,8 +126,8 @@ router.get('/getdata', checkSignIn, function(req, res) {
 
         // Setup data
         dataRow.push('Time');
-        dataRow.push('Temperature 1');
-        dataRow.push('Temperature 2');
+        dataRow.push('Top Temperature');
+        dataRow.push('Bottom Temperature');
         dataRow.push('Power');
         data.push(dataRow);
 
