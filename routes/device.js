@@ -50,6 +50,8 @@ router.get('/', checkSignIn, function(req, res) {
 });
 
 router.get('/getdata', checkSignIn, function(req, res) {
+  var start = new Date();
+  console.log("RECEIVED REQUEST");
 
   // Power monitor variables
   var channels = []; // channels we're requesting
@@ -157,6 +159,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
           data.push(dataRow);
         }
 
+
+        var finish = new Date();
+        console.log("SENDING: " + (finish.getTime() - start.getTime())/1000 + "s");
         res.send(data);
       });
     }
@@ -228,7 +233,7 @@ function reduceResultsWTRHTR(data, timeScale, startDate, endDate, pwrData) {
 
   if(timeScale == 'day') {
 
-    var minutes = 5;
+    var minutes = 15;
     tEndDate.setMinutes(tEndDate.getMinutes() + minutes);
 
     for(var i = 0; i < diffMins / minutes; i++){

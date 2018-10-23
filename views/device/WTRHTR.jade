@@ -47,9 +47,9 @@ block content
 
     .graph-navigation-bottom
       .graph-navigation-title Desired Temperature
-      input.graph-navigation-time(value="#{device.variables.split(',')[0]}")
+      input.graph-navigation-time(value="#{device.variables.split(',')[0]}" onclick="this.setSelectionRange(0, this.value.length)")
       span(style="font-size: 16px; font-weight: 600; color: #0092DB;")  ± 
-      input.graph-navigation-time(value="#{device.variables.split(',')[1]}")
+      input.graph-navigation-time(value="#{device.variables.split(',')[1]}" onclick="this.setSelectionRange(0, this.value.length)")
 
       .graph-navigation-title Active Sensor
       select.graph-navigation-input(value="#{device.variables.split(',')[2]}")
@@ -147,7 +147,7 @@ block content
 
       var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
       
-      console.log("SENT");
+      console.log("REQUESTED");
       var start = new Date();
 
       // Get new data
@@ -156,7 +156,7 @@ block content
         if(this.readyState == 4 && this.status == 200) {
 
           var finish = new Date();
-          console.log("RECEIVED: " + (finish.getTime() - start.getTime()));
+          console.log("RECEIVED: " + (finish.getTime() - start.getTime())/1000 + "s");
 
           // Format data
           var data = JSON.parse(this.responseText);
