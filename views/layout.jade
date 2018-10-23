@@ -62,14 +62,33 @@ html
         return dateString;
       }
 
-      // yyyy-mm-dd
-      //function getFormatedDateR(date){
-      //  var dateString = "";
-      //  dateString += date.getFullYear() + "-";
-      //  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-      //  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() : date.getDate();
-      //  return dateString;
-      //}
+      // Get X:00, X:10, X:20, X:30, X:40, X:50, X:60 ticks over an hour
+      function getHourTicks(date) {
+        var hTicks = [];
+        var tDate = new Date(date); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[0] = tDate;
+        var tDate = new Date(date); tDate.setMinutes(10); tDate.setSeconds(0); hTicks[1] = tDate;
+        var tDate = new Date(date); tDate.setMinutes(20); tDate.setSeconds(0); hTicks[2] = tDate;
+        var tDate = new Date(date); tDate.setMinutes(30); tDate.setSeconds(0); hTicks[3] = tDate;
+        var tDate = new Date(date); tDate.setMinutes(40); tDate.setSeconds(0); hTicks[4] = tDate;
+        var tDate = new Date(date); tDate.setMinutes(50); tDate.setSeconds(0); hTicks[5] = tDate;
+        var tDate = new Date(date); tDate.setMinutes(60); tDate.setSeconds(0); hTicks[6] = tDate;
+        return hTicks;
+      }
+
+      // Get 3 hour ticks over a day
+      function getDayTicks(date) {
+        var hTicks = [];
+        var tDate = new Date(date); tDate.setHours(0); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[0] = tDate;
+        var tDate = new Date(date); tDate.setHours(3); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[1] = tDate;
+        var tDate = new Date(date); tDate.setHours(6); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[2] = tDate;
+        var tDate = new Date(date); tDate.setHours(9); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[3] = tDate;
+        var tDate = new Date(date); tDate.setHours(12); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[4] = tDate;
+        var tDate = new Date(date); tDate.setHours(15); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[5] = tDate;
+        var tDate = new Date(date); tDate.setHours(18); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[6] = tDate;
+        var tDate = new Date(date); tDate.setHours(21); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[7] = tDate;
+        var tDate = new Date(date); tDate.setHours(24); tDate.setMinutes(0); tDate.setSeconds(0); hTicks[8] = tDate;
+        return hTicks;
+      }
 
       // 24hr to 12hr conversion
       function getTwelveHourTime(time) {

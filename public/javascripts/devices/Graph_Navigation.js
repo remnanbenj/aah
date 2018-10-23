@@ -5,8 +5,8 @@
 // Change the timescale
 function changeTimeScale(timescale) {
   // Reset buttons
-  $('#hourScale').css('background-color', '#00AAFF'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
-  $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
+  $('#hourScale').css('background-color', '#777'); $('#hourScale').css('cursor', 'pointer'); $('#hourScale').css('font-weight', '500');
+  $('#dayScale').css('background-color', '#777'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
 
   if(timescale == 'hour') { 
     $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
@@ -16,16 +16,14 @@ function changeTimeScale(timescale) {
     if(hours == 12) { hoursSuffix = "PM"; }
     else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
 
-    $("#timepicker").css('display', 'inline-block');
-    $("#ampmpicker").css('display', 'inline-block');
+    $(".graph-navigation-time-holder").css('height', '55px');
     $("#timepicker").val(hours);
     $("#ampmpicker").val(hoursSuffix);
 
   } else if(timescale == 'day') { 
     $('#dayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); 
 
-    $("#timepicker").css('display', 'none');
-    $("#ampmpicker").css('display', 'none');
+    $(".graph-navigation-time-holder").css('height', '0px');
   }
 
   getData();

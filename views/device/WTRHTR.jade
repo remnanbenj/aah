@@ -11,43 +11,44 @@ block content
 
   .graph-navigation-holder
     .graph-navigation-top
-      .graph-navigation-title Time
-      .graph-navigation-time-holder
-        .graph-navigation-left <
-        select.graph-navigation-time(id="timepicker")
-          option 1
-          option 2
-          option 3
-          option 4
-          option 5
-          option 6
-          option 7
-          option 8
-          option 9
-          option 10
-          option 11
-          option 12
-        select.graph-navigation-ampm(id="ampmpicker")
-          option AM
-          option PM
-        .graph-navigation-right >
-
-      .graph-navigation-title Date
-      .graph-navigation-left <
-      input.graph-navigation-input(id="datepicker")
-      .graph-navigation-right >
 
       .graph-navigation-title Timescale
       .graph-navigation-button-holder
-        .graph-navigation-button(id="hourScale" style="background: #0092DB;") Hour
-        .graph-navigation-button(id="dayScale" style="margin-left: 5px;") Day
+        .graph-navigation-button(id="hourScale" onclick="changeTimeScale('hour')" style="background: #0092DB;") Hour
+        .graph-navigation-button(id="dayScale" onclick="changeTimeScale('day')" style="margin-left: 5px;") Day
         .graph-navigation-button(id="weekScale") Week
         .graph-navigation-button(id="monthScale" style="margin-left: 5px;") Month
+
+      .graph-navigation-title Date
+      .graph-navigation-left <
+      input.graph-navigation-input(id="datepicker" onchange="getData()")
+      .graph-navigation-right >
+
+      .graph-navigation-time-holder
+          .graph-navigation-title Time
+          .graph-navigation-left <
+          select.graph-navigation-time(id="timepicker" onchange="getData()")
+            option 1
+            option 2
+            option 3
+            option 4
+            option 5
+            option 6
+            option 7
+            option 8
+            option 9
+            option 10
+            option 11
+            option 12
+          select.graph-navigation-ampm(id="ampmpicker" onchange="getData()")
+            option AM
+            option PM
+          .graph-navigation-right >
 
     .graph-navigation-bottom
       .graph-navigation-title Desired Temperature
       input.graph-navigation-time(value="#{device.variables.split(',')[0]}")
-      span(style="font-size: 16px; font-weight: 600;")  ± 
+      span(style="font-size: 16px; font-weight: 600; color: #0092DB;")  ± 
       input.graph-navigation-time(value="#{device.variables.split(',')[1]}")
 
       .graph-navigation-title Active Sensor
@@ -97,90 +98,31 @@ block content
 
     function googleLoaded(){
       chart = new google.visualization.AreaChart(document.getElementById('chart'));
-
-      // Setup dates
-      /*var startDate = new Date();
-      startDate.setMinutes(0);
-      startDate.setSeconds(-1);
-      var endDate = new Date(startDate);
-      endDate.setSeconds(61);
-      endDate.setHours(endDate.getHours() + 1);
-
-      // Fake data
-      var data = [];
-      data[0] = ['Time', 'Top Temperature', 'Bottom Temperature', 'Power Consumption'];
-      var tDate = new Date();
-      tDate.setMinutes(0);
-      tDate.setSeconds(0);
-      data[1] = [tDate, 50, 55, 2.8];
-      tDate = new Date();
-      tDate.setMinutes(5);
-      tDate.setSeconds(0);
-      data[2] = [tDate, 49, 54, 2.8];
-      tDate = new Date();
-      tDate.setMinutes(10);
-      tDate.setSeconds(0);
-      data[3] = [tDate, 48, 52, 0.1];
-      tDate = new Date();
-      tDate.setMinutes(15);
-      tDate.setSeconds(0);
-      data[4] = [tDate, 47, 53, 0.2];
-      tDate = new Date();
-      tDate.setMinutes(20);
-      tDate.setSeconds(0);
-      data[5] = [tDate, 48, 54, 0.2];
-      chart.draw(google.visualization.arrayToDataTable(data), options);*/
-
+      setupChart()
       getData();
     }
 
-    // Get X:00, X:10, X:20, X:30, X:40, X:50, X:60 ticks
-    function getHourTicks() {
-      var hTicks = [];
-      var tDate = new Date();
-      tDate.setMinutes(0);
-      tDate.setSeconds(0);
-      hTicks[0] = tDate;
-      var tDate = new Date();
-      tDate.setMinutes(10);
-      tDate.setSeconds(0);
-      hTicks[1] = tDate;
-      var tDate = new Date();
-      tDate.setMinutes(20);
-      tDate.setSeconds(0);
-      hTicks[2] = tDate;
-      var tDate = new Date();
-      tDate.setMinutes(30);
-      tDate.setSeconds(0);
-      hTicks[3] = tDate;
-      var tDate = new Date();
-      tDate.setMinutes(40);
-      tDate.setSeconds(0);
-      hTicks[4] = tDate;
-      var tDate = new Date();
-      tDate.setMinutes(50);
-      tDate.setSeconds(0);
-      hTicks[5] = tDate;
-      var tDate = new Date();
-      tDate.setMinutes(60);
-      tDate.setSeconds(0);
-      hTicks[6] = tDate;
-      return hTicks;
+    function setupChart(){
+      var startDate = new Date();
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      var endDate = new Date();
+      endDate.setMinutes(60);
+      endDate.setSeconds(0);
+      drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getHourTicks(startDate));
     }
 
     // Gets data from server then redraws the chart
-    function getData() {
+    function getData(){
       // Loader
       $('.loader').css('display', 'block');
 
-      // Device and data info
-      var deviceMac = device.mac;
-      var deviceType = device.type;
+      // Get timescale
       var timeScale = '';
       if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'hour';
       else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'day';
 
-      // Get dates
+      // Get start date and time
       var startDate = new Date();
       startDate.setFullYear($('#datepicker').val().split('-')[2]);
       startDate.setMonth($('#datepicker').val().split('-')[1]-1);
@@ -190,6 +132,8 @@ block content
       if(timeScale == 'day') startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
+
+      // Get end date and time
       var endDate = new Date(startDate);
       if(timeScale == 'hour') endDate.setMinutes(endDate.getMinutes() + 60);
       if(timeScale == 'day') endDate.setHours(24);
@@ -201,7 +145,7 @@ block content
       GMTStartDate.setMinutes(timeOffset);
       GMTEndDate.setMinutes(timeOffset);
 
-      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
+      var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
 
       // Get new data
       var xhttp = new XMLHttpRequest();
@@ -210,21 +154,23 @@ block content
 
           // Format data
           var data = JSON.parse(this.responseText);
-          console.log(data);
           for(var i = 1; i < data.length; i++) {
-            data[i][0] = new Date(data[i][0]);
+            // Apply offset to date
+            var tempDate = new Date(data[i][0]);
+            tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+            data[i][0] = tempDate;
+            // Convert all data to numbers
             for(var j = 1; j < data[i].length; j++) {
               data[i][j] = Number(data[i][j]);
               if(data[i][j] < 0) data[i][j] = null;
             }
           }
-          console.log(data);
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            drawHourChart(chart, startDate, endDate, data, deviceType);
+            drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
-            drawDayChart(chart, startDate, endDate, data, deviceType);
+            drawChart(startDate, endDate, data, getDayTicks(startDate));
           }
 
         }
@@ -233,78 +179,38 @@ block content
       xhttp.send();
     }
 
-    function drawHourChart(chart, startDate, endDate, data, deviceType) {
-
-      // Set proper data dates from server
-      for(var i = 1; i < data.length; i++) {
-        var tempDate = new Date(data[i][0]);
-        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
-        data[i][0] = tempDate;
+    var options = {
+      legend: 'none',
+      backgroundColor: { fill:'transparent' },
+      chartArea: {left: 70, right: 70, top: 20, bottom: 40},
+      series: {
+        0: {color: '#000', type: 'line', targetAxisIndex: 0},
+        1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+        2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+      },
+      vAxes: {
+        0: {viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+        1: {viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+      },
+      hAxis: { 
+        textStyle: { fontSize: 14 },
+        gridlines: { count: 7, color:"#ccc" },
+        ticks: [],
+        viewWindow: {
+          min: new Date(),
+          max: new Date()
+        }
+      },
+      vAxis: { 
+        textStyle: { fontSize: 14 },
+        gridlines: { count: 7, color:"#ccc" }
       }
+    };
 
-      var options = {
-          legend: 'none',
-          backgroundColor: { fill:'transparent' },
-          chartArea: {left: 70, right: 70, top: 20, bottom: 40},
-          series: {
-            0: {color: '#000', type: 'line', targetAxisIndex: 0},
-            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
-            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
-          },
-          vAxes: {
-            0: {viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
-            1: {viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
-          },
-          hAxis: { 
-            ticks: getHourTicks(),
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          }
-      };
-
-      chart.draw(google.visualization.arrayToDataTable(data), options);
-      $('.loader').css('display', 'none');
-    } 
-
-    function drawDayChart(chart, startDate, endDate, data, deviceType) {
-
-      // Set proper dates
-      for(var i = 1; i < data.length; i++) {
-        var tempDate = new Date(data[i][0]);
-        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
-        data[i][0] = tempDate;
-      }
-
-      // Set Options
-      var options = {
-          legend: 'none',
-          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
-          explorer: {
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomOut: 1.0
-          },
-          series: {
-            0: {color: '#000', type: 'line', targetAxisIndex: 0},
-            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
-            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
-          },
-          vAxes: {
-            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
-            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
-          },
-          hAxis: { 
-            gridlines: { count: 7, color:"#ccc" },
-            viewWindow: {
-                    min: startDate,
-                    max: endDate
-            }
-          }
-      };
-
+    function drawChart(startDate, endDate, data, ticks) {
+      options.hAxis.ticks = ticks;
+      options.hAxis.viewWindow.min = startDate;
+      options.hAxis.viewWindow.max = endDate;
       chart.draw(google.visualization.arrayToDataTable(data), options);
       $('.loader').css('display', 'none');
     }

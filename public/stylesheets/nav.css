@@ -39,7 +39,8 @@
 }
 
 .topnav-button:hover {
-  border-bottom: 1px solid #777;
+  color: #0092DB;
+  border-bottom: 1px solid #0092DB;
 }
 
 .topnav-seperator {
@@ -58,6 +59,7 @@
 }
 
 .unavailable:hover {
+  color: #bbb;
   border-bottom: 1px solid #eee;
 }
 

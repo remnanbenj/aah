@@ -124,9 +124,6 @@ router.get('/getdata', checkSignIn, function(req, res) {
       con.query(sql, function (err, results2) {
         if (err) throw err;
 
-        // Reduce and average out results
-        results = reduceResultsWTRHTR(results, timeScale, startDate, endDate, results2);
-
         // Setup data
         dataRow.push('Time');
         dataRow.push('Temperature 1');
@@ -135,6 +132,10 @@ router.get('/getdata', checkSignIn, function(req, res) {
         data.push(dataRow);
 
         if(results.length > 0) { // If we have data, put it into an array
+
+          // Reduce and average out results
+          results = reduceResultsWTRHTR(results, timeScale, startDate, endDate, results2);
+
           for(var i = 0; i < results.length; i++){
             var tempDate = new Date(results[i].receivedtime);
             tempDate.setMinutes(tempDate.getMinutes() + offset);
@@ -149,7 +150,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
           }
         } else { // If we have no data, give single, false data point
           dataRow = [];
-          dataRow.push(new Date());
+          dataRow.push(new Date(startDate));
           dataRow.push(0);
           dataRow.push(0);
           dataRow.push(0);

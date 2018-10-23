@@ -75,7 +75,7 @@
   top: 70px;
   left: 260px;
   right: 30px;
-  height: calc(100vh - 145px);
+  height: calc(100vh - 155px);
   margin: 0 auto;
   z-index: 1;
 
@@ -177,6 +177,13 @@
 
 .graph-navigation-input:hover {
   background: #0092DB;
+}
+
+.graph-navigation-time-holder {
+  overflow: hidden;
+  height: 55px;
+  -webkit-transition: height 0.5s ease;
+  transition: height 0.5s ease;
 }
 
 .graph-navigation-time {
