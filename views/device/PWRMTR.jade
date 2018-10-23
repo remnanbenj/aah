@@ -139,6 +139,10 @@ block content
       GMTStartDate.setMinutes(timeOffset);
       GMTEndDate.setMinutes(timeOffset);
 
+      // Channels
+      var channels = [];
+      channels.push(1);
+
       var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
       
       // Get new data
@@ -148,6 +152,7 @@ block content
 
           // Format data
           var data = JSON.parse(this.responseText);
+          console.log(data);
           for(var i = 1; i < data.length; i++) {
             // Apply offset to date
             var tempDate = new Date(data[i][0]);
@@ -159,7 +164,6 @@ block content
               if(data[i][j] < 0) data[i][j] = null;
             }
           }
-          console.log(data);
 
           // Redraw Chart
           if(timeScale == 'hour') {
