@@ -24,6 +24,7 @@ router.get('/reading', function(req, res) {
   var mac = req.query.mac;
   var data = req.query.data.replace(/:DOT:/g, ".");
   var type = req.query.type; 
+  if(type == "TEMP") type = "WTRHTR";
 
   // Setup reveivedtime
   var receivedtime = new Date();
@@ -55,7 +56,7 @@ router.get('/reading', function(req, res) {
         res.send("re:success");
 
       // ===WATER HEATER===
-      } else if(type == "TEMP") {
+      } else if(type == "WTRHTR") {
         var variables = devices[0].variables.split(',');
         data = data.split(':');
         if(data[variables[2]] > variables[0]) { // If ( temp [selectedtempsensor] is bigger than [maxtemp] ) : turn off water heater
@@ -86,7 +87,7 @@ function addDevice(type, mac, receivedtime){
     res.send("re:success");
 
   // ===WATER HEATER====
-  } else if(type == "TEMP") { 
+  } else if(type == "WTRHTR") { 
     var sql = "insert into devices (userid, type, mac, lastreading, variables) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', '55,2,0');";
     con.query(sql, function (err) { if (err) throw err; });
     res.send("re:off");
