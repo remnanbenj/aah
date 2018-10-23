@@ -9,6 +9,7 @@ function changeTimeScale(timescale) {
   $('#dayScale').css('background-color', '#777'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
 
   if(timescale == 'hour') { 
+    setupHourChart();
     $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
 
     var hours = new Date().getHours();
@@ -21,6 +22,7 @@ function changeTimeScale(timescale) {
     $("#ampmpicker").val(hoursSuffix);
 
   } else if(timescale == 'day') { 
+    setupDayChart();
     $('#dayScale').css('background-color', '#0092DB'); $('#dayScale').css('cursor', 'default'); $('#dayScale').css('font-weight', '600'); 
 
     $(".graph-navigation-time-holder").css('height', '0px');
@@ -105,5 +107,27 @@ function moveRight() {
   }
 
   getData();
+}
+
+function setupHourChart(){
+  var startDate = new Date();
+  startDate.setMinutes(0);
+  startDate.setSeconds(0);
+  var endDate = new Date();
+  endDate.setMinutes(60);
+  endDate.setSeconds(0);
+  drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getHourTicks(startDate));
+}
+
+function setupDayChart(){
+  var startDate = new Date();
+  startDate.setHours(0);
+  startDate.setMinutes(0);
+  startDate.setSeconds(0);
+  var endDate = new Date();
+  startDate.setHours(24);
+  endDate.setMinutes(0);
+  endDate.setSeconds(0);
+  drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getDayTicks(startDate));
 }
 
