@@ -125,7 +125,7 @@ function setupDayChart(){
   startDate.setMinutes(0);
   startDate.setSeconds(0);
   var endDate = new Date();
-  startDate.setHours(24);
+  endDate.setHours(24);
   endDate.setMinutes(0);
   endDate.setSeconds(0);
   drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getDayTicks(startDate));
