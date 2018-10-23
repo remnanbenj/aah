@@ -167,9 +167,11 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
             // options: options.colors, options.vAxis.format
             drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
+            chart = new google.visualization.ColumnChart(document.getElementById('chart'));
             // options: options.colors, options.vAxis.format
             drawChart(startDate, endDate, data, getDayTicks(startDate));
           }
