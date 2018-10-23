@@ -144,6 +144,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
           // Reduce and average out results
           results = reduceResultsWTRHTR(results, timeScale, startDate, endDate, results2);
 
+          var finish = new Date();
+          console.log("REDUCERESULTS: " + (finish.getTime() - start.getTime())/1000 + "s");
+
           for(var i = 0; i < results.length; i++){
             var tempDate = new Date(results[i].receivedtime);
             tempDate.setMinutes(tempDate.getMinutes() + offset);
