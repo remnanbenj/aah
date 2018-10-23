@@ -156,9 +156,7 @@ block content
         if(this.readyState == 4 && this.status == 200) {
 
           var finish = new Date();
-          var difference = new Date();
-          difference.setTime(finish.getTime() - start.getTime());
-          console.log("RECEIVED: " + difference.getMilliseconds());
+          console.log("RECEIVED: " + (finish.getTime() - start.getTime()));
 
           // Format data
           var data = JSON.parse(this.responseText);
