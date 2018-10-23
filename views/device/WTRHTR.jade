@@ -148,13 +148,17 @@ block content
       var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
       
       console.log("SENT");
+      var start = new Date();
 
       // Get new data
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
 
-          console.log("RECEIVED");
+          var finish = new Date();
+          var difference = new Date();
+          difference.setTime(finish.getTime() - start.getTime());
+          console.log("RECEIVED: " + difference.getMilliseconds());
 
           // Format data
           var data = JSON.parse(this.responseText);
