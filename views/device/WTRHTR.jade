@@ -179,6 +179,9 @@ block content
             drawChart(startDate, endDate, data, getDayTicks(startDate));
           }
 
+          var finish2 = new Date();
+          console.log("DISPLAYED: " + (finish2.getTime() - finish.getTime())/1000 + "s");
+
         }
       };
       xhttp.open("GET", url, true);
