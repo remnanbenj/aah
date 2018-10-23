@@ -72,6 +72,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
   con.query(sql, function (err, results) {
     if (err) throw err;
 
+    var finish = new Date();
+    console.log("RESULTS: " + (finish.getTime() - start.getTime())/1000 + "s");
+
     // Setup Fields
     var data = [];
     var dataRow = [];
@@ -125,6 +128,9 @@ router.get('/getdata', checkSignIn, function(req, res) {
       var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+startDate+"' and receivedtime < '"+endDate+"';";
       con.query(sql, function (err, results2) {
         if (err) throw err;
+
+        var finish = new Date();
+        console.log("RESULTS2: " + (finish.getTime() - start.getTime())/1000 + "s");
 
         // Setup data
         dataRow.push('Time');
