@@ -329,9 +329,11 @@ function reduceResultsWTRHTR(data, timeScale, startDate, endDate, pwrData) {
     }
 
     // Add one last duplicate data point to round off pages
-    var receivedtime = tData[tData.length-1].receivedtime;
-    receivedtime.setMintues(60);
-    tData.push({data: tData[tData.length-1].data, receivedtime: receivedtime});
+    console.log(tData.length);
+    console.log(tData[tData.length-1]);
+    //var receivedtime = tData[tData.length-1].receivedtime;
+    //receivedtime.setMintues(60);
+    //tData.push({data: tData[tData.length-1].data, receivedtime: receivedtime});
 
   } else {
     tData = data;
