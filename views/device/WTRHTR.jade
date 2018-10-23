@@ -20,13 +20,13 @@ block content
         .graph-navigation-button(id="monthScale" style="margin-left: 5px;") Month
 
       .graph-navigation-title Date
-      .graph-navigation-left <
+      .graph-navigation-left(onclick="moveDateLeft()") <
       input.graph-navigation-input(id="datepicker" onchange="getData()")
-      .graph-navigation-right >
+      .graph-navigation-right(onclick="moveDateRight()") >
 
       .graph-navigation-time-holder
           .graph-navigation-title Time
-          .graph-navigation-left <
+          .graph-navigation-left(onclick="moveTimeLeft()") <
           select.graph-navigation-time(id="timepicker" onchange="getData()")
             option 1
             option 2
@@ -43,7 +43,7 @@ block content
           select.graph-navigation-ampm(id="ampmpicker" onchange="getData()")
             option AM
             option PM
-          .graph-navigation-right >
+          .graph-navigation-right(onclick="moveTimeRight()") >
 
     .graph-navigation-bottom
       .graph-navigation-title Desired Temperature
@@ -74,6 +74,7 @@ block content
     var hoursSuffix = "AM";
     if(hours == 12) { hoursSuffix = "PM"; }
     else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+    else if(hours == 0) { hours = 12; }
 
     // Set time
     $("#timepicker").val(hours);
@@ -129,6 +130,7 @@ block content
       startDate.setDate($('#datepicker').val().split('-')[0]);
       startDate.setHours($('#timepicker').val());
       if($('#ampmpicker').val() == 'PM' && $('#timepicker').val() != 12) startDate.setHours(startDate.getHours() + 12);
+      else if($('#ampmpicker').val() == 'AM' && $('#timepicker').val() == 12) startDate.setHours(0);
       if(timeScale == 'day') startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
@@ -147,16 +149,10 @@ block content
 
       var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
       
-      console.log("REQUESTED");
-      var start = new Date();
-
       // Get new data
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
-
-          var finish = new Date();
-          console.log("RECEIVED: " + (finish.getTime() - start.getTime())/1000 + "s");
 
           // Format data
           var data = JSON.parse(this.responseText);
@@ -178,9 +174,6 @@ block content
           } else if(timeScale == 'day') {
             drawChart(startDate, endDate, data, getDayTicks(startDate));
           }
-
-          var finish2 = new Date();
-          console.log("DISPLAYED: " + (finish2.getTime() - finish.getTime())/1000 + "s");
 
         }
       };
