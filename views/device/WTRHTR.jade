@@ -1,0 +1,312 @@
+extends ../layout
+
+block content
+  link(rel="stylesheet" href="/stylesheets/device.css")
+
+  .device-title
+    .device-icon(style="background-image: url('/images/TEMP-icon-dark.png');")
+    .device-name #{device.name}
+    .device-type Water Heater
+    .device-settings(onclick="editDeviceDialog()")
+
+  .graph-navigation-holder
+    .graph-navigation-top
+      .graph-navigation-title Time
+      .graph-navigation-time-holder
+        .graph-navigation-left <
+        select.graph-navigation-time(id="timepicker")
+          option 1
+          option 2
+          option 3
+          option 4
+          option 5
+          option 6
+          option 7
+          option 8
+          option 9
+          option 10
+          option 11
+          option 12
+        select.graph-navigation-ampm(id="ampmpicker")
+          option AM
+          option PM
+        .graph-navigation-right >
+
+      .graph-navigation-title Date
+      .graph-navigation-left <
+      input.graph-navigation-input(id="datepicker")
+      .graph-navigation-right >
+
+      .graph-navigation-title Timescale
+      .graph-navigation-button-holder
+        .graph-navigation-button(id="hourScale" style="background: #0092DB;") Hour
+        .graph-navigation-button(id="dayScale" style="margin-left: 5px;") Day
+        .graph-navigation-button(id="weekScale") Week
+        .graph-navigation-button(id="monthScale" style="margin-left: 5px;") Month
+
+    .graph-navigation-bottom
+      .graph-navigation-title Desired Temperature
+      input.graph-navigation-time(value="#{device.variables.split(',')[0]}")
+      span(style="font-size: 16px; font-weight: 600;")  ± 
+      input.graph-navigation-time(value="#{device.variables.split(',')[1]}")
+
+      .graph-navigation-title Active Sensor
+      select.graph-navigation-input(value="#{device.variables.split(',')[2]}")
+        option Bottom
+        option Top
+
+
+  .graph-holder
+    .graph(id="chart")
+    
+
+  script(type="text/javascript").
+
+    // =====HEADER=====
+
+    // Setup device
+    var device = JSON.parse('#{JSON.stringify(device)}'.replace(/&quot;/g, '"'));
+    device.variables = device.variables.split(',');
+
+    // Get current hour and ampm
+    var hours = new Date().getHours();
+    var hoursSuffix = "AM";
+    if(hours == 12) { hoursSuffix = "PM"; }
+    else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+
+    // Set time
+    $("#timepicker").val(hours);
+    $("#ampmpicker").val(hoursSuffix);
+
+    // Setup date
+    $("#datepicker").datepicker({dateFormat: 'dd-mm-yy'});
+    $("#datepicker").val(getDatepickerDate(new Date()));
+
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
+  script(type="text/javascript" src="/javascripts/devices/Graph_Navigation.js").
+  script(type="text/javascript" src="/javascripts/devices/Device_Settings.js").
+  script(type="text/javascript" src="/javascripts/devices/WTRHTR_Settings.js").
+
+  script(type="text/javascript").
+
+    // =====GET DATA=====
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(googleLoaded);
+    var chart;
+
+    function googleLoaded(){
+      chart = new google.visualization.AreaChart(document.getElementById('chart'));
+
+      // Setup dates
+      /*var startDate = new Date();
+      startDate.setMinutes(0);
+      startDate.setSeconds(-1);
+      var endDate = new Date(startDate);
+      endDate.setSeconds(61);
+      endDate.setHours(endDate.getHours() + 1);
+
+      // Fake data
+      var data = [];
+      data[0] = ['Time', 'Top Temperature', 'Bottom Temperature', 'Power Consumption'];
+      var tDate = new Date();
+      tDate.setMinutes(0);
+      tDate.setSeconds(0);
+      data[1] = [tDate, 50, 55, 2.8];
+      tDate = new Date();
+      tDate.setMinutes(5);
+      tDate.setSeconds(0);
+      data[2] = [tDate, 49, 54, 2.8];
+      tDate = new Date();
+      tDate.setMinutes(10);
+      tDate.setSeconds(0);
+      data[3] = [tDate, 48, 52, 0.1];
+      tDate = new Date();
+      tDate.setMinutes(15);
+      tDate.setSeconds(0);
+      data[4] = [tDate, 47, 53, 0.2];
+      tDate = new Date();
+      tDate.setMinutes(20);
+      tDate.setSeconds(0);
+      data[5] = [tDate, 48, 54, 0.2];
+      chart.draw(google.visualization.arrayToDataTable(data), options);*/
+
+      getData();
+    }
+
+    // Get X:00, X:10, X:20, X:30, X:40, X:50, X:60 ticks
+    function getHourTicks() {
+      var hTicks = [];
+      var tDate = new Date();
+      tDate.setMinutes(0);
+      tDate.setSeconds(0);
+      hTicks[0] = tDate;
+      var tDate = new Date();
+      tDate.setMinutes(10);
+      tDate.setSeconds(0);
+      hTicks[1] = tDate;
+      var tDate = new Date();
+      tDate.setMinutes(20);
+      tDate.setSeconds(0);
+      hTicks[2] = tDate;
+      var tDate = new Date();
+      tDate.setMinutes(30);
+      tDate.setSeconds(0);
+      hTicks[3] = tDate;
+      var tDate = new Date();
+      tDate.setMinutes(40);
+      tDate.setSeconds(0);
+      hTicks[4] = tDate;
+      var tDate = new Date();
+      tDate.setMinutes(50);
+      tDate.setSeconds(0);
+      hTicks[5] = tDate;
+      var tDate = new Date();
+      tDate.setMinutes(60);
+      tDate.setSeconds(0);
+      hTicks[6] = tDate;
+      return hTicks;
+    }
+
+    // Gets data from server then redraws the chart
+    function getData() {
+      // Loader
+      $('.loader').css('display', 'block');
+
+      // Device and data info
+      var deviceMac = device.mac;
+      var deviceType = device.type;
+      var timeScale = '';
+      if($('#hourScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'hour';
+      else if($('#dayScale').css('background-color') == 'rgb(0, 146, 219)') timeScale = 'day';
+
+      // Get dates
+      var startDate = new Date();
+      startDate.setFullYear($('#datepicker').val().split('-')[2]);
+      startDate.setMonth($('#datepicker').val().split('-')[1]-1);
+      startDate.setDate($('#datepicker').val().split('-')[0]);
+      startDate.setHours($('#timepicker').val());
+      if($('#ampmpicker').val() == 'PM' && $('#timepicker').val() != 12) startDate.setHours(startDate.getHours() + 12);
+      if(timeScale == 'day') startDate.setHours(0);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      var endDate = new Date(startDate);
+      if(timeScale == 'hour') endDate.setMinutes(endDate.getMinutes() + 60);
+      if(timeScale == 'day') endDate.setHours(24);
+      var timeOffset = startDate.getTimezoneOffset();
+
+      // Set dates to GMT
+      var GMTStartDate = new Date(startDate);
+      var GMTEndDate = new Date(endDate);
+      GMTStartDate.setMinutes(timeOffset);
+      GMTEndDate.setMinutes(timeOffset);
+
+      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
+
+      // Get new data
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+
+          // Format data
+          var data = JSON.parse(this.responseText);
+          console.log(data);
+          for(var i = 1; i < data.length; i++) {
+            data[i][0] = new Date(data[i][0]);
+            for(var j = 1; j < data[i].length; j++) {
+              data[i][j] = Number(data[i][j]);
+              if(data[i][j] < 0) data[i][j] = null;
+            }
+          }
+          console.log(data);
+
+          // Redraw Chart
+          if(timeScale == 'hour') {
+            drawHourChart(chart, startDate, endDate, data, deviceType);
+          } else if(timeScale == 'day') {
+            drawDayChart(chart, startDate, endDate, data, deviceType);
+          }
+
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    function drawHourChart(chart, startDate, endDate, data, deviceType) {
+
+      // Set proper data dates from server
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      var options = {
+          legend: 'none',
+          backgroundColor: { fill:'transparent' },
+          chartArea: {left: 70, right: 70, top: 20, bottom: 40},
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+            1: {viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+          },
+          hAxis: { 
+            ticks: getHourTicks(),
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          }
+      };
+
+      chart.draw(google.visualization.arrayToDataTable(data), options);
+      $('.loader').css('display', 'none');
+    } 
+
+    function drawDayChart(chart, startDate, endDate, data, deviceType) {
+
+      // Set proper dates
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      // Set Options
+      var options = {
+          legend: 'none',
+          chartArea: {left: 80, right: 80, top: 10, bottom: 50},
+          explorer: {
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomOut: 1.0
+          },
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {title: 'Temperature (°C)', viewWindow: { min: 0, max: 80 }, ticks: [0,10,20,30,40,50,60,70,80], format: '# °C' },
+            1: {title: 'Power (kW)', viewWindow: { min: 0, max: 8 }, ticks: [0,1,2,3,4,5,6,7,8], format: '# kW' }
+          },
+          hAxis: { 
+            gridlines: { count: 7, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          }
+      };
+
+      chart.draw(google.visualization.arrayToDataTable(data), options);
+      $('.loader').css('display', 'none');
+    }
+
+

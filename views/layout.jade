@@ -13,6 +13,7 @@ html
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js").
     script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js").
 
+
     script.
       // ====HEADER SCRIPT====
 
@@ -27,23 +28,33 @@ html
         return decodeURIComponent(results[2].replace(/\+/g, " "));
       }
 
-      // HH:MM:SS dd:mm
+      // HH:MM:SS dd/mm/yyyy
       function getReadableDate(date){
         var dateString = "";
-        var hours = date.getHours();
-        var hoursSuffix = "am";
-        if(hours >= 12) { hours -= 12; hoursSuffix = "pm"; }
 
-        dateString += String(hours).length == 1 ? "0" + hours + ":" : hours + ":";
+        dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
         dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
-        dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() + hoursSuffix + " - " : date.getSeconds() + hoursSuffix + " - ";
+        dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() + " " : date.getSeconds() + " ";
         dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "/" : date.getDate() + "/";
-        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) : (date.getMonth()+1);
+        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "/" : (date.getMonth()+1) + "/";
+        dateString += date.getFullYear();
         return dateString;
       }
 
-      // dd:mm:yyyy
-      function getFormatedDate(date){
+      // yyyy-mm-dd HH:MM:SS
+      function getFormatedDate(date) {
+        var dateString = "";
+        dateString += date.getFullYear() + "-";
+        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+        dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
+        dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+        dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+        dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
+        return dateString;
+      }
+
+      // dd-mm-yyyy
+      function getDatepickerDate(date){
         var dateString = "";
         dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + "-" : date.getDate() + "-";
         dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
@@ -51,14 +62,14 @@ html
         return dateString;
       }
 
-      // yyyy:mm:dd
-      function getFormatedDateR(date){
-        var dateString = "";
-        dateString += date.getFullYear() + "-";
-        dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
-        dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() : date.getDate();
-        return dateString;
-      }
+      // yyyy-mm-dd
+      //function getFormatedDateR(date){
+      //  var dateString = "";
+      //  dateString += date.getFullYear() + "-";
+      //  dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+      //  dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() : date.getDate();
+      //  return dateString;
+      //}
 
       // 24hr to 12hr conversion
       function getTwelveHourTime(time) {
@@ -74,16 +85,13 @@ html
       }
 
 
-
     .overlay
       .overlay-inner
         .overlay-close(onclick="cancel()")
         .overlay-inner-title
         .overlay-inner-container
 
-
     .toast Test Toast
-
 
     .topnav
       .topnav-logo
@@ -98,10 +106,8 @@ html
       .topnav-button(id="logout-button" style="float: right; margin-right: 20px; margin-left: 0px;" onclick="logout()") Logout
       .topnav-button.unavailable(id="account-button" style="float: right; margin-right: 20px; margin-left: 0px;")  My Account
 
-
     .page
       block content
-
 
 
     script.

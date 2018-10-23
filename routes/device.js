@@ -37,8 +37,8 @@ router.get('/', checkSignIn, function(req, res) {
       if(device.type == 'AMP') {
         res.render('device/amp', { title: 'AAH - Power Monitor', user: req.session.user, device: device });
 
-      } else if(device.type == 'TEMP') {
-        res.render('device/temp', { title: 'AAH - Temperature', user: req.session.user, device: device });
+      } else if(device.type == 'WTRHTR') {
+        res.render('device/WTRHTR', { title: 'AAH - Water Heater', user: req.session.user, device: device });
 
       }
 
@@ -118,14 +118,14 @@ router.get('/getdata', checkSignIn, function(req, res) {
       res.send(data);
 
     // ====Water Heater====
-    } else if(deviceType == "TEMP") {
+    } else if(deviceType == "WTRHTR") {
 
       var sql = "SELECT * FROM data where devicemac = '96:c6:4:bc:fa:ec' and receivedtime > '"+startDate+"' and receivedtime < '"+endDate+"';";
       con.query(sql, function (err, results2) {
         if (err) throw err;
 
         // Reduce and average out results
-        results = reduceTempResults(results, timeScale, startDate, endDate, results2);
+        results = reduceResultsWTRHTR(results, timeScale, startDate, endDate, results2);
 
         // Setup data
         dataRow.push('Time');
@@ -208,7 +208,7 @@ function reduceResults(data, timeScale, startDate, endDate) {
   return tData;
 }
 
-function reduceTempResults(data, timeScale, startDate, endDate, pwrData) {
+function reduceResultsWTRHTR(data, timeScale, startDate, endDate, pwrData) {
 
   var startDate = new Date(startDate);
   var endDate = new Date(endDate);
