@@ -13,27 +13,27 @@ body {
 }
 
 a {
-  color: #00aaff;
+  color: #fff;
   text-decoration: none;
 }
 
 a:link  {
-  color: #00aaff;
+  color: #fff;
   text-decoration: none;
 }
 
 a:visited  {
-  color: #00aaff;
+  color: #fff;
   text-decoration: none;
 }
 
 a:active  {
-  color: #00aaff;
+  color: #fff;
   text-decoration: none;
 }
 
 a:hover {
-  color: #0092DB;
+  color: #fff;
   text-decoration: none;
 }
 

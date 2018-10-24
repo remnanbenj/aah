@@ -1,0 +1,302 @@
+extends layout
+
+block content
+  link(rel="stylesheet" href="/stylesheets/home.css")
+  
+  .container(style="max-width: 1200px;")
+
+    each device, index in devices
+      .col-lg-4.col-md-6.col-sm-6.col-xs-12(style="padding: 10px;")
+
+        .device-holder
+          .div(id="device#{device.id}" style="overflow: hidden; margin-top: 4px; height: 220px;")
+            .div(style="overflow: hidden; position: relative;")
+
+              if device.type == 'AMP'
+                .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                  span.tooltip(style="top: 0px; left: 25px; width: 110px;") Power Monitor
+                .device-title(id="title#{device.id}" onclick="window.location.assign('/device?id=#{device.id}');") #{device.name}
+
+              else if device.type == 'TEMP'
+                .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                  span.tooltip(style="top: 0px; left: 25px; width: 120px;") Temperature Sensor
+                .device-title(id="title#{device.id}" onclick="window.location.assign('/device?id=#{device.id}');") #{device.name}
+
+              else if device.type == 'WTRLVL'
+                .device-icon(style="background-image: url('/images/#{device.type}-icon-small.png');")
+                  span.tooltip(style="top: 0px; left: 25px; width: 120px;") Water Level Sensor
+                .device-title(id="title#{device.id}" onclick="window.location.assign('/device?id=#{device.id}');") #{device.name}
+
+              - var timeoutMinutes = 5;
+              - var currentDate = new Date();
+              - currentDate.setMinutes(currentDate.getMinutes() - timeoutMinutes);
+              - currentDate.setHours(currentDate.getHours() + 4);
+              if device.lastreading >= currentDate
+                .device-signal(style="background-image: url('/images/signal-green.png');")
+                  span.tooltip(style="top: 0px; right: 25px; width: 80px;") Connected
+              else
+                .device-signal
+                  span.tooltip(style="top: 0px; right: 25px; width: 90px;") Disconnected
+
+              .device-settings(onclick="deviceSettings(#{device.id}, '#{device.type}')")
+
+            .device-content(id="content#{device.id}" onclick="window.location.assign('/device?id=#{device.id}');")
+              .graph(id="chart#{device.id}")
+
+
+          .div(id="settings#{device.id}" style="overflow: hidden; height: 0px;")
+
+            .div(style="overflow: hidden; position: relative;")
+              .device-title Wigit Settings
+              .device-close(onclick="deviceMain(#{device.id}, '#{device.type}')")
+                .glyphicon.glyphicon-menu-down
+
+            .div(style="margin-top: 5px; height: 195px; overflow: auto;")
+
+              .col-xs-5(style="text-align: right; padding: 10px; margin-top: 10px;")
+                .settings-input-label Max Value: 
+                input.settings-input(type="text" value="10") 
+                br
+                .settings-input-label Min Value: 
+                input.settings-input(type="text" value="0") 
+
+              .col-xs-7(style="text-align: right; padding: 10px; margin-top: 10px;")
+                .settings-input-label Timescale: 
+                select.settings-select(type="text") 
+                  option Hour
+                  option Day
+
+                if device.type == 'AMP'
+                  br
+                  .settings-input-label Channel: 
+                  select.settings-select(type="text") 
+                    option Channel 1
+                    option Channel 2
+                    option Channel 3
+                    option Channel 4
+                    option Channel 5
+                    option Channel 6
+                    option Channel 7
+                    option Channel 8
+
+              
+
+
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
+  script.
+
+    function deviceSettings(deviceID, deviceType){
+      $('#device' + deviceID).animate({height: "0px"}, 200);
+      $('#settings' + deviceID).animate({height: "220px"}, 200);
+    }
+
+    function deviceMain(deviceID, deviceType){
+      $('#device' + deviceID).animate({height: "220px"}, 200);
+      $('#settings' + deviceID).animate({height: "0px"}, 200);
+    }
+
+    $(".device-content, .device-title").hover(function(){
+      var contentID = $(this).attr('id');
+      contentID = contentID.replace('content', '');
+      contentID = contentID.replace('title', '');
+      $("#title"+contentID).css('color', '#0af');
+
+    }, function(){
+      var contentID = $(this).attr('id');
+      contentID = contentID.replace('content', '');
+      contentID = contentID.replace('title', '');
+      $("#title"+contentID).css('color', '#000');
+    });
+
+
+  script.
+
+    // ====Draw Charts====
+
+    google.charts.load('current', {'packages':['corechart']});
+
+    // ====Get Data====
+
+    // Gets data based on whats selected and redraws the chart
+    function getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate) {
+      // Loader
+      $('.loader').css('display', 'block');
+
+      // Set dates to GMT
+      var GMTStartDate = new Date(startDate);
+      var GMTEndDate = new Date(endDate);
+      GMTStartDate.setMinutes(timeOffset);
+      GMTEndDate.setMinutes(timeOffset);
+
+      // Build url to get new data from server
+      var url = "/device/getdata?devicemac=" + deviceMac + "&devicetype=" + deviceType + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate);
+
+      var channels = []; channels.push(1);
+      url += "&channels=" + channels.toString();
+
+      // Get new data
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+
+          // Format data
+          var data = JSON.parse(this.responseText)
+          for(var i = 1; i < data.length; i++) {
+            data[i][0] = new Date(data[i][0]);
+            for(var j = 1; j < data[i].length; j++) {
+              data[i][j] = Number(data[i][j]);
+              if(data[i][j] < 0) data[i][j] = null;
+            }
+          }
+
+          // Redraw Chart
+          if(timeScale == 'hour') {
+            drawHourChart(chart, startDate, data, deviceType);
+          }
+
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    function drawHourChart(chart, startDate, data, deviceType) {
+
+      // Get endDate one hour after startDate
+      var endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 1);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+
+      // Set proper data dates from server
+      for(var i = 1; i < data.length; i++) {
+        var tempDate = new Date(data[i][0]);
+        tempDate.setMinutes(tempDate.getMinutes() - tempDate.getTimezoneOffset());
+        data[i][0] = tempDate;
+      }
+
+      var ticks = [];
+      var tick1 = new Date(startDate);
+      var tick2 = new Date(startDate); tick2.setMinutes(tick1.getMinutes() + 30);
+      var tick3 = new Date(endDate);
+      ticks.push(tick1);
+      ticks.push(tick2);
+      ticks.push(tick3);
+
+      var options;
+      if(deviceType == "TEMP") {
+        options = {
+          legend: 'none',
+          chartArea: {left: 30, right: 30, top: 10, bottom: 20},
+          series: {
+            0: {color: '#000', type: 'line', targetAxisIndex: 0},
+            1: {color: '#f00', type: 'line', targetAxisIndex: 0},
+            2: {color: '#ff0', type: 'area', targetAxisIndex: 1}
+          },
+          vAxes: {
+            0: {viewWindow: { min: 0, max: 80 }, ticks: [0,20,40,60,80], format: '# °C' },
+            1: {viewWindow: { min: 0, max: 20 }, ticks: [0,5,10,15,20], format: '# kW' }
+          },
+          hAxis: { 
+            ticks: ticks,
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 80
+            },
+            format: '#°C' 
+          }
+        };
+      } else if(deviceType == "AMP") {
+        // Add colors to graph
+        var colors = [];
+        if(colors.length < 1) colors.push('#000');
+
+        options = {
+          legend: 'none',
+          colors: colors,
+          chartArea: {left: 30, right: 20, top: 10, bottom: 20},
+          hAxis: { 
+            ticks: ticks,
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: startDate,
+                    max: endDate
+            }
+          },
+          vAxis: { 
+            gridlines: { count: 4, color:"#ccc" },
+            viewWindow: {
+                    min: 0,
+                    max: 20
+            },
+            format: '#kW' 
+          }
+        };
+      }
+
+      var dataF = google.visualization.arrayToDataTable(data);
+      chart.draw(dataF, options);
+      $('.loader').css('display', 'none');
+    } 
+
+
+  script.
+
+    // ====Util====
+
+    function getFormatedDate(date){
+      var dateString = "";
+      dateString += date.getFullYear() + "-";
+      dateString += String((date.getMonth()+1)).length == 1 ? "0" + (date.getMonth()+1) + "-" : (date.getMonth()+1) + "-";
+      dateString += String(date.getDate()).length == 1 ? "0" + date.getDate() + " " : date.getDate() + " ";
+      dateString += String(date.getHours()).length == 1 ? "0" + date.getHours() + ":" : date.getHours() + ":";
+      dateString += String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() + ":" : date.getMinutes() + ":";
+      dateString += String(date.getSeconds()).length == 1 ? "0" + date.getSeconds() : date.getSeconds();
+      return dateString;
+    }
+
+
+  each device, index in devices
+
+    script.
+      // ====Get data for each device====
+
+      google.charts.setOnLoadCallback(function(){
+        var chart = new google.visualization.AreaChart(document.getElementById('chart#{device.id}'));
+
+        var deviceMac = '#{device.mac}';
+        var deviceType = '#{device.type}';
+
+        var timeScale = 'hour';
+
+        var startDate = new Date();
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+
+        var timeOffset = startDate.getTimezoneOffset();
+
+        var endDate = new Date(startDate);
+        endDate.setMinutes(endDate.getMinutes() + 60);
+
+        getData(chart, deviceMac, deviceType, timeScale, timeOffset, startDate, endDate);
+      });
+      
+
+
+
+
+
+
+
+
+
+
+

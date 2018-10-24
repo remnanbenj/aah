@@ -1,0 +1,141 @@
+/* =====Device===== */
+
+.device-holder {
+  width: 340px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  padding-top: 5px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.device-icon {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 18px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.device-title {
+  float: left;
+  font-size: 16px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.device-signal {
+  position: absolute;
+  top: 0px;
+  right: 28px;
+  bottom: 1px;
+  width: 18px;
+  color: white;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/signal-red.png');
+}
+
+.device-settings {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 22px;
+  height: 22px;
+  background: #00aaff;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/settings-icon.png');
+}
+
+.device-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 22px;
+  height: 22px;
+  background: #00aaff;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  padding-top: 3px;
+}
+
+.device-settings:hover, .device-close:hover {
+  background-color: #0092DB;
+}
+
+.device-content {
+  height: 200px;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+
+/* =====Settings===== */
+
+.settings-input-label {
+  display: inline-block;
+  margin-top: 3px;
+  margin-right: 10px;
+  float: left;
+}
+
+.settings-input {
+  width: 30px;
+  height: 26px;
+  color: #000;
+  background: #fff;
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+}
+
+.settings-select {
+  height: 26px;
+  color: #000;
+  background: #fff;
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+}
+
+
+/* =====TOOLTIP===== */
+
+.tooltip {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    height: 100%;
+    padding-top: 3px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.device-signal:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.device-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
