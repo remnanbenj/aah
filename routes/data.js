@@ -48,7 +48,7 @@ router.get('/reading', function(req, res) {
 
     // Else: Update last reading and send data to device
     } else {
-      var sql = "update devices set lastreading = '"+receivedtime+"' and lastreadingdata = '"+data+"' where mac = '"+mac+"';";
+      var sql = "update devices set lastreading = '"+receivedtime+"', lastreadingdata = '"+data+"' where mac = '"+mac+"';";
       console.log(sql);
       con.query(sql, function (err) { if (err) throw err; });
 
