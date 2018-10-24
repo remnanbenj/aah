@@ -4,7 +4,7 @@ block content
   link(rel="stylesheet" href="/stylesheets/device.css")
 
   .device-title
-    .device-icon(style="background-image: url('/images/TEMP-icon-dark.png');")
+    .device-icon(style="background-image: url('/images/device/#{device.type}.png');")
     .device-name #{device.name}
     .device-type Power Monitor
     .device-settings(onclick="editDeviceDialog()")
