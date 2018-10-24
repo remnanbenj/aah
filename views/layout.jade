@@ -115,8 +115,6 @@ html
     .topnav
       .topnav-logo
       .topnav-button(id="home-button" onclick="window.location.assign('/home');") Dashboard
-      .topnav-button.unavailable(id="controls-button") Control
-      .topnav-button(id="settings-button" onclick="window.location.assign('/devices');") My Devices
       .topnav-seperator
       .topnav-button.unavailable(id="shop-button" onclick="/*window.location.assign('/shop');*/") Products
       .topnav-button.unavailable(id="guide-button") Guides
@@ -144,12 +142,6 @@ html
       var page = window.location.pathname.split('/')[1];
       if(page == 'home') {
         $("#home-button").css('border-bottom', '1px solid #777');
-      } else if(page == 'controls') {
-        $("#controls-button").css('border-bottom', '1px solid #777');
-      } else if(page == 'devices') {
-        $("#settings-button").css('border-bottom', '1px solid #777');
-      } else if(page == 'shop') {
-        $("#shop-button").css('border-bottom', '1px solid #777');
       }
 
       function logout(){

@@ -10,10 +10,7 @@ var redisStore = require('connect-redis')(session);
 var client = redis.createClient();
 
 var index = require('./routes/index');
-var controls = require('./routes/controls');
-var devices = require('./routes/devices');
 var device = require('./routes/device');
-var shop = require('./routes/shop');
 var data = require('./routes/data');
 
 var app = express();
@@ -33,10 +30,7 @@ app.use(session({secret: "flatpoint23", store: new redisStore({ host: 'localhost
 app.use(logger);
 
 app.use('/', index);
-app.use('/controls', controls);
-app.use('/devices', devices);
 app.use('/device', device);
-app.use('/shop', shop);
 app.use('/data', data);
 
 /* Timestamped log */
