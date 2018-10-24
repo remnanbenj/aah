@@ -4,6 +4,8 @@ block content
   link(rel="stylesheet" href="/stylesheets/device.css")
 
   .device-title
+    a.device-back(href="/home")
+      .glyphicon.glyphicon-chevron-left
     .device-icon(style="background-image: url('/images/device/#{device.type}.png');")
     .device-name #{device.name}
     .device-type Power Monitor
@@ -20,13 +22,16 @@ block content
         .graph-navigation-button(id="monthScale" style="margin-left: 5px;") Month
 
       .graph-navigation-title Date
-      .graph-navigation-left(onclick="moveDateLeft()") <
+      .graph-navigation-left(onclick="moveDateLeft()")
+        .glyphicon.glyphicon-chevron-left
       input.graph-navigation-input(id="datepicker" onchange="getData()")
-      .graph-navigation-right(onclick="moveDateRight()") >
+      .graph-navigation-right(onclick="moveDateRight()")
+        .glyphicon.glyphicon-chevron-right
 
       .graph-navigation-time-holder
           .graph-navigation-title Time
-          .graph-navigation-left(onclick="moveTimeLeft()") <
+          .graph-navigation-left(onclick="moveTimeLeft()")
+            .glyphicon.glyphicon-chevron-left
           select.graph-navigation-time(id="timepicker" onchange="getData()")
             option 1
             option 2
@@ -43,7 +48,8 @@ block content
           select.graph-navigation-ampm(id="ampmpicker" onchange="getData()")
             option AM
             option PM
-          .graph-navigation-right(onclick="moveTimeRight()") >
+          .graph-navigation-right(onclick="moveTimeRight()")
+            .glyphicon.glyphicon-chevron-right
 
     .graph-navigation-bottom
       .graph-navigation-title Channels
