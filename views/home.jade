@@ -6,19 +6,27 @@ block content
   .devices
     .devices-title My Devices
 
-    each device, index in devices
+    .devices-inner
+      each device, index in devices
+        - var i = 0;
+        - var n = 1;
+        while i < n
+          - i++
 
-      .device-holder
-        a.device(href="/device?id=#{device.id}")
-          .device-icon(style="background-image: url('/images/device/#{device.type}.png');")
-          .device-name #{device.name}
+          .device-holder
+            a.device(href="/device?id=#{device.id}")
+              .device-icon(style="background-image: url('/images/device/#{device.type}.png');")
+              .device-name #{device.name}
 
-          if device.type == "AMP"
-            .device-type Power Monitor
-          else if device.type == "WTRHTR"
-            .device-type Water Heater
+              if device.type == "AMP"
+                .device-type Power Monitor
+              else if device.type == "WTRHTR"
+                .device-type Water Heater
 
-        .device-settings
+            .device-settings
+
+    .add-device-holder
+      .add-device Add Device
 
   .other
 

@@ -82,7 +82,7 @@ function addDevice(type, mac, receivedtime){
 
   // ===POWER MONITOR====
   if(type == "AMP") { 
-    var sql = "insert into devices (userid, type, mac, lastreading, variables) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', 'Channel 1:000000:1,Channel 2:FF0000:1,Channel 3:F2A100:1,Channel 4:00C400:1,Channel 5:00AAFF:1,Channel 6:5162FF:1,Channel 7:9B00EF:1,Channel 8:ED00C5:1');";
+    var sql = "insert into devices (userid, type, mac, lastreading, variables) values (-1, '"+type+"', '"+mac+"', '"+receivedtime+"', 'Channel 1:000000:0,Channel 2:FF0000:0,Channel 3:F2A100:0,Channel 4:00C400:0,Channel 5:00AAFF:0,Channel 6:5162FF:0,Channel 7:9B00EF:0,Channel 8:ED00C5:0');";
     con.query(sql, function (err) { if (err) throw err; });
     res.send("re:success");
 

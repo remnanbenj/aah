@@ -9,6 +9,8 @@ TODO:
       - Update modal settings to new theme
       - Add legend
       - Add week month
+      - Add a back button
+      - Add lastreadingdata
 
     - Power Monitor Page
       - Cant contain ':' in channel name
@@ -27,6 +29,7 @@ TODO:
       - Update to new theme
 
   Not Needed 
+    - Change nav to hyperlinks
     - Amp channels moved from labels to varaibles
     - remove state, labels and lastreadingdata from devices table
     - devices.js: Check connected line 80
@@ -87,7 +90,7 @@ Water Heater - WTRHTR
  Description: Bottom Temp : Top Temp : Kilowatts
  [0] MaxTemp(°C): 55
  [1] TempRange(°C): 2 
- [2] SelectedTemp(bottom(0) or top(1)): 0
+ [2] SelectedTemp(top(0) or bottom(1)): 1
 
 Water Level - WTRLVL
 
