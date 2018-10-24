@@ -1,4 +1,30 @@
 
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:link  {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:visited  {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:active  {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
 /* ====TITLE==== */
 
 .device-title {
@@ -16,14 +42,34 @@
   background: #eee;
 }
 
+.device-back {
+  position: absolute;
+  top: 6px;
+  left: 5px;
+  width: 38px;
+  height: 38px;
+  background: #777;
+  border-radius: 50%;
+  padding-top: 4px;
+  padding-left: 7px;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  box-shadow: inset 2px 2px 4px #555;
+}
+
+.device-back:hover {
+  background-color: #0092DB;
+}
+
 .device-icon {
   position: absolute;
   top: 6px;
-  left: 3px;
+  left: 38px;
   width: 38px;
   height: 38px;
 
-  background-size: 75%;
+  background-size: 85%;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -31,7 +77,7 @@
 .device-name {
   position: absolute;
   top: 6px;
-  left: 42px;
+  left: 74px;
 
   font-size: 17px;
   font-weight: 600;
@@ -40,7 +86,7 @@
 .device-type {
   position: absolute;
   top: 24px;
-  left: 43px;
+  left: 75px;
 
   font-size: 15px;
 }
