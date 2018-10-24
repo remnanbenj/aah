@@ -10,7 +10,7 @@ block content
 
       .device-holder
         a.device(href="/device?id=#{device.id}")
-          .device-icon(style="background-image: url('/images/device/#{device.type}_white.png');")
+          .device-icon(style="background-image: url('/images/device/#{device.type}.png');")
           .device-name #{device.name}
 
           if device.type == "AMP"
