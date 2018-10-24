@@ -42,7 +42,7 @@
   position: absolute;
   top: 5px;
   left: 0px;
-  width: 170px;
+  width: 215px;
   height: 40px;
   cursor: pointer;
   color: #fff;
@@ -113,21 +113,16 @@
 /* Device reading */
 .device-reading {
   position: absolute;
-  top: 5px;
-  right: 35px;
+  top: 0px;
+  right: 5px;
   width: 40px;
   height: 40px;
-  padding-top: 9px;
+  padding-top: 10px;
 
-  color: #777;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   text-align: center;
 }
-
-.device-settings:hover {
-  background-color: #0092DB;
-} 
 
 /* Add device */
 .add-device-holder {

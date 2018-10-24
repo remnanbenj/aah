@@ -20,13 +20,11 @@ block content
 
               if device.type == "AMP"
                 .device-type Power Monitor
+                .device-reading #{Math.round(device.lastreadingdata.split(':')[0]*10)/10}kW
               else if device.type == "WTRHTR"
                 .device-type Water Heater
+                .device-reading #{Math.round(device.lastreadingdata.split(':')[0]*10)/10}°C
 
-            if device.type == "AMP"
-              .device-reading #{Math.round(device.lastreadingdata.split(':')[0]*10)/10}kW
-            else if device.type == "WTRHTR"
-              .device-reading #{Math.round(device.lastreadingdata.split(':')[0]*10)/10}°C
             .device-settings
 
     .add-device-holder
