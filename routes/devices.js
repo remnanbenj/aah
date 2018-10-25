@@ -54,7 +54,7 @@ router.get('/', checkSignIn, function(req, res) {
   var sql = "SELECT * FROM devices where userid = "+req.session.user.id+";";
   con.query(sql, function (err, userDevices) {
     if (err) throw err;
-    res.render('devices', { title: 'AAH - Settings', user: req.session.user, devices: userDevices });
+    res.render('devices', { title: 'AAH - Settings', user: req.session.user, devices: userDevices, page: 'devices' });
   });
 });
 

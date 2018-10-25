@@ -6,8 +6,8 @@ html
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     link(rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
 
-    link(rel="stylesheet" href="/stylesheets/nav.css")
     link(rel="stylesheet" href="/stylesheets/all.css")
+    link(rel="stylesheet" href="/stylesheets/nav.css")
 
   body
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js").
@@ -114,20 +114,78 @@ html
 
     .topnav
       .topnav-logo
-      .topnav-button(id="home-button" onclick="window.location.assign('/home');") Dashboard
-      .topnav-seperator
+        span(style="color: #0092DB;") A
+        span BOUT
+        br
+        span(style="color: #0092DB;") A
+        br
+        span(style="color: #0092DB;") H
+        span OUSE
+      if page == 'home'
+        .topnav-button(id="home-button" style="color: #0092DB;" onclick="window.location.assign('/home');") Dashboard
+      else
+        .topnav-button(id="home-button" onclick="window.location.assign('/home');") Dashboard
       .topnav-button.unavailable(id="shop-button" onclick="/*window.location.assign('/shop');*/") Products
       .topnav-button.unavailable(id="guide-button") Guides
       .topnav-button.unavailable(id="help-button") Help
 
-      .topnav-button(id="logout-button" style="float: right; margin-right: 20px; margin-left: 0px;" onclick="logout()") Logout
-      .topnav-button.unavailable(id="account-button" style="float: right; margin-right: 20px; margin-left: 0px;")  My Account
+      .topnav-icon.user-dropdown-button.user-tag(id="user-button" style="float: right; margin-right: 20px; margin-left: 0px;")
+        .glyphicon.glyphicon-user.user-tag
+        .notification-amount.user-tag 0
+        .arrow-down(id="user-arrow")
+      .topnav-icon.notifications-dropdown-button.notifications-tag(id="notifications-button" style="float: right; margin-right: 12px; margin-left: 0px;")
+        .glyphicon.glyphicon-bell.notifications-tag
+        .notification-amount.notifications-tag 0
+        .arrow-down(id="notifications-arrow")
 
     .page
       block content
 
+    .notifications-dropdown.notifications-tag
+      .notifications-dropdown-title.notifications-tag Notifications
+      .no-notifications.notifications-tag You have no new notifications
+
+    .user-dropdown.user-tag
+      .user-dropdown-title.user-tag #{user.name}
+      .user-dropdown-inner-button.user-tag My Account
+      .user-dropdown-inner-button.user-tag(onclick="logout()") Logout
+
 
     script.
+
+      // Show/Hide notifications dropdown
+      $('#notifications-button').click(function(e) {
+        if($('.notifications-dropdown').css('display') == 'none') { 
+          if($('.user-dropdown').css('display') == 'none') { $('#notifications-arrow').css('display', 'block'); $('.notifications-dropdown').slideToggle('fast'); }
+          else setTimeout(function(){ $('#notifications-arrow').css('display', 'block'); $('.notifications-dropdown').slideToggle('fast'); }, 200); 
+        } else { 
+          setTimeout(function(){ $('#notifications-arrow').css('display', 'none'); }, 180);
+          $('.notifications-dropdown').slideToggle('fast');
+        }
+      });
+
+      // Show/Hide user dropdown
+      $('#user-button').click(function(e) {
+        if($('.user-dropdown').css('display') == 'none') { 
+          if($('.notifications-dropdown').css('display') == 'none') { $('#user-arrow').css('display', 'block'); $('.user-dropdown').slideToggle('fast'); }
+          else setTimeout(function(){ $('#user-arrow').css('display', 'block'); $('.user-dropdown').slideToggle('fast'); }, 200); 
+        } else { 
+          setTimeout(function(){ $('#user-arrow').css('display', 'none'); }, 180); 
+          $('.user-dropdown').slideToggle('fast');
+        }
+      });
+
+      $(document).on('click', function(evt) {
+        // Close notifications dropdown
+        if(!$(evt.target).attr('class').includes("notifications-tag")) {
+          if($('.notifications-dropdown').css('display') != 'none') { setTimeout(function(){ $('#notifications-arrow').css('display', 'none'); }, 180); $('.notifications-dropdown').slideToggle('fast'); }
+        }
+        // Close user dropdown
+        if(!$(evt.target).attr('class').includes("user-tag")) {
+          if($('.user-dropdown').css('display') != 'none') { setTimeout(function(){ $('#user-arrow').css('display', 'none'); }, 180); $('.user-dropdown').slideToggle('fast'); }
+        }
+      });
+
       // Toast setup
       function toast(message, time, color) {
         $(".toast").css('display', 'block');
@@ -138,13 +196,7 @@ html
         setTimeout(function(){ $(".toast").animate({bottom: '-40px'}, { duration: 300, queue: false }); setTimeout(function(){ $(".toast").html(""); }, 300); }, time);
       }
 
-      // Nav page setup
-      var page = window.location.pathname.split('/')[1];
-      if(page == 'home') {
-        $("#home-button").css('border-bottom', '1px solid #777');
-      }
-
-      function logout(){
+      function logout() {
         window.location.assign('/logout');
       }
 

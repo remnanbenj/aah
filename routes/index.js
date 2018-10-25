@@ -26,14 +26,14 @@ var con = mysql.createConnection({ host: "localhost", user: "root", password: "s
 
 router.get('/', function(req, res) {
   if(req.session.user) res.redirect('/home');
-  else res.render('index', { title: 'AAH - Login' });
+  else res.render('index', { title: 'AAH - Login', page: 'login' });
 });
 
 router.get('/home', checkSignIn, function(req, res) {
   var sql = "SELECT * FROM devices where userid = "+req.session.user.id+";";
   con.query(sql, function (err, results) {
     if (err) throw err;
-    res.render('home', { title: 'AAH - Dashboard', user: req.session.user, devices: results });
+    res.render('home', { title: 'AAH - Dashboard', user: req.session.user, devices: results, page: 'home' });
   });
 });
 

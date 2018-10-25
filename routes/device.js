@@ -35,10 +35,10 @@ router.get('/', checkSignIn, function(req, res) {
 
       // Display based on device
       if(device.type == 'AMP') {
-        res.render('device/PWRMTR', { title: 'AAH - Power Monitor', user: req.session.user, device: device });
+        res.render('device/PWRMTR', { title: 'AAH - Power Monitor', user: req.session.user, device: device, page: 'device' });
 
       } else if(device.type == 'WTRHTR') {
-        res.render('device/WTRHTR', { title: 'AAH - Water Heater', user: req.session.user, device: device });
+        res.render('device/WTRHTR', { title: 'AAH - Water Heater', user: req.session.user, device: device, page: 'device' });
 
       }
 

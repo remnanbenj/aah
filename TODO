@@ -8,9 +8,9 @@ TODO:
       - Water heater settings (move from JS to html)
       - Update modal settings to new theme
       - Add legend
-      - Add week month
-      - Add a back button
+      - Add week, month
       - Add lastreadingdata
+      - AMPM hover not working
 
     - Power Monitor Page
       - Cant contain ':' in channel name
