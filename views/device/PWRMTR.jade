@@ -194,14 +194,14 @@ block content
 
       // Channels
       var channels = [];
-      if($('#c1'), $('#c1').css('background-color') != 'rgb(119, 119, 119)') channels.push(1);
-      if($('#c2'), $('#c2').css('background-color') != 'rgb(119, 119, 119)') channels.push(2);
-      if($('#c3'), $('#c3').css('background-color') != 'rgb(119, 119, 119)') channels.push(3);
-      if($('#c4'), $('#c4').css('background-color') != 'rgb(119, 119, 119)') channels.push(4);
-      if($('#c5'), $('#c5').css('background-color') != 'rgb(119, 119, 119)') channels.push(5);
-      if($('#c6'), $('#c6').css('background-color') != 'rgb(119, 119, 119)') channels.push(6);
-      if($('#c7'), $('#c7').css('background-color') != 'rgb(119, 119, 119)') channels.push(7);
-      if($('#c8'), $('#c8').css('background-color') != 'rgb(119, 119, 119)') channels.push(8);
+      if($('#c1') && $('#c1').css('background-color') != 'rgb(119, 119, 119)') channels.push(1);
+      if($('#c2') && $('#c2').css('background-color') != 'rgb(119, 119, 119)') channels.push(2);
+      if($('#c3') && $('#c3').css('background-color') != 'rgb(119, 119, 119)') channels.push(3);
+      if($('#c4') && $('#c4').css('background-color') != 'rgb(119, 119, 119)') channels.push(4);
+      if($('#c5') && $('#c5').css('background-color') != 'rgb(119, 119, 119)') channels.push(5);
+      if($('#c6') && $('#c6').css('background-color') != 'rgb(119, 119, 119)') channels.push(6);
+      if($('#c7') && $('#c7').css('background-color') != 'rgb(119, 119, 119)') channels.push(7);
+      if($('#c8') && $('#c8').css('background-color') != 'rgb(119, 119, 119)') channels.push(8);
 
       var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate) + "&channels=" + channels.toString();
       
