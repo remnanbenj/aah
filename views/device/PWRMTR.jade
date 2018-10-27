@@ -132,7 +132,6 @@ block content
   script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js").
   script(type="text/javascript" src="/javascripts/devices/Graph_Navigation.js").
   script(type="text/javascript" src="/javascripts/devices/Device_Settings.js").
-  script(type="text/javascript" src="/javascripts/devices/WTRHTR_Settings.js").
 
   script(type="text/javascript").
 
@@ -242,10 +241,20 @@ block content
       xhttp.send();
     }
 
+    var colors = [];
+    colors.push('#' + device.variables[0].split(':')[1]);
+    colors.push('#' + device.variables[1].split(':')[1]);
+    colors.push('#' + device.variables[2].split(':')[1]);
+    colors.push('#' + device.variables[3].split(':')[1]);
+    colors.push('#' + device.variables[4].split(':')[1]);
+    colors.push('#' + device.variables[5].split(':')[1]);
+    colors.push('#' + device.variables[6].split(':')[1]);
+    colors.push('#' + device.variables[7].split(':')[1]);
+
     var options = {
       legend: 'none',
       bar: {groupWidth: "80%"},
-      colors: ['#000'],
+      colors: colors,
       backgroundColor: { fill:'transparent' },
       chartArea: {left: 70, right: 70, top: 20, bottom: 40},
       hAxis: {
