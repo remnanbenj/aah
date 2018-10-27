@@ -12,7 +12,7 @@ block content
     .device-settings(onclick="editDeviceDialog()")
 
   .graph-navigation-holder
-    .graph-navigation-top
+    .graph-navigation-inner
 
       .graph-navigation-title Timescale
       .graph-navigation-button-holder
@@ -51,8 +51,25 @@ block content
           .graph-navigation-right(onclick="moveTimeRight()")
             .glyphicon.glyphicon-chevron-right
 
-    .graph-navigation-bottom
+    .graph-navigation-inner(style="padding-bottom: 15px;")
       .graph-navigation-title Channels
+
+      if device.variables.split(',')[0].split(':')[2] == 1
+        .graph-navigation-channel(id="c1" style="background: #000;") #{device.variables.split(',')[0].split(':')[0]}
+      if device.variables.split(',')[1].split(':')[2] == 1
+        .graph-navigation-channel(id="c2") #{device.variables.split(',')[1].split(':')[0]}
+      if device.variables.split(',')[2].split(':')[2] == 1
+        .graph-navigation-channel(id="c3") #{device.variables.split(',')[2].split(':')[0]}
+      if device.variables.split(',')[3].split(':')[2] == 1
+        .graph-navigation-channel(id="c4") #{device.variables.split(',')[3].split(':')[0]}
+      if device.variables.split(',')[4].split(':')[2] == 1
+        .graph-navigation-channel(id="c5") #{device.variables.split(',')[4].split(':')[0]}
+      if device.variables.split(',')[5].split(':')[2] == 1
+        .graph-navigation-channel(id="c6") #{device.variables.split(',')[5].split(':')[0]}
+      if device.variables.split(',')[6].split(':')[2] == 1
+        .graph-navigation-channel(id="c7") #{device.variables.split(',')[6].split(':')[0]}
+      if device.variables.split(',')[7].split(':')[2] == 1
+        .graph-navigation-channel(id="c8") #{device.variables.split(',')[7].split(':')[0]}
 
 
   .graph-holder
@@ -66,6 +83,36 @@ block content
     // Setup device
     var device = JSON.parse('#{JSON.stringify(device)}'.replace(/&quot;/g, '"'));
     device.variables = device.variables.split(',');
+
+    // Clicked variables
+    var c1Clicked = true;
+    var c2Clicked = false;
+    var c3Clicked = false;
+    var c4Clicked = false;
+    var c5Clicked = false;
+    var c6Clicked = false;
+    var c7Clicked = false;
+    var c8Clicked = false;
+
+    // Set channels hover color
+    $('#c1').hover(function(){ $(this).css('background', '#' + device.variables[0].split(':')[1]); }, function(){ if(!c1Clicked) $(this).css('background', '#777'); });
+    $('#c2').hover(function(){ $(this).css('background', '#' + device.variables[1].split(':')[1]); }, function(){ if(!c2Clicked) $(this).css('background', '#777'); });
+    $('#c3').hover(function(){ $(this).css('background', '#' + device.variables[2].split(':')[1]); }, function(){ if(!c3Clicked) $(this).css('background', '#777'); });
+    $('#c4').hover(function(){ $(this).css('background', '#' + device.variables[3].split(':')[1]); }, function(){ if(!c4Clicked) $(this).css('background', '#777'); });
+    $('#c5').hover(function(){ $(this).css('background', '#' + device.variables[4].split(':')[1]); }, function(){ if(!c5Clicked) $(this).css('background', '#777'); });
+    $('#c6').hover(function(){ $(this).css('background', '#' + device.variables[5].split(':')[1]); }, function(){ if(!c6Clicked) $(this).css('background', '#777'); });
+    $('#c7').hover(function(){ $(this).css('background', '#' + device.variables[6].split(':')[1]); }, function(){ if(!c7Clicked) $(this).css('background', '#777'); });
+    $('#c8').hover(function(){ $(this).css('background', '#' + device.variables[7].split(':')[1]); }, function(){ if(!c8Clicked) $(this).css('background', '#777'); });
+
+    // Set channels click color
+    $('#c1').click(function(){ if(c1Clicked) { $(this).css('background', '#777'); c1Clicked = false; } else { $(this).css('background', '#' + device.variables[0].split(':')[1]); c1Clicked = true; } getData(); });
+    $('#c2').click(function(){ if(c2Clicked) { $(this).css('background', '#777'); c2Clicked = false; } else { $(this).css('background', '#' + device.variables[1].split(':')[1]); c2Clicked = true; } getData(); });
+    $('#c3').click(function(){ if(c3Clicked) { $(this).css('background', '#777'); c3Clicked = false; } else { $(this).css('background', '#' + device.variables[2].split(':')[1]); c3Clicked = true; } getData(); });
+    $('#c4').click(function(){ if(c4Clicked) { $(this).css('background', '#777'); c4Clicked = false; } else { $(this).css('background', '#' + device.variables[3].split(':')[1]); c4Clicked = true; } getData(); });
+    $('#c5').click(function(){ if(c5Clicked) { $(this).css('background', '#777'); c5Clicked = false; } else { $(this).css('background', '#' + device.variables[4].split(':')[1]); c5Clicked = true; } getData(); });
+    $('#c6').click(function(){ if(c6Clicked) { $(this).css('background', '#777'); c6Clicked = false; } else { $(this).css('background', '#' + device.variables[5].split(':')[1]); c6Clicked = true; } getData(); });
+    $('#c7').click(function(){ if(c7Clicked) { $(this).css('background', '#777'); c7Clicked = false; } else { $(this).css('background', '#' + device.variables[6].split(':')[1]); c7Clicked = true; } getData(); });
+    $('#c8').click(function(){ if(c8Clicked) { $(this).css('background', '#777'); c8Clicked = false; } else { $(this).css('background', '#' + device.variables[7].split(':')[1]); c8Clicked = true; } getData(); });
 
     // Get current hour and ampm
     var hours = new Date().getHours();
@@ -147,7 +194,14 @@ block content
 
       // Channels
       var channels = [];
-      channels.push(1);
+      if($('#c1').css('background-color') != 'rgb(119, 119, 119)') channels.push(1);
+      if($('#c2').css('background-color') != 'rgb(119, 119, 119)') channels.push(2);
+      if($('#c3').css('background-color') != 'rgb(119, 119, 119)') channels.push(3);
+      if($('#c4').css('background-color') != 'rgb(119, 119, 119)') channels.push(4);
+      if($('#c5').css('background-color') != 'rgb(119, 119, 119)') channels.push(5);
+      if($('#c6').css('background-color') != 'rgb(119, 119, 119)') channels.push(6);
+      if($('#c7').css('background-color') != 'rgb(119, 119, 119)') channels.push(7);
+      if($('#c8').css('background-color') != 'rgb(119, 119, 119)') channels.push(8);
 
       var url = "/device/getdata?devicemac=" + device.mac + "&devicetype=" + device.type + "&timescale=" + timeScale + "&timeoffset=" + timeOffset + "&startdate=" + getFormatedDate(GMTStartDate) + "&enddate=" + getFormatedDate(GMTEndDate) + "&channels=" + channels.toString();
       

@@ -151,16 +151,7 @@ a:hover {
   color: #777;
 }
 
-.graph-navigation-top {
-  position: relative;
-  box-shadow: 2px 2px 4px #555;
-  background: #eee;
-  padding-top: 15px;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-}
-
-.graph-navigation-bottom {
+.graph-navigation-inner {
   position: relative;
   box-shadow: 2px 2px 4px #555;
   background: #eee;
@@ -300,6 +291,19 @@ a:hover {
   cursor: pointer;
   text-align: center;
   color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: inset 2px 2px 4px #555;
+  background: #777;
+}
+
+.graph-navigation-channel {
+  width: 150px;
+  margin: 0 auto;
+  padding: 6px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  color: white;
   font-size: 11px;
   font-weight: 600;
   box-shadow: inset 2px 2px 4px #555;

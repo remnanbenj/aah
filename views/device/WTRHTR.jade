@@ -12,7 +12,7 @@ block content
     .device-settings(onclick="editDeviceDialog()")
 
   .graph-navigation-holder
-    .graph-navigation-top
+    .graph-navigation-inner
 
       .graph-navigation-title Timescale
       .graph-navigation-button-holder
@@ -51,7 +51,7 @@ block content
           .graph-navigation-right(onclick="moveTimeRight()")
             .glyphicon.glyphicon-chevron-right
 
-    .graph-navigation-bottom
+    .graph-navigation-inner
       .graph-navigation-title Desired Temperature
       input.graph-navigation-time(value="#{device.variables.split(',')[0]}" onclick="this.setSelectionRange(0, this.value.length)")
       span(style="font-size: 16px; font-weight: 600; color: #0092DB;")  ± 
