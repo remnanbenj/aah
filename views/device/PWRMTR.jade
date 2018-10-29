@@ -229,8 +229,8 @@ block content
             chart = new google.visualization.AreaChart(document.getElementById('chart'));
             drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
-            data = google.visualization.arrayToDataTable(data);
             chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+            data = google.visualization.arrayToDataTable(data);
             function selectHandler() {
                 var selectedItem = chart.getSelection()[0];
                 if (selectedItem) {
