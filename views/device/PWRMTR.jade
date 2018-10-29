@@ -216,8 +216,6 @@ block content
             }
           }
 
-          options.colors = colors;
-
           var colors = [];
           if(channels.indexOf('1') != -1) colors.push('#' + device.variables[0].split(':')[1]);
           if(channels.indexOf('2') != -1) colors.push('#' + device.variables[1].split(':')[1]);
@@ -227,6 +225,8 @@ block content
           if(channels.indexOf('6') != -1) colors.push('#' + device.variables[5].split(':')[1]);
           if(channels.indexOf('7') != -1) colors.push('#' + device.variables[6].split(':')[1]);
           if(channels.indexOf('8') != -1) colors.push('#' + device.variables[7].split(':')[1]);
+          options.colors = colors;
+          console.log(colors);
 
           // Redraw Chart
           if(timeScale == 'hour') {
