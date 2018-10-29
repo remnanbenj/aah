@@ -279,7 +279,7 @@ block content
       options.hAxis.ticks = ticks;
       options.hAxis.viewWindow.min = startDate;
       options.hAxis.viewWindow.max = endDate;
-      var data = google.visualization.arrayToDataTable(data);
+      data = google.visualization.arrayToDataTable(data);
       function selectHandler() {
                 var selectedItem = chart.getSelection()[0];
                 if (selectedItem) {
