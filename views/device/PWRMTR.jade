@@ -55,7 +55,7 @@ block content
       .graph-navigation-title Channels
 
       if device.variables.split(',')[0].split(':')[2] == 1
-        .graph-navigation-channel(id="c1" style="background: #000;") #{device.variables.split(',')[0].split(':')[0]}
+        .graph-navigation-channel(id="c1" style="background: ##{device.variables.split(',')[0].split(':')[1]};") #{device.variables.split(',')[0].split(':')[0]}
       if device.variables.split(',')[1].split(':')[2] == 1
         .graph-navigation-channel(id="c2") #{device.variables.split(',')[1].split(':')[0]}
       if device.variables.split(',')[2].split(':')[2] == 1
