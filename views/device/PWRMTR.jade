@@ -203,7 +203,6 @@ block content
 
           // Format data
           var data = JSON.parse(this.responseText);
-          console.log(data);
           for(var i = 1; i < data.length; i++) {
             // Apply offset to date
             var tempDate = new Date(data[i][0]);
@@ -226,9 +225,6 @@ block content
           if(channels.indexOf(7) != -1) colors.push('#' + device.variables[6].split(':')[1]);
           if(channels.indexOf(8) != -1) colors.push('#' + device.variables[7].split(':')[1]);
           options.colors = colors;
-          console.log(channels);
-          console.log(channels.indexOf(1));
-          console.log(colors);
 
           // Redraw Chart
           if(timeScale == 'hour') {
@@ -264,20 +260,10 @@ block content
       xhttp.send();
     }
 
-    var colors = [];
-    colors.push('#' + device.variables[0].split(':')[1]);
-    colors.push('#' + device.variables[1].split(':')[1]);
-    colors.push('#' + device.variables[2].split(':')[1]);
-    colors.push('#' + device.variables[3].split(':')[1]);
-    colors.push('#' + device.variables[4].split(':')[1]);
-    colors.push('#' + device.variables[5].split(':')[1]);
-    colors.push('#' + device.variables[6].split(':')[1]);
-    colors.push('#' + device.variables[7].split(':')[1]);
-
     var options = {
       legend: 'none',
       bar: {groupWidth: "80%"},
-      colors: colors,
+      colors: ['#' + device.variables[0].split(':')[1]],
       backgroundColor: { fill:'transparent' },
       chartArea: {left: 70, right: 70, top: 20, bottom: 40},
       hAxis: {
