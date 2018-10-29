@@ -105,18 +105,8 @@ block content
 
     function googleLoaded(){
       chart = new google.visualization.AreaChart(document.getElementById('chart'));
-      setupChart()
+      setupHourChart();
       getData();
-    }
-
-    function setupChart(){
-      var startDate = new Date();
-      startDate.setMinutes(0);
-      startDate.setSeconds(0);
-      var endDate = new Date();
-      endDate.setMinutes(60);
-      endDate.setSeconds(0);
-      drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getHourTicks(startDate));
     }
 
     // Gets data from server then redraws the chart
@@ -176,9 +166,9 @@ block content
 
           // Redraw Chart
           if(timeScale == 'hour') {
-            drawChart(startDate, endDate, data, getHourTicks(startDate));
+            drawChart(startDate, endDate, google.visualization.arrayToDataTable(data), getHourTicks(startDate));
           } else if(timeScale == 'day') {
-            drawChart(startDate, endDate, data, getDayTicks(startDate));
+            drawChart(startDate, endDate, google.visualization.arrayToDataTable(data), getDayTicks(startDate));
           }
 
         }
@@ -219,7 +209,7 @@ block content
       options.hAxis.ticks = ticks;
       options.hAxis.viewWindow.min = startDate;
       options.hAxis.viewWindow.max = endDate;
-      chart.draw(google.visualization.arrayToDataTable(data), options);
+      chart.draw(data, options);
       $('.loader').css('display', 'none');
     }
 
