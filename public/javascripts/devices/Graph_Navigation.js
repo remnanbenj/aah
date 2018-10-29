@@ -9,7 +9,6 @@ function changeTimeScale(timescale) {
   $('#dayScale').css('background-color', '#777');
 
   if(timescale == 'hour') { 
-    setupHourChart();
     $('#hourScale').css('background-color', '#0092DB'); 
 
     var hours = new Date().getHours();
@@ -23,7 +22,6 @@ function changeTimeScale(timescale) {
     $("#ampmpicker").val(hoursSuffix);
 
   } else if(timescale == 'day') { 
-    setupDayChart();
     $('#dayScale').css('background-color', '#0092DB'); 
 
     $(".graph-navigation-time-holder").css('height', '0px');
