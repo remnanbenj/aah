@@ -71,6 +71,10 @@ block content
       if device.variables.split(',')[7].split(':')[2] == 1
         .graph-navigation-channel(id="c8") #{device.variables.split(',')[7].split(':')[0]}
 
+      .graph-navigation-bottom-buttons
+        .graph-navigation-selectall(onclick="selectAll()") All
+        .graph-navigation-clearall(onclick="clearAll()") Reset
+
 
   .graph-holder
     .graph(id="chart")
@@ -136,6 +140,45 @@ block content
   script(type="text/javascript" src="/javascripts/devices/Device_Settings.js").
 
   script(type="text/javascript").
+
+    // =====Channel Selection Buttons=====
+
+    // Select all active channels
+    function selectAll(){
+      for(var i = 0; i < device.variables.length; i++) {
+        if(device.variables[i].split(':')[2] == 1) {
+          $('#c' + (i+1)).css('background-color', '#' + device.variables[i].split(':')[1]);
+        }
+      }
+      c1Clicked = true;
+      c2Clicked = true;
+      c3Clicked = true;
+      c4Clicked = true;
+      c5Clicked = true;
+      c6Clicked = true;
+      c7Clicked = true;
+      c8Clicked = true;
+      getData();
+    }
+
+    // Deselect all channels
+    function clearAll(){
+      for(var i = 1; i < device.variables.length; i++) {
+        if(device.variables[i].split(':')[2] == 1) {
+          $('#c' + (i+1)).css('background-color', '#777');
+        }
+      }
+      $('#c1').css('background-color', '#' + device.variables[0].split(':')[1]);
+      c1Clicked = true;
+      c2Clicked = false;
+      c3Clicked = false;
+      c4Clicked = false;
+      c5Clicked = false;
+      c6Clicked = false;
+      c7Clicked = false;
+      c8Clicked = false;
+      getData();
+    }
 
     // =====GET DATA=====
 
