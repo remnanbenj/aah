@@ -230,25 +230,6 @@ block content
             drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
             chart = new google.visualization.ColumnChart(document.getElementById('chart'));
-            data = google.visualization.arrayToDataTable(data);
-            function selectHandler() {
-                var selectedItem = chart.getSelection()[0];
-                if (selectedItem) {
-                  $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
-                  $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
-
-                  var hours = data.getValue(selectedItem.row, 0).getHours();
-                  var hoursSuffix = "AM";
-                  if(hours == 12) { hoursSuffix = "PM"; }
-                  else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
-                  $(".graph-navigation-time-holder").css('height', '55px');
-                  $("#timepicker").val(hours);
-                  $("#ampmpicker").val(hoursSuffix);
-
-                  getData();
-                }
-            }
-            google.visualization.events.addListener(chart, 'select', selectHandler);
             drawChart(startDate, endDate, data, getDayTicks(startDate));
           }
 
@@ -298,6 +279,25 @@ block content
       options.hAxis.ticks = ticks;
       options.hAxis.viewWindow.min = startDate;
       options.hAxis.viewWindow.max = endDate;
+      var data = google.visualization.arrayToDataTable(data);
+      function selectHandler() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                  $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
+                  $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
+
+                  var hours = data.getValue(selectedItem.row, 0).getHours();
+                  var hoursSuffix = "AM";
+                  if(hours == 12) { hoursSuffix = "PM"; }
+                  else if(hours > 12) { hours -= 12; hoursSuffix = "PM"; }
+                  $(".graph-navigation-time-holder").css('height', '55px');
+                  $("#timepicker").val(hours);
+                  $("#ampmpicker").val(hoursSuffix);
+
+                  getData();
+                }
+      }
+      google.visualization.events.addListener(chart, 'select', selectHandler);
       chart.draw(google.visualization.arrayToDataTable(data), options);
       $('.loader').css('display', 'none');
     }
