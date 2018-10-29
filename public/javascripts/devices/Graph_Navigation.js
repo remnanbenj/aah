@@ -103,7 +103,7 @@ function setupHourChart(){
   var endDate = new Date();
   endDate.setMinutes(60);
   endDate.setSeconds(0);
-  drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getHourTicks(startDate));
+  drawChart(startDate, endDate, google.visualization.arrayToDataTable([['t','t','t','t'],[startDate,0,0,0]]), getHourTicks(startDate));
 }
 
 function setupDayChart(){
@@ -115,6 +115,6 @@ function setupDayChart(){
   endDate.setHours(24);
   endDate.setMinutes(0);
   endDate.setSeconds(0);
-  drawChart(startDate, endDate, [['t','t','t','t'],[startDate,0,0,0]], getDayTicks(startDate));
+  drawChart(startDate, endDate, google.visualization.arrayToDataTable([['t','t','t','t'],[startDate,0,0,0]]), getDayTicks(startDate));
 }
 
