@@ -223,6 +223,7 @@ block content
               if(data[i][j] < 0) data[i][j] = null;
             }
           }
+          console.log(data);
 
           // Redraw Chart
           if(timeScale == 'hour') {
@@ -230,7 +231,7 @@ block content
             // options: options.colors, options.vAxis.format
             drawChart(startDate, endDate, data, getHourTicks(startDate));
           } else if(timeScale == 'day') {
-            chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+            chart = new google.visualization.AreaChart(document.getElementById('chart'));
             // options: options.colors, options.vAxis.format
             drawChart(startDate, endDate, data, getDayTicks(startDate));
           }

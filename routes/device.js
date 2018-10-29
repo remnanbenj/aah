@@ -81,7 +81,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
     if(deviceType == "AMP") {
 
       // Reduce and average out results
-      results = reduceAmpResults(results, timeScale, startDate, endDate, channels);
+      results = reduceResultsPWRMTR(results, timeScale, startDate, endDate, channels);
 
       // Setup data
       dataRow.push('Time');
@@ -102,7 +102,7 @@ router.get('/getdata', checkSignIn, function(req, res) {
             if(timeScale == 'hour' || timeScale == 'halfday')
               dataRow.push(readings[channels[j]-1]*230/1000);
             if(timeScale == 'day')
-              dataRow.push(readings[j]*230);
+              dataRow.push(readings[j]*230/1000);
           }
           data.push(dataRow);
         }
@@ -335,7 +335,7 @@ function reduceResultsWTRHTR(data, timeScale, startDate, endDate, pwrData) {
   return tData;
 }
 
-function reduceAmpResults(data, timeScale, startDate, endDate, channels) {
+function reduceResultsPWRMTR(data, timeScale, startDate, endDate, channels) {
 
   var startDate = new Date(startDate);
   var endDate = new Date(endDate);
