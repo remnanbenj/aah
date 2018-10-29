@@ -224,8 +224,8 @@ block content
             function selectHandler() {
                 var selectedItem = chart.getSelection()[0];
                 if (selectedItem) {
-                  $('#dayScale').css('background-color', '#00AAFF'); $('#dayScale').css('cursor', 'pointer'); $('#dayScale').css('font-weight', '500');
-                  $('#hourScale').css('background-color', '#0092DB'); $('#hourScale').css('cursor', 'default'); $('#hourScale').css('font-weight', '600'); 
+                  $('#dayScale').css('background-color', '#777');
+                  $('#hourScale').css('background-color', '#0092DB');
 
                   var hours = data.getValue(selectedItem.row, 0).getHours();
                   var hoursSuffix = "AM";
