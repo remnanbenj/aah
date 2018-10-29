@@ -314,6 +314,23 @@ a:hover {
   background: #0092DB;
 }
 
+.loader {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  padding-top: calc(50vh - 155px);
+  text-align: center;
+
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  
+  background: rgba(0, 0, 0, 0.5);
+}
+
 select {
     -webkit-appearance: none;
     -moz-appearance: none;
